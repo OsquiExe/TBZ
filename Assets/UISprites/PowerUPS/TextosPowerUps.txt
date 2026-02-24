@@ -1,0 +1,66 @@
+LISTADO DE POWER UPS
+POWER UP LIST
+
+SWIFT BOOMERANG
+a boomerang that flies around and returns to its owner, it can get bigger.
+
+LASER BEAM
+Bullet of pure light that bounces across the space, it can get faster.
+
+FLAME THROWER
+This fire bullet can burn everything in its path, it can get bigger.
+
+RADIO MISSILES
+High speed bullets surrounding the player with explosions, they can get bigger.
+
+SHOCKWAVE
+An strong hit surrounding the player with a shockwave, it can get bigger.
+
+SHARP SPIKES
+Piercing blades ripping from below, they can get faster and bigger.
+
+ELECTRIC SNAKES
+Robotic snakes being shot in all directions, they can get faster. 
+
+BOMB DECOYS
+Robotic capibaras thrown around to explode, they can get bigger. 
+
+STRENGHT INCREASER
+Condensed matter that increase the player's strenght.
+
+HEALER BOX
+A first aid box, player can recover a bit of health each 30 seconds. 
+
+
+MAXIMIZED POWER UPS
+
+THE FASTEST BOOMERANG. 
+A high tech swift boomerang, can slay more enemies. 
+
+DRAGON LASER
+The fastest laser bullet, it can multiply to take down more enemies.
+
+ETERNAL FLAME
+A fire that never goes out, getting bigger as it pass through.
+
+STAR KABOOM
+Missiles surrounding the player, enemies around all burned up. 
+
+CHARGED SHOCKWAVE
+Electric and bigger shockwave, it goes all around the space.
+
+SHARP MOLES
+Spiky and sharp blades coming from below, ripping off everything.
+
+LIGHTNING BOLTS
+High tech robotic snakes, running across the whole space. 
+
+ATOMIC DECOYS
+Demonic, robotic capibaras, bringing up the big Kaboom. 
+
+MAXIMUM FORCE
+The strenght taken to its prime.
+
+CONSTANT BLESSING
+The player can recover health each 10 seconds. 
+
