@@ -62,5 +62,5 @@ public class Enemy : MonoBehaviour
   {
        enemyRb.velocity = Vector2.zero;
        enemyRb.AddForce(force, ForceMode2D.Impulse);
-  }
+  } 
 }
