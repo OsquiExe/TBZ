@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
    [SerializeField] public GameObject Punch;
+   [SerializeField] public Animator animator; 
    [SerializeField] bool isAttacking = false;
    [SerializeField] float attackDuration = 0.3f;
    [SerializeField] float attackTimer = 0f;
    [SerializeField] public int damage = 1;
    [SerializeField] public float knockBackForce = 5f;
+   [SerializeField] private Vector2 lastDirection = Vector2.down; 
 
    private void OnTriggerEnter2D(Collider2D collision)
    {
@@ -25,7 +27,7 @@ public class PlayerAttack : MonoBehaviour
    {
       CheckAttackTimer();
 
-      if (Input.GetKeyDown(KeyCode.E)|| Input.GetMouseButton(0))
+      if (Input.GetKeyDown(KeyCode.E)|| Input.GetMouseButtonDown(0))
       {
           OnAttack();
       }
@@ -38,6 +40,15 @@ public class PlayerAttack : MonoBehaviour
           Punch.SetActive(true);
           isAttacking = true;
       }
+      else if(isAttacking)
+      {
+          Punch.SetActive(false);
+          isAttacking = false;
+      }
+      animator.SetFloat("attackX", lastDirection.x);
+      animator.SetFloat("attackY", lastDirection.y);
+
+      animator.SetTrigger("Attack");
    }
 
    public void CheckAttackTimer()
@@ -52,5 +63,18 @@ public class PlayerAttack : MonoBehaviour
               Punch.SetActive(false);
           }
       }
+   }
+
+   public void Movement()
+   {
+       float horizontal = Input.GetAxisRaw("Horizontal");
+       float vertical = Input.GetAxisRaw("Vertical");
+
+       Vector2 moveDirection = new Vector2(horizontal, vertical);
+
+       if(moveDirection != Vector2.zero)
+       {
+           lastDirection = moveDirection.normalized;
+       }
    }
 }

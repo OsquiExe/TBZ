@@ -16,9 +16,28 @@ public class PowerUpManager : MonoBehaviour
 
     List<PowerUpSO> alreadySelectedPowerUps = new List<PowerUpSO>();
 
-    void Start()
+    public static PowerUpManager Instance;
+
+    void Awake()
     {
-        RandomizeNewPowerUps();
+        Instance = this;
+        if(ExperienceManager.Instance != null)
+            ExperienceManager.Instance.OnStateChanged += HandleGameStateChanged;
+           
+    }
+
+    void OnDisable()
+    {
+        if(ExperienceManager.Instance != null)
+            ExperienceManager.Instance.OnStateChanged -= HandleGameStateChanged;
+    }
+    
+    private void HandleGameStateChanged(ExperienceManager.GameState state)
+    {
+        if(state == ExperienceManager.GameState.PowerUpSelection)
+        {
+            RandomizeNewPowerUps();
+        }
     }
 
     void RandomizeNewPowerUps()
@@ -58,5 +77,25 @@ public class PowerUpManager : MonoBehaviour
         PowerUp powerUp = powerUpGo.GetComponent<PowerUp>();
         powerUp.Setup(powerUpSO);
         return powerUpGo;
+    }
+
+    public void SelectPowerUp(PowerUpSO selectedPowerUp)
+    {
+        if(alreadySelectedPowerUps.Contains(selectedPowerUp))
+        {
+            alreadySelectedPowerUps.Add(selectedPowerUp);
+        }
+
+        ExperienceManager.Instance.ChangeState(ExperienceManager.GameState.Playing);
+    }
+
+    public void ShowPowerUpSelection()
+    {
+        uiPowerUpSelect.SetActive(true);
+    }
+
+    public void HidePowerUpSelection()
+    {
+        uiPowerUpSelect.SetActive(false);
     }
 }

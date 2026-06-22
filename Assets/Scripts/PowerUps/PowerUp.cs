@@ -15,4 +15,10 @@ public class PowerUp : MonoBehaviour
         powerUpImageRenderer.sprite = powerUp.powerUpImage;
         powerUpTextRenderer.text = powerUp.powerUpText;
     }
+
+    void OnMouseDown()
+    {
+        Debug.Log("you clicked a PowerUp");
+        PowerUpManager.Instance.SelectPowerUp(powerUpInfo);
+    }
 }

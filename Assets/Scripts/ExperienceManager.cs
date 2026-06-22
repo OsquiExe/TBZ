@@ -1,3 +1,4 @@
+using System; 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,11 @@ public class ExperienceManager : MonoBehaviour
     //Singleton
     public static ExperienceManager Instance;
 
+    GameState currentState;
+
     public delegate void ExperienceChangeHandler( int amount);
     public event ExperienceChangeHandler OnExperienceChange;
+    public event Action<GameState> OnStateChanged;
 
     //[Header("Power Ups")]
     //[SerializeField] public PowerUpManager powerUpManager; 
@@ -29,6 +33,16 @@ public class ExperienceManager : MonoBehaviour
     void Start()
     {
         UpdateLevel();
+    }
+
+    //Changes the game state from battle to power up selection
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            ChangeState(GameState.PowerUpSelection);
+            currentLevel++;
+        }
     }
 
     //Singleton Check
@@ -44,6 +58,7 @@ public class ExperienceManager : MonoBehaviour
         }
     }
 
+    //calls the ExperienceChangeHandler event to increase the amount of experience necessary for level up
     public void AddExperience( int amount)
     {
         OnExperienceChange?.Invoke(amount);
@@ -52,6 +67,7 @@ public class ExperienceManager : MonoBehaviour
         UpdateInterface();
     }
 
+    //Increase the current level to level up
     public void CheckForLevelUp()
     {
         if( maxExperience >= nextLevelsExperience)
@@ -62,6 +78,7 @@ public class ExperienceManager : MonoBehaviour
         }
     }
 
+    //evaluate both integer variables to update the next level
     public void UpdateLevel()
     {
         previousLevelsExperience = (int)experienceCurve.Evaluate(currentLevel);
@@ -69,6 +86,7 @@ public class ExperienceManager : MonoBehaviour
         UpdateInterface();
     }
 
+    //Update the values for previous and next level experience in the interface of the game
     public void UpdateInterface()
     {
         int start = maxExperience - previousLevelsExperience;
@@ -77,4 +95,39 @@ public class ExperienceManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         experienceFill.fillAmount = (float)start / (float) end; 
     }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel; 
+    }
+
+    
+    public void ChangeState(GameState newState)
+    {
+        currentState = newState;
+        OnStateChanged?.Invoke(newState);
+        HandleStateChange();
+    }
+
+    
+    public void HandleStateChange()
+    {
+        switch(currentState)
+        {
+            case GameState.Playing:
+                 PowerUpManager.Instance.HidePowerUpSelection();
+                 break;
+            
+            case GameState.PowerUpSelection:
+                 PowerUpManager.Instance.ShowPowerUpSelection();
+                 break;
+        }
+    }
+    
+    //storage for playing and power up selection game states
+    public enum GameState
+    {
+        Playing,
+        PowerUpSelection
+    } 
 }
