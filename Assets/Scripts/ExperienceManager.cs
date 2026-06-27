@@ -1,56 +1,44 @@
-using System; 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
 public class ExperienceManager : MonoBehaviour
 {
     [Header("Experience")]
-    [SerializeField] AnimationCurve experienceCurve;
+    [SerializeField] private AnimationCurve experienceCurve;
 
-    int currentLevel, maxExperience;
-    int previousLevelsExperience, nextLevelsExperience;
+    private int currentLevel = 1;
+    private int maxExperience;
+    private int previousLevelsExperience, nextLevelsExperience;
+
+
+    private int pendingLevelUps = 0;
 
     [Header("Interface")]
-    [SerializeField] TextMeshProUGUI levelText;
-    [SerializeField] Image experienceFill;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Image experienceFill;
 
-    //Singleton
+    public delegate void ExperienceChangeHandler(int amount);
+    public event ExperienceChangeHandler OnExperienceChange;
+
     public static ExperienceManager Instance;
 
-    GameState currentState;
+    private GameState currentState;
 
-    public delegate void ExperienceChangeHandler( int amount);
-    public event ExperienceChangeHandler OnExperienceChange;
-    public event Action<GameState> OnStateChanged;
-
-    //[Header("Power Ups")]
-    //[SerializeField] public PowerUpManager powerUpManager; 
-
-    void Start()
+    public enum GameState
     {
-        UpdateLevel();
+        Playing,
+        PowerUpSelection
     }
 
-    //Changes the game state from battle to power up selection
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeState(GameState.PowerUpSelection);
-            currentLevel++;
-        }
-    }
-
-    //Singleton Check
     private void Awake()
     {
-        if( Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
@@ -58,8 +46,13 @@ public class ExperienceManager : MonoBehaviour
         }
     }
 
-    //calls the ExperienceChangeHandler event to increase the amount of experience necessary for level up
-    public void AddExperience( int amount)
+    void Start()
+    {
+        currentState = GameState.Playing;
+        UpdateLevel();
+    }
+
+    public void AddExperience(int amount)
     {
         OnExperienceChange?.Invoke(amount);
         maxExperience += amount;
@@ -67,67 +60,87 @@ public class ExperienceManager : MonoBehaviour
         UpdateInterface();
     }
 
-    //Increase the current level to level up
     public void CheckForLevelUp()
     {
-        if( maxExperience >= nextLevelsExperience)
+        bool leveledUp = false;
+
+     
+        while (maxExperience >= nextLevelsExperience)
         {
-            currentLevel ++;
-            //powerUpManager.ShowPowerUps();
+            currentLevel++;
             UpdateLevel();
+            pendingLevelUps++; 
+            leveledUp = true;
+        }
+
+   
+        if (leveledUp && currentState == GameState.Playing)
+        {
+            ProcessNextLevelUp();
         }
     }
 
-    //evaluate both integer variables to update the next level
+ 
+    public void ProcessNextLevelUp()
+    {
+        if (pendingLevelUps > 0)
+        {
+            pendingLevelUps--;
+            ChangeState(GameState.PowerUpSelection);
+        }
+        else
+        {
+            
+            ChangeState(GameState.Playing);
+        }
+    }
+
     public void UpdateLevel()
     {
-        previousLevelsExperience = (int)experienceCurve.Evaluate(currentLevel);
-        nextLevelsExperience = (int)experienceCurve.Evaluate(currentLevel + 1);
+        previousLevelsExperience = (int)experienceCurve.Evaluate(currentLevel - 1);
+        nextLevelsExperience = (int)experienceCurve.Evaluate(currentLevel);
         UpdateInterface();
     }
 
-    //Update the values for previous and next level experience in the interface of the game
     public void UpdateInterface()
     {
         int start = maxExperience - previousLevelsExperience;
         int end = nextLevelsExperience - previousLevelsExperience;
 
-        levelText.text = currentLevel.ToString();
-        experienceFill.fillAmount = (float)start / (float) end; 
+        if (levelText != null) levelText.text = currentLevel.ToString();
+        if (experienceFill != null)
+        {
+            float progress = (end > 0) ? (float)start / (float)end : 0f;
+            experienceFill.fillAmount = Mathf.Clamp01(progress);
+        }
     }
 
     public int GetCurrentLevel()
     {
-        return currentLevel; 
+        return currentLevel;
     }
 
-    
     public void ChangeState(GameState newState)
     {
         currentState = newState;
-        OnStateChanged?.Invoke(newState);
-        HandleStateChange();
-    }
 
-    
-    public void HandleStateChange()
-    {
-        switch(currentState)
+        switch (currentState)
         {
             case GameState.Playing:
-                 PowerUpManager.Instance.HidePowerUpSelection();
-                 break;
-            
+                Time.timeScale = 1f;
+                if (PowerUpManager.Instance != null)
+                {
+                    PowerUpManager.Instance.HidePowerUpSelection();
+                }
+                break;
+
             case GameState.PowerUpSelection:
-                 PowerUpManager.Instance.ShowPowerUpSelection();
-                 break;
+                Time.timeScale = 0f;
+                if (PowerUpManager.Instance != null)
+                {
+                    PowerUpManager.Instance.ShowPowerUpSelection();
+                }
+                break;
         }
     }
-    
-    //storage for playing and power up selection game states
-    public enum GameState
-    {
-        Playing,
-        PowerUpSelection
-    } 
 }

@@ -17,23 +17,45 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Transform Aim;
     [SerializeField] public bool isWalking = false;
 
+    [Header("Dash Settings")]
+    [SerializeField] private float dashSpeed = 15f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float doubleClickTime = 0.3f; 
+    [SerializeField] private float dashDamage = 2f;
+    [SerializeField] private float dashKnockbackForce = 10f;
+
+    private bool isDashing = false;
+    private float dashCooldownTimer = 0f;
+    private float lastClickTime = 0f;
+    private Vector2 dashDirection;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    
+
     private void Update()
     {
         GetInput();
+        HandleDashInput();
         Animate();
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = input * moveSpeed;
         
-        //determina la rotación del golpe si está volando. 
-        if(isWalking)
+        if (isDashing)
+        {
+            rb.velocity = dashDirection * dashSpeed;
+        }
+        else
+        {
+            rb.velocity = input * moveSpeed;
+        }
+
+    
+        if (isWalking && !isDashing)
         {
             Vector3 vector3 = Vector3.left * input.x + Vector3.down * input.y;
             Aim.rotation = Quaternion.LookRotation(Vector3.forward, vector3);
@@ -42,29 +64,81 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput()
     {
-        //Información para leer los inputs de dirección del jugador.
+        if (isDashing) return; 
+
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
 
-        if((x == 0 && y == 0) && (input.x != 0 || input.y != 0))
+        if ((x == 0 && y == 0) && (input.x != 0 || input.y != 0))
         {
             isWalking = false;
             lastMoveDirection = input;
             Vector3 vector3 = Vector3.left * lastMoveDirection.x + Vector3.down * lastMoveDirection.y;
             Aim.rotation = Quaternion.LookRotation(Vector3.forward, vector3);
         }
-        else if(x != 0 || y != 0)
+        else if (x != 0 || y != 0)
         {
             isWalking = true;
         }
 
-        input = new Vector2(x,y);
-        input.Normalize();
+        input = new Vector2(x, y).normalized;
+        if (input != Vector2.zero)
+        {
+            lastMoveDirection = input;
+        }
+    }
+
+    private void HandleDashInput()
+    {
+        if (dashCooldownTimer > 0)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+        }
+
+     
+        if (Input.GetMouseButtonDown(0))
+        {
+            float timeSinceLastClick = Time.time - lastClickTime;
+
+            if (timeSinceLastClick <= doubleClickTime && dashCooldownTimer <= 0f && !isDashing)
+            {
+                StartCoroutine(DashRoutine());
+            }
+
+            lastClickTime = Time.time;
+        }
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        isDashing = true;
+        dashCooldownTimer = dashCooldown;
+
+       
+        dashDirection = lastMoveDirection == Vector2.zero ? Vector2.down : lastMoveDirection.normalized;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        isDashing = false;
+    }
+
+ 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isDashing)
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+               
+                enemy.TakeDamage(dashDamage, dashDirection * dashKnockbackForce);
+            }
+        }
     }
 
     private void Animate()
     {
-        if(input.magnitude > 0.1f || input.magnitude < -0.1f)
+        if (input.magnitude > 0.1f || input.magnitude < -0.1f)
         {
             moving = true;
         }
@@ -72,7 +146,7 @@ public class PlayerController : MonoBehaviour
         {
             moving = false;
         }
-        if(moving)
+        if (moving && !isDashing)
         {
             anim.SetFloat("x", x);
             anim.SetFloat("y", y);
@@ -83,14 +157,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        //Subscribe to the event
-        ExperienceManager.Instance.OnExperienceChange += HandleExperienceChange;
+        if (ExperienceManager.Instance != null)
+        {
+            ExperienceManager.Instance.OnExperienceChange += HandleExperienceChange;
+        }
     }
 
     private void OnDisable()
     {
-        //Unsubscribe from the event
-        ExperienceManager.Instance.OnExperienceChange -= HandleExperienceChange;
+        if (ExperienceManager.Instance != null)
+        {
+            ExperienceManager.Instance.OnExperienceChange -= HandleExperienceChange;
+        }
     }
 
     private void HandleExperienceChange(int newExperience)
@@ -104,9 +182,8 @@ public class PlayerController : MonoBehaviour
 
     private void LevelUp()
     {
-        currentLevel ++;
+        currentLevel++;
         currentExperience = 0;
-
         maxExperience += 100;
     }
 }

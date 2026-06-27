@@ -4,77 +4,80 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-   [SerializeField] public GameObject Punch;
-   [SerializeField] public Animator animator; 
-   [SerializeField] bool isAttacking = false;
-   [SerializeField] float attackDuration = 0.3f;
-   [SerializeField] float attackTimer = 0f;
-   [SerializeField] public int damage = 1;
-   [SerializeField] public float knockBackForce = 5f;
-   [SerializeField] private Vector2 lastDirection = Vector2.down; 
+    [SerializeField] public GameObject Punch;
+    [SerializeField] public Animator animator;
+    [SerializeField] bool isAttacking = false;
+    [SerializeField] float attackDuration = 0.3f;
+    [SerializeField] float attackTimer = 0f;
+    [SerializeField] public int damage = 1;
+    [SerializeField] public float knockBackForce = 5f;
+    [SerializeField] private Vector2 lastDirection = Vector2.down;
 
-   private void OnTriggerEnter2D(Collider2D collision)
-   {
-       Enemy enemy = collision.GetComponent<Enemy>();
-       if (enemy != null)
-       {
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Enemy enemy = collision.GetComponent<Enemy>();
+        if (enemy != null)
+        {
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             enemy.TakeDamage(damage, direction * knockBackForce);
-       }
-   }
+        }
+    }
 
-   public void Update()
-   {
-      CheckAttackTimer();
+    public void Update()
+    {
+        Movement();
 
-      if (Input.GetKeyDown(KeyCode.E)|| Input.GetMouseButtonDown(0))
-      {
-          OnAttack();
-      }
-   }
+        CheckAttackTimer();
 
-   public void OnAttack()
-   {
-      if (!isAttacking)
-      {
-          Punch.SetActive(true);
-          isAttacking = true;
-      }
-      else if(isAttacking)
-      {
-          Punch.SetActive(false);
-          isAttacking = false;
-      }
-      animator.SetFloat("attackX", lastDirection.x);
-      animator.SetFloat("attackY", lastDirection.y);
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+        {
+            OnAttack();
+        }
+    }
 
-      animator.SetTrigger("Attack");
-   }
+    public void OnAttack()
+    {
+        if (!isAttacking)
+        {
+            Punch.SetActive(true);
+            isAttacking = true;
+        }
+        else if (isAttacking)
+        {
+            Punch.SetActive(false);
+            isAttacking = false;
+        }
 
-   public void CheckAttackTimer()
-   {
-      if (isAttacking)
-      {
-          attackTimer += Time.deltaTime;
-          if(attackTimer >= attackDuration)
-          {
-              attackTimer = 0;
-              isAttacking = false;
-              Punch.SetActive(false);
-          }
-      }
-   }
+        animator.SetFloat("attackx", lastDirection.x);
+        animator.SetFloat("attacky", lastDirection.y);
 
-   public void Movement()
-   {
-       float horizontal = Input.GetAxisRaw("Horizontal");
-       float vertical = Input.GetAxisRaw("Vertical");
+        animator.SetTrigger("Attack");
+    }
 
-       Vector2 moveDirection = new Vector2(horizontal, vertical);
+    public void CheckAttackTimer()
+    {
+        if (isAttacking)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer >= attackDuration)
+            {
+                attackTimer = 0;
+                isAttacking = false;
+                Punch.SetActive(false);
+            }
+        }
+    }
 
-       if(moveDirection != Vector2.zero)
-       {
-           lastDirection = moveDirection.normalized;
-       }
-   }
+    public void Movement()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        Vector2 moveDirection = new Vector2(horizontal, vertical);
+
+        if (moveDirection != Vector2.zero)
+        {
+            lastDirection = moveDirection.normalized;
+        }
+    }
 }

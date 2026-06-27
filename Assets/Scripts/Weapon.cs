@@ -11,7 +11,7 @@ public class Weapon : MonoBehaviour
     {
         Enemy enemy = collision.GetComponent<Enemy>();
         
-        //Condicional para que el enemigo reciba daño.
+        
         if(enemy != null)
         {
             Vector2 direction = (collision.transform.position - transform.position).normalized;

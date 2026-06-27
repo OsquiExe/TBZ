@@ -5,20 +5,44 @@ using TMPro;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer powerUpImageRenderer;
-    [SerializeField] TextMeshPro powerUpTextRenderer; 
+    [SerializeField] private SpriteRenderer powerUpImageRenderer;
+    [SerializeField] private TextMeshPro powerUpTextRenderer;
     private PowerUpSO powerUpInfo;
 
     public void Setup(PowerUpSO powerUp)
     {
         powerUpInfo = powerUp;
-        powerUpImageRenderer.sprite = powerUp.powerUpImage;
-        powerUpTextRenderer.text = powerUp.powerUpText;
+
+        if (powerUpImageRenderer != null)
+        {
+            powerUpImageRenderer.sprite = powerUp.powerUpImage;
+
+        
+            powerUpImageRenderer.sortingLayerName = "Default";
+            powerUpImageRenderer.sortingOrder = 50; 
+        }
+
+        if (powerUpTextRenderer != null)
+        {
+            powerUpTextRenderer.text = powerUp.powerUpText;
+            powerUpTextRenderer.sortingOrder = 51; 
+        }
     }
 
-    void OnMouseDown()
+   
+    public void OnCardClicked()
     {
-        Debug.Log("you clicked a PowerUp");
-        PowerUpManager.Instance.SelectPowerUp(powerUpInfo);
+        if (powerUpInfo == null) return;
+
+        if (PowerUpManager.Instance != null)
+        {
+            PowerUpManager.Instance.SelectPowerUp(powerUpInfo);
+        }
+    }
+
+
+    private void OnMouseDown()
+    {
+        OnCardClicked();
     }
 }

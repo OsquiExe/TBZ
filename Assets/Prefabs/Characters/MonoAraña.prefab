@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 3181773303445101379}
   - component: {fileID: 3579822365206452980}
   - component: {fileID: 7384216716599754484}
-  - component: {fileID: -4113775560291027022}
+  - component: {fileID: 1251660482694852730}
+  - component: {fileID: 7481746555052242879}
+  - component: {fileID: 8505449574405434249}
   m_Layer: 0
   m_Name: "MonoAra\xF1a"
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +123,28 @@ CapsuleCollider2D:
   m_Offset: {x: -0.033128783, y: 0.08466179}
   m_Size: {x: 1.8159497, y: 1.8159497}
   m_Direction: 0
---- !u!50 &-4113775560291027022
+--- !u!95 &1251660482694852730
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446004528816853626}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a7fe6613abeabd74c85664918292abca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &7481746555052242879
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -136,7 +159,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -147,4 +170,25 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &8505449574405434249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446004528816853626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc9fc5083978d34593a9cecccded10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1251660482694852730}
+  enemySpeed: 3
+  enemyRb: {fileID: 7481746555052242879}
+  target: {fileID: 0}
+  moveDirection: {x: 0, y: 0}
+  health: 0
+  maxHealth: 10
+  knockBackForce: {x: 1, y: 2}
+  expAmount: 100

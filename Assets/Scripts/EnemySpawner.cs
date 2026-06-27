@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject spawnee;
-    [SerializeField] float sizeX = 1f;
-    [SerializeField] float sizeY = 1f;
-    [SerializeField] float spawnCooldown = 1f;
+    [SerializeField] private GameObject spawnee;
+    [SerializeField] private float sizeX = 1f;
+    [SerializeField] private float sizeY = 1f;
+    [SerializeField] private float spawnCooldown = 1f;
 
-    private float spawnTime; 
+    private float spawnTime;
 
-    // Start is called before the first frame update
     void Start()
     {
         spawnTime = spawnCooldown;
     }
 
-    // Update is called once per frame
     void Update()
     {
+       
+        if (Time.timeScale == 0f) return;
+
         if (spawnTime > 0)
         {
             spawnTime -= Time.deltaTime;
@@ -34,10 +35,17 @@ public class EnemySpawner : MonoBehaviour
 
     void Spawn()
     {
+        
+        if (spawnee == null)
+        {
+            Debug.LogError($"El prefab 'spawnee' no está asignado o fue destruido en el Spawner: {gameObject.name}", gameObject);
+            return;
+        }
+
         float xPos = Random.Range(-sizeX, sizeX) + transform.position.x;
         float yPos = Random.Range(-sizeY, sizeY) + transform.position.y;
 
-        Vector3 spawnPosition = new Vector3(xPos, yPos,0);
+        Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
         Instantiate(spawnee, spawnPosition, Quaternion.identity);
     }
 }

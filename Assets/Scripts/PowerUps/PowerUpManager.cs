@@ -1,101 +1,170 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; 
 
 public class PowerUpManager : MonoBehaviour
 {
+    [Header("UI & References")]
     [SerializeField] public GameObject uiPowerUpSelect;
     [SerializeField] public GameObject powerUpPrefab;
-    [SerializeField] Transform powerUpPosition1;
-    [SerializeField] Transform powerUpPosition2;
-    [SerializeField] Transform powerUpPosition3;
-    [SerializeField] List<PowerUpSO> deck;
+    [SerializeField] private Transform powerUpPosition1;
+    [SerializeField] private Transform powerUpPosition2;
+    [SerializeField] private Transform powerUpPosition3;
 
-    GameObject powerUp1, powerUp2, powerUp3;
+    [Header("Active PowerUps UI (Lateral)")]
+    [SerializeField] private Image[] activePowerUpSlots; 
+    private int currentSlotIndex = 0; 
 
-    List<PowerUpSO> alreadySelectedPowerUps = new List<PowerUpSO>();
+    [Header("Settings")]
+    [SerializeField] private List<PowerUpSO> deck;
+
+    private GameObject powerUp1, powerUp2, powerUp3;
+    private List<PowerUpSO> alreadySelectedPowerUps = new List<PowerUpSO>();
 
     public static PowerUpManager Instance;
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
-        if(ExperienceManager.Instance != null)
-            ExperienceManager.Instance.OnStateChanged += HandleGameStateChanged;
-           
     }
 
-    void OnDisable()
+    void Start()
     {
-        if(ExperienceManager.Instance != null)
-            ExperienceManager.Instance.OnStateChanged -= HandleGameStateChanged;
+        HidePowerUpSelection();
+
     }
-    
-    private void HandleGameStateChanged(ExperienceManager.GameState state)
+
+    public void ShowPowerUpSelection()
     {
-        if(state == ExperienceManager.GameState.PowerUpSelection)
+        if (uiPowerUpSelect != null)
         {
-            RandomizeNewPowerUps();
+            uiPowerUpSelect.SetActive(true);
         }
+
+        RandomizeNewPowerUps();
+    }
+
+    public void HidePowerUpSelection()
+    {
+        if (uiPowerUpSelect != null)
+        {
+            uiPowerUpSelect.SetActive(false);
+        }
+
+        ClearOldCards();
+    }
+
+    private void ClearOldCards()
+    {
+        if (powerUp1 != null) Destroy(powerUp1);
+        if (powerUp2 != null) Destroy(powerUp2);
+        if (powerUp3 != null) Destroy(powerUp3);
     }
 
     void RandomizeNewPowerUps()
     {
-        if(powerUp1 != null) Destroy (powerUp1);
-        if(powerUp2 != null) Destroy (powerUp2);
-        if(powerUp3 != null) Destroy (powerUp3);
+        ClearOldCards();
 
-        List<PowerUpSO> randomizePowerUps = new List<PowerUpSO>();
-
-        List<PowerUpSO> availablePowerUp = new List<PowerUpSO>(deck);
-        availablePowerUp.RemoveAll(powerUp => 
-            powerUp.isUnique && alreadySelectedPowerUps.Contains(powerUp)
-        //|| powerUp.unlockLevel > GameManager.Instance.currentLevel()
-        );
-
-        if(availablePowerUp.Count < 3)
+        if (deck == null || deck.Count == 0)
         {
-            Debug.Log("Not enough available power ups");
+            Debug.LogError("Error crìtico: El mazo de PowerUps en el script está vacío.");
             return;
         }
-        while(randomizePowerUps.Count < 3)
+
+        List<PowerUpSO> availablePowerUps = new List<PowerUpSO>(deck);
+        int currentLevel = ExperienceManager.Instance != null ? ExperienceManager.Instance.GetCurrentLevel() : 1;
+
+        availablePowerUps.RemoveAll(powerUp =>
+            (powerUp.isUnique && alreadySelectedPowerUps.Contains(powerUp)) ||
+            (powerUp.unlockLevel > currentLevel)
+        );
+
+        if (availablePowerUps.Count == 0)
         {
-            PowerUpSO randomPowerUp = availablePowerUp[Random.Range(0, availablePowerUp.Count)];
-            if(!randomizePowerUps.Contains(randomPowerUp))
+            Debug.LogWarning("No quedan PowerUps válidos para dar. Procesando siguiente nivel o reanudando juego.");
+            if (ExperienceManager.Instance != null)
+            {
+                ExperienceManager.Instance.ProcessNextLevelUp();
+            }
+            return;
+        }
+
+        List<PowerUpSO> randomizePowerUps = new List<PowerUpSO>();
+        int optionsToCreate = Mathf.Min(3, availablePowerUps.Count);
+
+        while (randomizePowerUps.Count < optionsToCreate)
+        {
+            PowerUpSO randomPowerUp = availablePowerUps[Random.Range(0, availablePowerUps.Count)];
+            if (!randomizePowerUps.Contains(randomPowerUp))
             {
                 randomizePowerUps.Add(randomPowerUp);
             }
         }
-        powerUp1 = InstantiatePowerUp(randomizePowerUps[0], powerUpPosition1);
-        powerUp2 = InstantiatePowerUp(randomizePowerUps[1], powerUpPosition2);
-        powerUp3 = InstantiatePowerUp(randomizePowerUps[2], powerUpPosition3);
+
+        if (optionsToCreate >= 1) powerUp1 = InstantiatePowerUp(randomizePowerUps[0], powerUpPosition1);
+        if (optionsToCreate >= 2) powerUp2 = InstantiatePowerUp(randomizePowerUps[1], powerUpPosition2);
+        if (optionsToCreate >= 3) powerUp3 = InstantiatePowerUp(randomizePowerUps[2], powerUpPosition3);
     }
+
     GameObject InstantiatePowerUp(PowerUpSO powerUpSO, Transform position)
     {
+        if (position == null || powerUpPrefab == null) return null;
+
         GameObject powerUpGo = Instantiate(powerUpPrefab, position.position, Quaternion.identity, position);
-        PowerUp powerUp = powerUpGo.GetComponent<PowerUp>();
-        powerUp.Setup(powerUpSO);
+
+        powerUpGo.transform.localPosition = Vector3.zero;
+
+        PowerUp powerUpScript = powerUpGo.GetComponent<PowerUp>();
+        if (powerUpScript != null)
+        {
+            powerUpScript.Setup(powerUpSO);
+        }
         return powerUpGo;
     }
 
     public void SelectPowerUp(PowerUpSO selectedPowerUp)
     {
-        if(alreadySelectedPowerUps.Contains(selectedPowerUp))
+        
+        if (!alreadySelectedPowerUps.Contains(selectedPowerUp))
         {
             alreadySelectedPowerUps.Add(selectedPowerUp);
         }
 
-        ExperienceManager.Instance.ChangeState(ExperienceManager.GameState.Playing);
+        UpdateActivePowerUpUI(selectedPowerUp);
+
+        Debug.Log("PowerUp Seleccionado Correctamente. Procesando estado.");
+
+        
+        if (ExperienceManager.Instance != null)
+        {
+            ExperienceManager.Instance.ProcessNextLevelUp();
+        }
     }
 
-    public void ShowPowerUpSelection()
-    {
-        uiPowerUpSelect.SetActive(true);
-    }
 
-    public void HidePowerUpSelection()
+    private void UpdateActivePowerUpUI(PowerUpSO powerUp)
     {
-        uiPowerUpSelect.SetActive(false);
+       
+        if (activePowerUpSlots != null && currentSlotIndex < activePowerUpSlots.Length)
+        {
+            Image currentSlot = activePowerUpSlots[currentSlotIndex];
+
+            if (currentSlot != null)
+            {
+                
+                currentSlot.sprite = powerUp.powerUpImage;
+
+               
+                currentSlot.color = Color.white;
+            }
+
+            currentSlotIndex++;
+        }
     }
 }

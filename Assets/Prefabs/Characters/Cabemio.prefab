@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6928152898956902643}
   - component: {fileID: 2565239621398688319}
-  - component: {fileID: 834120946346311138}
-  - component: {fileID: 1206347950761260702}
+  - component: {fileID: 4924198836957539918}
+  - component: {fileID: 4066411477111559853}
+  - component: {fileID: 7334235484803284537}
+  - component: {fileID: 7835940726786785943}
   m_Layer: 0
   m_Name: Cabemio
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &834120946346311138
+--- !u!70 &4924198836957539918
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,10 +120,52 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.9999999, y: 1.9999999}
+  m_Offset: {x: -0.013844002, y: -0.013844213}
+  m_Size: {x: 2.0646048, y: 2.092293}
   m_Direction: 0
---- !u!50 &1206347950761260702
+--- !u!95 &4066411477111559853
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4357967227749977923}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b3a289d6d17693c4a9e77954679f1f0b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7334235484803284537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4357967227749977923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc9fc5083978d34593a9cecccded10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 4066411477111559853}
+  enemySpeed: 3
+  enemyRb: {fileID: 7835940726786785943}
+  target: {fileID: 0}
+  moveDirection: {x: 0, y: 0}
+  health: 0
+  maxHealth: 10
+  knockBackForce: {x: 1, y: 2}
+  expAmount: 100
+--- !u!50 &7835940726786785943
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -136,7 +180,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -147,4 +191,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
