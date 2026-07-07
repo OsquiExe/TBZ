@@ -6,12 +6,19 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] public GameObject Punch;
     [SerializeField] public Animator animator;
-    [SerializeField] bool isAttacking = false;
+    [SerializeField] public bool isAttacking = false;
     [SerializeField] float attackDuration = 0.3f;
     [SerializeField] float attackTimer = 0f;
     [SerializeField] public int damage = 1;
     [SerializeField] public float knockBackForce = 5f;
     [SerializeField] private Vector2 lastDirection = Vector2.down;
+
+    private PlayerController playerController;
+
+    private void Start()
+    {
+        playerController = GetComponent<PlayerController>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,13 +27,18 @@ public class PlayerAttack : MonoBehaviour
         {
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             enemy.TakeDamage(damage, direction * knockBackForce);
+
+            
+            if (CameraMove.Instance != null)
+            {
+                CameraMove.Instance.ShakeCamera(0.1f, 0.05f);
+            }
         }
     }
 
     public void Update()
     {
         Movement();
-
         CheckAttackTimer();
 
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
@@ -41,16 +53,16 @@ public class PlayerAttack : MonoBehaviour
         {
             Punch.SetActive(true);
             isAttacking = true;
-        }
-        else if (isAttacking)
-        {
-            Punch.SetActive(false);
-            isAttacking = false;
+
+            
+            if (playerController != null)
+            {
+                playerController.SetAttackInvulnerability(true);
+            }
         }
 
         animator.SetFloat("attackx", lastDirection.x);
         animator.SetFloat("attacky", lastDirection.y);
-
         animator.SetTrigger("Attack");
     }
 
@@ -64,6 +76,12 @@ public class PlayerAttack : MonoBehaviour
                 attackTimer = 0;
                 isAttacking = false;
                 Punch.SetActive(false);
+
+             
+                if (playerController != null)
+                {
+                    playerController.SetAttackInvulnerability(false);
+                }
             }
         }
     }

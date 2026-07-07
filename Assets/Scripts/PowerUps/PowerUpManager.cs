@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class PowerUpManager : MonoBehaviour
 {
@@ -13,8 +13,8 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] private Transform powerUpPosition3;
 
     [Header("Active PowerUps UI (Lateral)")]
-    [SerializeField] private Image[] activePowerUpSlots; 
-    private int currentSlotIndex = 0; 
+    [SerializeField] private Image[] activePowerUpSlots;
+    private int currentSlotIndex = 0;
 
     [Header("Settings")]
     [SerializeField] private List<PowerUpSO> deck;
@@ -37,7 +37,6 @@ public class PowerUpManager : MonoBehaviour
     void Start()
     {
         HidePowerUpSelection();
-
     }
 
     public void ShowPowerUpSelection()
@@ -130,7 +129,6 @@ public class PowerUpManager : MonoBehaviour
 
     public void SelectPowerUp(PowerUpSO selectedPowerUp)
     {
-        
         if (!alreadySelectedPowerUps.Contains(selectedPowerUp))
         {
             alreadySelectedPowerUps.Add(selectedPowerUp);
@@ -138,33 +136,30 @@ public class PowerUpManager : MonoBehaviour
 
         UpdateActivePowerUpUI(selectedPowerUp);
 
-        Debug.Log("PowerUp Seleccionado Correctamente. Procesando estado.");
-
-        
         if (ExperienceManager.Instance != null)
         {
             ExperienceManager.Instance.ProcessNextLevelUp();
         }
     }
 
-
     private void UpdateActivePowerUpUI(PowerUpSO powerUp)
     {
-       
         if (activePowerUpSlots != null && currentSlotIndex < activePowerUpSlots.Length)
         {
             Image currentSlot = activePowerUpSlots[currentSlotIndex];
 
             if (currentSlot != null)
             {
-                
                 currentSlot.sprite = powerUp.powerUpImage;
-
-               
                 currentSlot.color = Color.white;
             }
 
             currentSlotIndex++;
         }
+    }
+
+    public int GetSelectedPowerUpsCount()
+    {
+        return alreadySelectedPowerUps.Count;
     }
 }

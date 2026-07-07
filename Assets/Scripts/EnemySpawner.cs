@@ -7,19 +7,22 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject spawnee;
     [SerializeField] private float sizeX = 1f;
     [SerializeField] private float sizeY = 1f;
-    [SerializeField] private float spawnCooldown = 1f;
+
+    [SerializeField] private float baseSpawnCooldown = 1f;
 
     private float spawnTime;
 
     void Start()
     {
-        spawnTime = spawnCooldown;
+        spawnTime = baseSpawnCooldown;
     }
 
     void Update()
     {
-       
         if (Time.timeScale == 0f) return;
+
+        // NUEVO: Si no hay oleada activa, o si la oleada ya alcanzó su límite de enemigos, el Spawner se pausa.
+        if (WaveManager.Instance != null && !WaveManager.Instance.CanSpawn()) return;
 
         if (spawnTime > 0)
         {
@@ -29,13 +32,23 @@ public class EnemySpawner : MonoBehaviour
         if (spawnTime <= 0)
         {
             Spawn();
-            spawnTime = spawnCooldown;
+
+            // Le avisamos al Manager que nació un enemigo para que lo cuente
+            if (WaveManager.Instance != null)
+            {
+                WaveManager.Instance.OnEnemySpawned();
+                float waveMultiplier = WaveManager.Instance.GetSpawnMultiplier();
+                spawnTime = baseSpawnCooldown * waveMultiplier;
+            }
+            else
+            {
+                spawnTime = baseSpawnCooldown;
+            }
         }
     }
 
     void Spawn()
     {
-        
         if (spawnee == null)
         {
             Debug.LogError($"El prefab 'spawnee' no está asignado o fue destruido en el Spawner: {gameObject.name}", gameObject);

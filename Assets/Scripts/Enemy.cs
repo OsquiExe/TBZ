@@ -18,11 +18,11 @@ public class Enemy : MonoBehaviour
     [Header("Knockback & Colisiones")]
     [SerializeField] public Vector2 knockBackForce;
     [SerializeField] private float knockbackDuration = 0.3f;
-    [SerializeField] private float secondaryDamage = 2f; 
+    [SerializeField] private float secondaryDamage = 2f;
+    [SerializeField] private float damageToPlayer = 10f;
 
     [Header("Experience")]
     [SerializeField] private int expAmount = 100;
-
 
     public bool isDead = false;
     private bool isKnockedBack = false;
@@ -43,7 +43,6 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-
         if (target && !isKnockedBack)
         {
             Vector3 direction = (target.position - transform.position).normalized;
@@ -53,7 +52,6 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (isDead || isKnockedBack) return;
 
         enemyRb.velocity = new Vector2(moveDirection.x, moveDirection.y) * enemySpeed;
@@ -77,9 +75,9 @@ public class Enemy : MonoBehaviour
     public void ApplyKnockback(Vector2 force)
     {
         isKnockedBack = true;
-        canDamageOtherEnemy = true; 
+        canDamageOtherEnemy = true;
 
-        enemyRb.velocity = Vector2.zero; 
+        enemyRb.velocity = Vector2.zero;
         enemyRb.AddForce(force, ForceMode2D.Impulse);
 
         StartCoroutine(ResetKnockbackState());
@@ -95,17 +93,19 @@ public class Enemy : MonoBehaviour
     private void Die(Vector2 force)
     {
         isDead = true;
-        ExperienceManager.Instance.AddExperience(expAmount);
 
-        
+        if (ExperienceManager.Instance != null)
+            ExperienceManager.Instance.AddExperience(expAmount);
+
+        if (WaveManager.Instance != null)
+            WaveManager.Instance.OnEnemyKilled();
+
         enemyRb.velocity = Vector2.zero;
-        enemyRb.AddForce(force * 1.5f, ForceMode2D.Impulse); 
+        enemyRb.AddForce(force * 1.5f, ForceMode2D.Impulse);
 
-      
         Collider2D coll = GetComponent<Collider2D>();
         if (coll != null) coll.enabled = false;
 
-        
         Destroy(gameObject, 0.4f);
     }
 
@@ -115,13 +115,34 @@ public class Enemy : MonoBehaviour
         {
             Enemy otherEnemy = collision.gameObject.GetComponent<Enemy>();
 
-
             if (otherEnemy != null && !otherEnemy.isDead && otherEnemy != this)
             {
-
                 otherEnemy.TakeDamage(secondaryDamage, Vector2.zero);
-
                 canDamageOtherEnemy = false;
+            }
+        }
+
+        TryDamagePlayer(collision);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        TryDamagePlayer(collision);
+    }
+
+    private void TryDamagePlayer(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                if (!player.isInvulnerable)
+                {
+                    Debug.Log($"💥 El enemigo golpeó al jugador por {damageToPlayer} de daño.");
+                    player.TakeDamage(damageToPlayer);
+                }
             }
         }
     }
