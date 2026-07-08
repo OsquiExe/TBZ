@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
 
 public class PowerUpManager : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] private Transform powerUpPosition3;
 
     [Header("Reroll System")]
-    [SerializeField] private TextMeshProUGUI rerollButtonText; 
+    [SerializeField] private TextMeshProUGUI rerollButtonText;
     private int rerollsUsedThisLevel = 0;
     private const int maxFreeRerolls = 3;
 
@@ -52,7 +52,6 @@ public class PowerUpManager : MonoBehaviour
             uiPowerUpSelect.SetActive(true);
         }
 
-
         rerollsUsedThisLevel = 0;
         UpdateRerollButtonText();
 
@@ -82,7 +81,7 @@ public class PowerUpManager : MonoBehaviour
 
         if (deck == null || deck.Count == 0)
         {
-            Debug.LogError("Error crìtico: El mazo de PowerUps en el script está vacío.");
+            Debug.LogError("Error crítico: El mazo de PowerUps en el script está vacío.");
             return;
         }
 
@@ -139,17 +138,13 @@ public class PowerUpManager : MonoBehaviour
 
     public void OnRerollButtonClicked()
     {
-      
         if (rerollsUsedThisLevel >= maxFreeRerolls)
         {
             Debug.Log("📺 [MONETIZACIÓN] Mostrando Anuncio de Recompensa (Rewarded Ad)...");
-
-        
             ExecuteReroll();
         }
         else
         {
-         
             ExecuteReroll();
         }
     }
@@ -197,9 +192,10 @@ public class PowerUpManager : MonoBehaviour
         {
             Image currentSlot = activePowerUpSlots[currentSlotIndex];
 
-            if (currentSlot != null)
+         
+            if (currentSlot != null && powerUp.powerUpIconRound != null)
             {
-                currentSlot.sprite = powerUp.powerUpImage;
+                currentSlot.sprite = powerUp.powerUpIconRound; 
                 currentSlot.color = Color.white;
             }
 
