@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Para reiniciar el nivel
+using UnityEngine.SceneManagement; 
 
 public class GameManager : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Asegurarnos de que los paneles empiecen apagados y el tiempo corriendo
+
         if (pausePanel) pausePanel.SetActive(false);
         if (defeatPanel) defeatPanel.SetActive(false);
         if (victoryPanel) victoryPanel.SetActive(false);

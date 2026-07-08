@@ -21,8 +21,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float secondaryDamage = 2f;
     [SerializeField] private float damageToPlayer = 10f;
 
-    [Header("Experience")]
+    [Header("Experience Drop Settings")]
     [SerializeField] private int expAmount = 100;
+    [SerializeField] private GameObject xpPickupPrefab; 
 
     public bool isDead = false;
     private bool isKnockedBack = false;
@@ -94,8 +95,20 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
 
-        if (ExperienceManager.Instance != null)
-            ExperienceManager.Instance.AddExperience(expAmount);
+       
+        if (xpPickupPrefab != null)
+        {
+            GameObject droppedXp = Instantiate(xpPickupPrefab, transform.position, Quaternion.identity);
+            ExperiencePickup pickupScript = droppedXp.GetComponent<ExperiencePickup>();
+            if (pickupScript != null)
+            {
+                pickupScript.Setup(expAmount); 
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"El prefab de gema XP no está asignado en el enemigo: {gameObject.name}");
+        }
 
         if (WaveManager.Instance != null)
             WaveManager.Instance.OnEnemyKilled();

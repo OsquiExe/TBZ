@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; 
 
 public class PowerUpManager : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] private Transform powerUpPosition1;
     [SerializeField] private Transform powerUpPosition2;
     [SerializeField] private Transform powerUpPosition3;
+
+    [Header("Reroll System")]
+    [SerializeField] private TextMeshProUGUI rerollButtonText; 
+    private int rerollsUsedThisLevel = 0;
+    private const int maxFreeRerolls = 3;
 
     [Header("Active PowerUps UI (Lateral)")]
     [SerializeField] private Image[] activePowerUpSlots;
@@ -45,6 +51,10 @@ public class PowerUpManager : MonoBehaviour
         {
             uiPowerUpSelect.SetActive(true);
         }
+
+
+        rerollsUsedThisLevel = 0;
+        UpdateRerollButtonText();
 
         RandomizeNewPowerUps();
     }
@@ -125,6 +135,45 @@ public class PowerUpManager : MonoBehaviour
             powerUpScript.Setup(powerUpSO);
         }
         return powerUpGo;
+    }
+
+    public void OnRerollButtonClicked()
+    {
+      
+        if (rerollsUsedThisLevel >= maxFreeRerolls)
+        {
+            Debug.Log("📺 [MONETIZACIÓN] Mostrando Anuncio de Recompensa (Rewarded Ad)...");
+
+        
+            ExecuteReroll();
+        }
+        else
+        {
+         
+            ExecuteReroll();
+        }
+    }
+
+    private void ExecuteReroll()
+    {
+        rerollsUsedThisLevel++;
+        UpdateRerollButtonText();
+        RandomizeNewPowerUps();
+    }
+
+    private void UpdateRerollButtonText()
+    {
+        if (rerollButtonText == null) return;
+
+        if (rerollsUsedThisLevel >= maxFreeRerolls)
+        {
+            rerollButtonText.text = "Reroll (Ver Ad)";
+        }
+        else
+        {
+            int remainingFree = maxFreeRerolls - rerollsUsedThisLevel;
+            rerollButtonText.text = $"Reroll ({remainingFree} Gratis)";
+        }
     }
 
     public void SelectPowerUp(PowerUpSO selectedPowerUp)
