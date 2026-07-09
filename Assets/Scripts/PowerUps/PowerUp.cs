@@ -13,22 +13,23 @@ public class PowerUp : MonoBehaviour
     {
         powerUpInfo = powerUp;
 
-        if (powerUpImageRenderer != null && powerUp.powerUpImageSquare != null)
+        if (powerUpImageRenderer != null)
         {
-            
-            powerUpImageRenderer.sprite = powerUp.powerUpImageSquare;
+            powerUpImageRenderer.sprite = powerUp.powerUpImage;
 
+        
             powerUpImageRenderer.sortingLayerName = "Default";
-            powerUpImageRenderer.sortingOrder = 50;
+            powerUpImageRenderer.sortingOrder = 50; 
         }
 
         if (powerUpTextRenderer != null)
         {
             powerUpTextRenderer.text = powerUp.powerUpText;
-            powerUpTextRenderer.sortingOrder = 51;
+            powerUpTextRenderer.sortingOrder = 51; 
         }
     }
 
+   
     public void OnCardClicked()
     {
         if (powerUpInfo == null) return;
@@ -38,6 +39,7 @@ public class PowerUp : MonoBehaviour
             PowerUpManager.Instance.SelectPowerUp(powerUpInfo);
         }
     }
+
 
     private void OnMouseDown()
     {
