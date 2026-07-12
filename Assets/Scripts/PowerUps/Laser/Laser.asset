@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Laser
   m_EditorClassIdentifier: 
   powerUpImage: {fileID: 21300000, guid: 1cec467c1d4249d4883f1ebbfd32d928, type: 3}
+  prefab: {fileID: 1142418896392359005, guid: 0004e3fb0e38f2c429a04dc4ef3e4f01, type: 3}
   powerUpText: Bullet of pure light that bounces across the space, it can get faster.
   effectType: 1
   effectValue: 0

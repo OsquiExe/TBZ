@@ -6,6 +6,8 @@ using UnityEngine;
 public class PowerUpSO : ScriptableObject
 {
     public Sprite powerUpImage;
+    public GameObject prefab;
+
     public string powerUpText;
     public PowerUpEffect effectType;
     public float effectValue;

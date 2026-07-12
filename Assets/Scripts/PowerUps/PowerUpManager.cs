@@ -45,6 +45,14 @@ public class PowerUpManager : MonoBehaviour
         HidePowerUpSelection();
     }
 
+    private void Update() {
+#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.P)) {
+            ExperienceManager.Instance.AddExperience(10);
+        }
+#endif
+    }
+
     public void ShowPowerUpSelection()
     {
         if (uiPowerUpSelect != null)
@@ -178,13 +186,23 @@ public class PowerUpManager : MonoBehaviour
 
     public void SelectPowerUp(PowerUpSO selectedPowerUp)
     {
-        if (!alreadySelectedPowerUps.Contains(selectedPowerUp))
+        //Spawn the power Up
+        Transform playerTransform = PlayerController.GetPlayerTransform?.Invoke();
+        if(playerTransform == null) {
+            Debug.LogWarning("No hay ningun jugador en la escena!");
+
+            return;
+        }
+
+        if (!alreadySelectedPowerUps.Contains(selectedPowerUp) && selectedPowerUp.prefab != null) 
         {
             alreadySelectedPowerUps.Add(selectedPowerUp);
+            Instantiate(selectedPowerUp.prefab, playerTransform);
         }
 
         UpdateActivePowerUpUI(selectedPowerUp);
 
+        //Update Game state
         if (ExperienceManager.Instance != null)
         {
             ExperienceManager.Instance.ProcessNextLevelUp();
