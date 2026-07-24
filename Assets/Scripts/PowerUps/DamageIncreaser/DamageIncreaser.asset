@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a42f4b270362ce4faf06ff1a57cdadc, type: 3}
   m_Name: DamageIncreaser
   m_EditorClassIdentifier: 
-  powerUpImage: {fileID: 21300000, guid: 70745cc4d1521cd43b52fd442a786689, type: 3}
+  powerUpImageSquare: {fileID: 21300000, guid: 70745cc4d1521cd43b52fd442a786689, type: 3}
+  powerUpIconRound: {fileID: 21300000, guid: 0d9e0c4ec080e27448f6cd5d241a5102, type: 3}
   powerUpText: Condensed matter that increase the player's strenght.
   effectType: 8
   effectValue: 0

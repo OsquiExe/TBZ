@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a42f4b270362ce4faf06ff1a57cdadc, type: 3}
   m_Name: ProgressiveHeal
   m_EditorClassIdentifier: 
-  powerUpImage: {fileID: 21300000, guid: 1226143b13afde94e994e3ee8aa8cdf8, type: 3}
+  powerUpImageSquare: {fileID: 21300000, guid: 1226143b13afde94e994e3ee8aa8cdf8, type: 3}
+  powerUpIconRound: {fileID: 21300000, guid: 9ab845e650160e9449386cc98d8043c4, type: 3}
   powerUpText: Condensed matter that recover a bit of health each 30 seconds.
   effectType: 9
   effectValue: 0

@@ -17,13 +17,13 @@ public class Enemy : MonoBehaviour
 
     [Header("Knockback & Colisiones")]
     [SerializeField] public Vector2 knockBackForce;
-    [SerializeField] private float knockbackDuration = 0.3f;
+    [SerializeField] private float knockbackDuration = 0.2f;
     [SerializeField] private float secondaryDamage = 2f;
-    [SerializeField] private float damageToPlayer = 10f;
+    [SerializeField] private float damageToPlayer = 5f;
 
     [Header("Experience Drop Settings")]
     [SerializeField] private int expAmount = 100;
-    [SerializeField] private GameObject xpPickupPrefab; 
+    [SerializeField] private GameObject xpPickupPrefab;
 
     public bool isDead = false;
     private bool isKnockedBack = false;
@@ -36,7 +36,11 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            target = playerObj.transform;
+        }
         health = maxHealth;
     }
 
@@ -46,8 +50,26 @@ public class Enemy : MonoBehaviour
 
         if (target && !isKnockedBack)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            moveDirection = direction;
+            // Dirección principal hacia el jugador
+            Vector2 directionToPlayer = (target.position - transform.position).normalized;
+
+            // LÓGICA DE SEPARACIÓN (Evita que se fusionen en 1 solo mega-enemigo)
+            Vector2 separation = Vector2.zero;
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 0.4f);
+
+            foreach (var hit in hitColliders)
+            {
+                // Si toca a otro enemigo, empuja en la dirección opuesta
+                if (hit.gameObject != gameObject && hit.CompareTag("Enemy"))
+                {
+                    Vector2 diff = transform.position - hit.transform.position;
+                    // Mientras más cerca estén, más fuerte se repelen
+                    separation += diff.normalized / Mathf.Max(diff.magnitude, 0.1f);
+                }
+            }
+
+            // Mezclamos la persecución con la separación
+            moveDirection = (directionToPlayer + (separation * 0.2f)).normalized;
         }
     }
 
@@ -55,7 +77,8 @@ public class Enemy : MonoBehaviour
     {
         if (isDead || isKnockedBack) return;
 
-        enemyRb.velocity = new Vector2(moveDirection.x, moveDirection.y) * enemySpeed;
+        // MovePosition es mucho más suave y respeta las colisiones para que no se superpongan
+        enemyRb.MovePosition(enemyRb.position + moveDirection * enemySpeed * Time.fixedDeltaTime);
     }
 
     public void TakeDamage(float damage, Vector2 force)
@@ -95,19 +118,14 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
 
-       
         if (xpPickupPrefab != null)
         {
             GameObject droppedXp = Instantiate(xpPickupPrefab, transform.position, Quaternion.identity);
             ExperiencePickup pickupScript = droppedXp.GetComponent<ExperiencePickup>();
             if (pickupScript != null)
             {
-                pickupScript.Setup(expAmount); 
+                pickupScript.Setup(expAmount);
             }
-        }
-        else
-        {
-            Debug.LogWarning($"El prefab de gema XP no está asignado en el enemigo: {gameObject.name}");
         }
 
         if (WaveManager.Instance != null)
@@ -153,7 +171,6 @@ public class Enemy : MonoBehaviour
             {
                 if (!player.isInvulnerable)
                 {
-                    Debug.Log($"💥 El enemigo golpeó al jugador por {damageToPlayer} de daño.");
                     player.TakeDamage(damageToPlayer);
                 }
             }

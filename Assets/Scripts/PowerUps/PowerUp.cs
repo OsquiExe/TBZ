@@ -13,13 +13,18 @@ public class PowerUp : MonoBehaviour
     {
         powerUpInfo = powerUp;
 
-        if (powerUpImageRenderer != null && powerUp.powerUpImageSquare != null)
+        if (powerUpImageRenderer != null)
         {
-            
-            powerUpImageRenderer.sprite = powerUp.powerUpImageSquare;
-
-            powerUpImageRenderer.sortingLayerName = "Default";
-            powerUpImageRenderer.sortingOrder = 50;
+            if (powerUp.powerUpImageSquare != null)
+            {
+                powerUpImageRenderer.sprite = powerUp.powerUpImageSquare;
+                powerUpImageRenderer.sortingLayerName = "Default";
+                powerUpImageRenderer.sortingOrder = 50;
+            }
+            else
+            {
+                Debug.LogWarning($"⚠️ El PowerUp '{powerUp.name}' NO tiene asignada la imagen CUADRADA en el Inspector.");
+            }
         }
 
         if (powerUpTextRenderer != null)

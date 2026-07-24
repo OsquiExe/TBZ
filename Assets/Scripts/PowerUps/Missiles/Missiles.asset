@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a42f4b270362ce4faf06ff1a57cdadc, type: 3}
   m_Name: Missiles
   m_EditorClassIdentifier: 
-  powerUpImage: {fileID: 21300000, guid: e4b77034aae549c40a94339b588dc187, type: 3}
+  powerUpImageSquare: {fileID: 21300000, guid: e4b77034aae549c40a94339b588dc187, type: 3}
+  powerUpIconRound: {fileID: 21300000, guid: c0747fb7c57da3941abc0d37e82b4114, type: 3}
   powerUpText: High speed bullets surrounding the player with explosions, they can
     get bigger.
   effectType: 3

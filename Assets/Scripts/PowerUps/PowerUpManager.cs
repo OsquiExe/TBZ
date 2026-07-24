@@ -15,18 +15,23 @@ public class PowerUpManager : MonoBehaviour
 
     [Header("Reroll System")]
     [SerializeField] private TextMeshProUGUI rerollButtonText;
-    private int rerollsUsedThisLevel = 0;
+    private int totalRerollsUsed = 0;
     private const int maxFreeRerolls = 3;
 
     [Header("Active PowerUps UI (Lateral)")]
     [SerializeField] private Image[] activePowerUpSlots;
     private int currentSlotIndex = 0;
 
-    [Header("Settings")]
+    [Header("Settings del Inventario")]
     [SerializeField] private List<PowerUpSO> deck;
+    [SerializeField] private int maxPowerUpSlots = 4;
+    [SerializeField] private int maxLevelPerPowerUp = 4;
+
+    [Header("Referencias de Input a Apagar")]
+    [SerializeField] private GameObject zonaTactilJoystick;
 
     private GameObject powerUp1, powerUp2, powerUp3;
-    private List<PowerUpSO> alreadySelectedPowerUps = new List<PowerUpSO>();
+    private Dictionary<PowerUpSO, int> ownedPowerUps = new Dictionary<PowerUpSO, int>();
 
     public static PowerUpManager Instance;
 
@@ -47,23 +52,29 @@ public class PowerUpManager : MonoBehaviour
 
     public void ShowPowerUpSelection()
     {
-        if (uiPowerUpSelect != null)
+        if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(true);
+
+        Time.timeScale = 0f; 
+
+ 
+        if (zonaTactilJoystick != null)
         {
-            uiPowerUpSelect.SetActive(true);
+            VirtualJoystick vj = zonaTactilJoystick.GetComponent<VirtualJoystick>();
+            if (vj != null) vj.ResetJoystick();
+
+            zonaTactilJoystick.SetActive(false);
         }
 
-        rerollsUsedThisLevel = 0;
         UpdateRerollButtonText();
-
         RandomizeNewPowerUps();
     }
 
     public void HidePowerUpSelection()
     {
-        if (uiPowerUpSelect != null)
-        {
-            uiPowerUpSelect.SetActive(false);
-        }
+        if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(false);
+
+
+        if (zonaTactilJoystick != null) zonaTactilJoystick.SetActive(true);
 
         ClearOldCards();
     }
@@ -79,27 +90,24 @@ public class PowerUpManager : MonoBehaviour
     {
         ClearOldCards();
 
-        if (deck == null || deck.Count == 0)
-        {
-            Debug.LogError("Error crítico: El mazo de PowerUps en el script está vacío.");
-            return;
-        }
+        if (deck == null || deck.Count == 0) return;
 
         List<PowerUpSO> availablePowerUps = new List<PowerUpSO>(deck);
         int currentLevel = ExperienceManager.Instance != null ? ExperienceManager.Instance.GetCurrentLevel() : 1;
 
         availablePowerUps.RemoveAll(powerUp =>
-            (powerUp.isUnique && alreadySelectedPowerUps.Contains(powerUp)) ||
-            (powerUp.unlockLevel > currentLevel)
-        );
+        {
+            bool isNewAndInventoryFull = !ownedPowerUps.ContainsKey(powerUp) && ownedPowerUps.Count >= maxPowerUpSlots;
+            bool isAtMaxLevel = ownedPowerUps.ContainsKey(powerUp) && ownedPowerUps[powerUp] >= maxLevelPerPowerUp;
+            bool levelNotReached = powerUp.unlockLevel > currentLevel;
+            bool isUniqueAndOwned = powerUp.isUnique && ownedPowerUps.ContainsKey(powerUp);
+
+            return isNewAndInventoryFull || isAtMaxLevel || levelNotReached || isUniqueAndOwned;
+        });
 
         if (availablePowerUps.Count == 0)
         {
-            Debug.LogWarning("No quedan PowerUps válidos para dar. Procesando siguiente nivel o reanudando juego.");
-            if (ExperienceManager.Instance != null)
-            {
-                ExperienceManager.Instance.ProcessNextLevelUp();
-            }
+            SkipPowerUp();
             return;
         }
 
@@ -109,10 +117,7 @@ public class PowerUpManager : MonoBehaviour
         while (randomizePowerUps.Count < optionsToCreate)
         {
             PowerUpSO randomPowerUp = availablePowerUps[Random.Range(0, availablePowerUps.Count)];
-            if (!randomizePowerUps.Contains(randomPowerUp))
-            {
-                randomizePowerUps.Add(randomPowerUp);
-            }
+            if (!randomizePowerUps.Contains(randomPowerUp)) randomizePowerUps.Add(randomPowerUp);
         }
 
         if (optionsToCreate >= 1) powerUp1 = InstantiatePowerUp(randomizePowerUps[0], powerUpPosition1);
@@ -123,22 +128,16 @@ public class PowerUpManager : MonoBehaviour
     GameObject InstantiatePowerUp(PowerUpSO powerUpSO, Transform position)
     {
         if (position == null || powerUpPrefab == null) return null;
-
         GameObject powerUpGo = Instantiate(powerUpPrefab, position.position, Quaternion.identity, position);
-
         powerUpGo.transform.localPosition = Vector3.zero;
-
         PowerUp powerUpScript = powerUpGo.GetComponent<PowerUp>();
-        if (powerUpScript != null)
-        {
-            powerUpScript.Setup(powerUpSO);
-        }
+        if (powerUpScript != null) powerUpScript.Setup(powerUpSO);
         return powerUpGo;
     }
 
     public void OnRerollButtonClicked()
     {
-        if (rerollsUsedThisLevel >= maxFreeRerolls)
+        if (totalRerollsUsed >= maxFreeRerolls)
         {
             Debug.Log("📺 [MONETIZACIÓN] Mostrando Anuncio de Recompensa (Rewarded Ad)...");
             ExecuteReroll();
@@ -151,7 +150,7 @@ public class PowerUpManager : MonoBehaviour
 
     private void ExecuteReroll()
     {
-        rerollsUsedThisLevel++;
+        totalRerollsUsed++;
         UpdateRerollButtonText();
         RandomizeNewPowerUps();
     }
@@ -160,25 +159,91 @@ public class PowerUpManager : MonoBehaviour
     {
         if (rerollButtonText == null) return;
 
-        if (rerollsUsedThisLevel >= maxFreeRerolls)
+        if (totalRerollsUsed >= maxFreeRerolls)
         {
             rerollButtonText.text = "Reroll (Ver Ad)";
         }
         else
         {
-            int remainingFree = maxFreeRerolls - rerollsUsedThisLevel;
+            int remainingFree = maxFreeRerolls - totalRerollsUsed;
             rerollButtonText.text = $"Reroll ({remainingFree} Gratis)";
         }
     }
 
     public void SelectPowerUp(PowerUpSO selectedPowerUp)
     {
-        if (!alreadySelectedPowerUps.Contains(selectedPowerUp))
+        if (ownedPowerUps.ContainsKey(selectedPowerUp))
         {
-            alreadySelectedPowerUps.Add(selectedPowerUp);
+            ownedPowerUps[selectedPowerUp]++;
+            int newLevel = ownedPowerUps[selectedPowerUp];
+            Debug.Log($"⬆️ PowerUp [{selectedPowerUp.powerUpText}] subió al nivel {newLevel}");
+
+
+            UpdatePowerUpEffect(selectedPowerUp, newLevel);
+        }
+        else
+        {
+            ownedPowerUps.Add(selectedPowerUp, 1);
+            Debug.Log($"✨ Nuevo PowerUp adquirido: [{selectedPowerUp.powerUpText}] (Nivel 1)");
+            UpdateActivePowerUpUI(selectedPowerUp);
+
+       
+            ApplyNewPowerUpEffect(selectedPowerUp);
         }
 
-        UpdateActivePowerUpUI(selectedPowerUp);
+        HidePowerUpSelection();
+        Time.timeScale = 1f;
+
+        if (ExperienceManager.Instance != null) ExperienceManager.Instance.ProcessNextLevelUp();
+    }
+
+
+    // INYECTOR DE SCRIPTS
+    private void ApplyNewPowerUpEffect(PowerUpSO powerUp)
+    {
+        PlayerController player = FindObjectOfType<PlayerController>();
+        if (player == null) return;
+
+        // 1. Cura Progresiva
+        if (powerUp.name.Contains("Progressive"))
+        {
+            ProgressiveHealEffect healEffect = player.gameObject.AddComponent<ProgressiveHealEffect>();
+            healEffect.level = 1;
+        }
+
+        // 2. Potenciador de Daño
+        if (powerUp.name.Contains("Damage"))
+        {
+            DamageIncreaseEffect dmgEffect = player.gameObject.AddComponent<DamageIncreaseEffect>();
+            dmgEffect.level = 1;
+        }
+    }
+
+    // ACTUALIZADOR DE NIVELES
+    private void UpdatePowerUpEffect(PowerUpSO powerUp, int newLevel)
+    {
+        PlayerController player = FindObjectOfType<PlayerController>();
+        if (player == null) return;
+
+        // 1. Cura Progresiva
+        if (powerUp.name.Contains("Progressive"))
+        {
+            ProgressiveHealEffect healEffect = player.GetComponent<ProgressiveHealEffect>();
+            if (healEffect != null) healEffect.level = newLevel;
+        }
+
+        // 2. Potenciador de Daño
+        if (powerUp.name.Contains("Damage"))
+        {
+            DamageIncreaseEffect dmgEffect = player.GetComponent<DamageIncreaseEffect>();
+            if (dmgEffect != null) dmgEffect.level = newLevel;
+        }
+    }
+
+    public void SkipPowerUp()
+    {
+        HidePowerUpSelection();
+        Time.timeScale = 1f;
 
         if (ExperienceManager.Instance != null)
         {
@@ -191,20 +256,30 @@ public class PowerUpManager : MonoBehaviour
         if (activePowerUpSlots != null && currentSlotIndex < activePowerUpSlots.Length)
         {
             Image currentSlot = activePowerUpSlots[currentSlotIndex];
-
-         
             if (currentSlot != null && powerUp.powerUpIconRound != null)
             {
-                currentSlot.sprite = powerUp.powerUpIconRound; 
-                currentSlot.color = Color.white;
+                currentSlot.sprite = powerUp.powerUpIconRound;
+                Color slotColor = currentSlot.color;
+                slotColor.a = 1f;
+                currentSlot.color = slotColor;
             }
-
             currentSlotIndex++;
         }
     }
 
-    public int GetSelectedPowerUpsCount()
+    public int GetSelectedPowerUpsCount() { return ownedPowerUps.Count; }
+
+    public int GetPowerUpLevel(string powerUpFileName)
     {
-        return alreadySelectedPowerUps.Count;
+        foreach (var item in ownedPowerUps)
+        {
+         
+            if (item.Key.name.Contains(powerUpFileName))
+            {
+                return item.Value;
+            }
+        }
+        return 0; 
     }
 }
+
