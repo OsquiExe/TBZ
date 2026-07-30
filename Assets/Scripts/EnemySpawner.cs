@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Time.timeScale == 0f) return;
 
-        // NUEVO: Si no hay oleada activa, o si la oleada ya alcanzó su límite de enemigos, el Spawner se pausa.
+  
         if (WaveManager.Instance != null && !WaveManager.Instance.CanSpawn()) return;
 
         if (spawnTime > 0)
@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Spawn();
 
-            // Le avisamos al Manager que nació un enemigo para que lo cuente
+
             if (WaveManager.Instance != null)
             {
                 WaveManager.Instance.OnEnemySpawned();
