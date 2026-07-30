@@ -21,7 +21,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Time.timeScale == 0f) return;
 
-        // NUEVO: Si no hay oleada activa, o si la oleada ya alcanzó su límite de enemigos, el Spawner se pausa.
         if (WaveManager.Instance != null && !WaveManager.Instance.CanSpawn()) return;
 
         if (spawnTime > 0)
@@ -33,7 +32,6 @@ public class EnemySpawner : MonoBehaviour
         {
             Spawn();
 
-            // Le avisamos al Manager que nació un enemigo para que lo cuente
             if (WaveManager.Instance != null)
             {
                 WaveManager.Instance.OnEnemySpawned();
@@ -59,6 +57,19 @@ public class EnemySpawner : MonoBehaviour
         float yPos = Random.Range(-sizeY, sizeY) + transform.position.y;
 
         Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
-        Instantiate(spawnee, spawnPosition, Quaternion.identity);
+        GameObject newEnemyObj = Instantiate(spawnee, spawnPosition, Quaternion.identity);
+
+        // NUEVO: Escalar al enemigo dependiendo de la ronda actual
+        Enemy enemyScript = newEnemyObj.GetComponent<Enemy>();
+        if (enemyScript != null && WaveManager.Instance != null)
+        {
+            // Le pedimos al WaveManager los multiplicadores
+            float healthMult = WaveManager.Instance.GetHealthMultiplier();
+            float damageMult = WaveManager.Instance.GetDamageMultiplier();
+            float speedMult = WaveManager.Instance.GetSpeedMultiplier();
+
+            // Inyectamos el poder!
+            enemyScript.SetupEnemyStats(healthMult, damageMult, speedMult);
+        }
     }
 }

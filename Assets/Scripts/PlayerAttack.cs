@@ -12,6 +12,10 @@ public class PlayerAttack : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] float attackDuration = 0.25f;
     [SerializeField] float autoAttackCooldown = 0.5f;
+
+    [Header("Auto Attack Detection")]
+    [SerializeField] private float enemyDetectionRadius = 2.5f;
+
     private float autoAttackTimer = 0f;
     private float activeAttackTimer = 0f;
 
@@ -57,16 +61,16 @@ public class PlayerAttack : MonoBehaviour
 
     public void SyncMovementDirection()
     {
-   
         if (playerController != null && playerController.input != Vector2.zero && !isDashing)
         {
             lastDirection = playerController.input.normalized;
         }
     }
 
-    // --- LÓGICA DE DASH POR SWIPE EN LA MITAD SUPERIOR ---
     private void HandleDashInput()
     {
+        if (PowerUpManager.Instance != null && PowerUpManager.Instance.uiPowerUpSelect != null && PowerUpManager.Instance.uiPowerUpSelect.activeInHierarchy) return;
+
         if (dashCooldownTimer > 0) dashCooldownTimer -= Time.deltaTime;
 
         if (Input.touchCount > 0)
@@ -126,10 +130,9 @@ public class PlayerAttack : MonoBehaviour
         isDashing = true;
         dashCooldownTimer = dashCooldown;
         dashDirection = dir;
-
         lastDirection = dir;
 
-        OnAttack();
+        OnAttack(); // Acá disparamos el golpe obligatorio
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -143,16 +146,13 @@ public class PlayerAttack : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-
                 float totalDamage = dashDamage;
-
                 DamageIncreaseEffect dmgEffect = GetComponent<DamageIncreaseEffect>();
+
                 if (dmgEffect != null)
                 {
-
                     totalDamage += dmgEffect.GetExtraDamage();
                 }
-
 
                 enemy.TakeDamage(totalDamage, dashDirection * dashKnockbackForce);
             }
@@ -163,31 +163,58 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!isAttacking)
         {
-            autoAttackTimer -= Time.deltaTime;
+            if (autoAttackTimer > 0f) autoAttackTimer -= Time.deltaTime;
 
-            if (autoAttackTimer <= 0f)
+            if (autoAttackTimer <= 0f && IsEnemyNearby())
             {
                 OnAttack();
-                autoAttackTimer = autoAttackCooldown;
             }
         }
     }
 
+    private bool IsEnemyNearby()
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
+        foreach (var hit in hitColliders)
+        {
+            Enemy enemy = hit.GetComponent<Enemy>();
+            if (enemy != null && !enemy.isDead)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OnAttack()
     {
-
         Punch.SetActive(true);
         isAttacking = true;
-        activeAttackTimer = 0f; 
+        activeAttackTimer = 0f;
+        autoAttackTimer = autoAttackCooldown;
 
         if (playerController != null)
         {
             playerController.SetAttackInvulnerability(true);
         }
 
+        // 1. Limpiamos cualquier trigger viejo trabado
+        animator.ResetTrigger("Attack");
+
+        // 2. Le pasamos la dirección al FightTree
         animator.SetFloat("attackx", lastDirection.x);
         animator.SetFloat("attacky", lastDirection.y);
+
+        // 3. Forzamos el Moving y la dirección normal para que no vuelva a Idle
+        animator.SetBool("Moving", true);
+        animator.SetFloat("x", lastDirection.x);
+        animator.SetFloat("y", lastDirection.y);
+
+        // 4. Disparamos el Trigger normal por seguridad
         animator.SetTrigger("Attack");
+
+        // 5. ¡LA SOLUCIÓN! Forzamos la reproducción inmediata del árbol de pelea
+        animator.Play("FightTree", 0, 0f);
     }
 
     public void CheckAttackTimer()
@@ -207,5 +234,11 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, enemyDetectionRadius);
     }
 }

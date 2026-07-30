@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,22 +23,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
         if (pausePanel) pausePanel.SetActive(false);
         if (defeatPanel) defeatPanel.SetActive(false);
         if (victoryPanel) victoryPanel.SetActive(false);
         Time.timeScale = 1f;
     }
 
-
     public void TogglePause()
     {
-        if (isGameOver) return; 
+        if (isGameOver) return;
 
         isPaused = !isPaused;
         pausePanel.SetActive(isPaused);
 
-      
         Time.timeScale = isPaused ? 0f : 1f;
     }
 
@@ -48,7 +45,7 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
         if (defeatPanel) defeatPanel.SetActive(true);
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
     }
 
     public void TriggerVictory()
@@ -57,13 +54,21 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
         if (victoryPanel) victoryPanel.SetActive(true);
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
     }
-
 
     public void RestartGame()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f; 
+
+ 
+        SceneManager.LoadScene("MainMenu");
     }
 }

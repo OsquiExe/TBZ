@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector2 moveDirection;
 
     [Header("Vida")]
-    [SerializeField] private float health, maxHealth = 5f;
+    [SerializeField] private float health;
+    [SerializeField] private float maxHealth = 5f;
 
     [Header("Knockback & Colisiones")]
     [SerializeField] public Vector2 knockBackForce;
@@ -24,6 +25,15 @@ public class Enemy : MonoBehaviour
     [Header("Experience Drop Settings")]
     [SerializeField] private int expAmount = 100;
     [SerializeField] private GameObject xpPickupPrefab;
+
+    [Header("Dibi-Coins Drop Settings")]
+    [SerializeField] private GameObject coinPrefab; // ARRASTRA EL PREFAB DE TU MONEDA ACÁ EN UNITY
+    [Range(0f, 100f)]
+    [SerializeField] private float coinDropChance = 20f; // 20% de probabilidad por defecto
+
+    [Header("IA Evasión de Obstáculos")]
+    [SerializeField] private float detectionRadius = 1.5f;
+    [SerializeField] private LayerMask obstacleLayer;
 
     public bool isDead = false;
     private bool isKnockedBack = false;
@@ -44,40 +54,65 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
     }
 
+    public void SetupEnemyStats(float healthMultiplier, float damageMultiplier, float speedMultiplier)
+    {
+        maxHealth *= healthMultiplier;
+        health = maxHealth;
+        damageToPlayer *= damageMultiplier;
+        enemySpeed *= speedMultiplier;
+    }
+
     private void Update()
     {
         if (isDead) return;
 
         if (target && !isKnockedBack)
         {
-            // Dirección principal hacia el jugador
             Vector2 directionToPlayer = (target.position - transform.position).normalized;
+            Vector2 avoidance = Vector2.zero;
 
-            // LÓGICA DE SEPARACIÓN (Evita que se fusionen en 1 solo mega-enemigo)
-            Vector2 separation = Vector2.zero;
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 0.4f);
+            Collider2D obstacleHit = Physics2D.OverlapCircle(transform.position, detectionRadius, obstacleLayer);
 
-            foreach (var hit in hitColliders)
+            if (obstacleHit != null)
             {
-                // Si toca a otro enemigo, empuja en la dirección opuesta
-                if (hit.gameObject != gameObject && hit.CompareTag("Enemy"))
+                Vector2 closestPoint = obstacleHit.ClosestPoint(transform.position);
+                Vector2 pushAway = ((Vector2)transform.position - closestPoint);
+                float distance = pushAway.magnitude;
+
+                if (distance < 0.01f)
                 {
-                    Vector2 diff = transform.position - hit.transform.position;
-                    // Mientras más cerca estén, más fuerte se repelen
+                    pushAway = -directionToPlayer;
+                    distance = 0.1f;
+                }
+
+                Vector2 normal = pushAway.normalized;
+                Vector2 tangent1 = new Vector2(-normal.y, normal.x);
+                Vector2 tangent2 = new Vector2(normal.y, -normal.x);
+                Vector2 bestTangent = (Vector2.Dot(tangent1, directionToPlayer) > Vector2.Dot(tangent2, directionToPlayer)) ? tangent1 : tangent2;
+
+                float avoidanceWeight = Mathf.Clamp01(1f - (distance / detectionRadius));
+                avoidance = (bestTangent * 2f + normal * 3f) * avoidanceWeight;
+            }
+
+            Vector2 separation = Vector2.zero;
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 0.6f);
+
+            foreach (var col in hitColliders)
+            {
+                if (col.gameObject != gameObject && col.CompareTag("Enemy"))
+                {
+                    Vector2 diff = transform.position - col.transform.position;
                     separation += diff.normalized / Mathf.Max(diff.magnitude, 0.1f);
                 }
             }
 
-            // Mezclamos la persecución con la separación
-            moveDirection = (directionToPlayer + (separation * 0.2f)).normalized;
+            moveDirection = (directionToPlayer + avoidance + (separation * 0.4f)).normalized;
         }
     }
 
     private void FixedUpdate()
     {
         if (isDead || isKnockedBack) return;
-
-        // MovePosition es mucho más suave y respeta las colisiones para que no se superpongan
         enemyRb.MovePosition(enemyRb.position + moveDirection * enemySpeed * Time.fixedDeltaTime);
     }
 
@@ -118,6 +153,7 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
 
+        // 1. Suelta la Experiencia
         if (xpPickupPrefab != null)
         {
             GameObject droppedXp = Instantiate(xpPickupPrefab, transform.position, Quaternion.identity);
@@ -125,6 +161,18 @@ public class Enemy : MonoBehaviour
             if (pickupScript != null)
             {
                 pickupScript.Setup(expAmount);
+            }
+        }
+
+        // 2. NUEVO: Suelta las Dibi-Coins basado en la probabilidad
+        if (coinPrefab != null)
+        {
+            float randomRoll = Random.Range(0f, 100f);
+            if (randomRoll <= coinDropChance)
+            {
+                // Instancia la moneda un poquito corrida para que no se pise exacto con la exp
+                Vector3 coinPos = transform.position + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
+                Instantiate(coinPrefab, coinPos, Quaternion.identity);
             }
         }
 
@@ -175,5 +223,11 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

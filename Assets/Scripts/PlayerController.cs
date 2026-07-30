@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] public Animator anim;
     [SerializeField] public float moveSpeed = 5f;
-    public Rigidbody2D rb; 
+    public Rigidbody2D rb;
     [SerializeField] public float x;
     [SerializeField] public float y;
     [SerializeField] public Vector2 input;
@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Transform Aim;
     [SerializeField] public bool isWalking = false;
 
-
     public PlayerAttack playerAttack;
 
     private void Start()
@@ -64,7 +63,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (playerAttack != null && !playerAttack.isDashing)
         {
             rb.velocity = input * moveSpeed;
@@ -103,7 +101,6 @@ public class PlayerController : MonoBehaviour
         if (currentHealth <= 0) Die();
         else invulnTimer = invulnerabilityDuration;
     }
-
 
     public void Heal(float amount)
     {
@@ -172,13 +169,22 @@ public class PlayerController : MonoBehaviour
     private void Animate()
     {
         moving = (input.magnitude > 0.1f || input.magnitude < -0.1f);
-        bool dashingStatus = playerAttack != null && playerAttack.isDashing;
 
-        if (moving && !dashingStatus)
+        bool dashingStatus = playerAttack != null && playerAttack.isDashing;
+        bool attackingStatus = playerAttack != null && playerAttack.isAttacking;
+
+        if (dashingStatus || attackingStatus)
+        {
+        
+            return;
+        }
+
+        if (moving)
         {
             anim.SetFloat("x", x);
             anim.SetFloat("y", y);
         }
+
         anim.SetBool("Moving", moving);
     }
 

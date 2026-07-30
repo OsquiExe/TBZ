@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,11 +53,22 @@ public class PowerUpManager : MonoBehaviour
 
     public void ShowPowerUpSelection()
     {
+        if (TutorialManager.Instance != null && !TutorialManager.Instance.hasShownLevelUpTutorial)
+        {
+            TutorialManager.Instance.TriggerLevelUpTutorial(OpenPowerUpMenu);
+        }
+        else
+        {
+            OpenPowerUpMenu();
+        }
+    }
+
+    private void OpenPowerUpMenu()
+    {
         if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(true);
 
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
 
- 
         if (zonaTactilJoystick != null)
         {
             VirtualJoystick vj = zonaTactilJoystick.GetComponent<VirtualJoystick>();
@@ -72,7 +84,6 @@ public class PowerUpManager : MonoBehaviour
     public void HidePowerUpSelection()
     {
         if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(false);
-
 
         if (zonaTactilJoystick != null) zonaTactilJoystick.SetActive(true);
 
@@ -116,7 +127,8 @@ public class PowerUpManager : MonoBehaviour
 
         while (randomizePowerUps.Count < optionsToCreate)
         {
-            PowerUpSO randomPowerUp = availablePowerUps[Random.Range(0, availablePowerUps.Count)];
+            PowerUpSO randomPowerUp = availablePowerUps[UnityEngine.Random.Range(0, availablePowerUps.Count)];
+
             if (!randomizePowerUps.Contains(randomPowerUp)) randomizePowerUps.Add(randomPowerUp);
         }
 
@@ -178,7 +190,6 @@ public class PowerUpManager : MonoBehaviour
             int newLevel = ownedPowerUps[selectedPowerUp];
             Debug.Log($"⬆️ PowerUp [{selectedPowerUp.powerUpText}] subió al nivel {newLevel}");
 
-
             UpdatePowerUpEffect(selectedPowerUp, newLevel);
         }
         else
@@ -187,7 +198,6 @@ public class PowerUpManager : MonoBehaviour
             Debug.Log($"✨ Nuevo PowerUp adquirido: [{selectedPowerUp.powerUpText}] (Nivel 1)");
             UpdateActivePowerUpUI(selectedPowerUp);
 
-       
             ApplyNewPowerUpEffect(selectedPowerUp);
         }
 
@@ -196,7 +206,6 @@ public class PowerUpManager : MonoBehaviour
 
         if (ExperienceManager.Instance != null) ExperienceManager.Instance.ProcessNextLevelUp();
     }
-
 
     // INYECTOR DE SCRIPTS
     private void ApplyNewPowerUpEffect(PowerUpSO powerUp)
@@ -216,6 +225,20 @@ public class PowerUpManager : MonoBehaviour
         {
             DamageIncreaseEffect dmgEffect = player.gameObject.AddComponent<DamageIncreaseEffect>();
             dmgEffect.level = 1;
+        }
+
+        // 3. Onda Expansiva
+        if (powerUp.name.Contains("Shock") || powerUp.name.Contains("Wave"))
+        {
+            ShockwaveEffect shockEffect = player.gameObject.AddComponent<ShockwaveEffect>();
+            shockEffect.level = 1;
+        }
+
+        // 4. Misiles (Antes Capybara Bomb)
+        if (powerUp.name.Contains("Missile"))
+        {
+            MissileEffect missileEffect = player.gameObject.AddComponent<MissileEffect>();
+            missileEffect.level = 1;
         }
     }
 
@@ -237,6 +260,20 @@ public class PowerUpManager : MonoBehaviour
         {
             DamageIncreaseEffect dmgEffect = player.GetComponent<DamageIncreaseEffect>();
             if (dmgEffect != null) dmgEffect.level = newLevel;
+        }
+
+        // 3. Onda Expansiva
+        if (powerUp.name.Contains("Shock") || powerUp.name.Contains("Wave"))
+        {
+            ShockwaveEffect shockEffect = player.GetComponent<ShockwaveEffect>();
+            if (shockEffect != null) shockEffect.level = newLevel;
+        }
+
+        // 4. Misiles
+        if (powerUp.name.Contains("Missile"))
+        {
+            MissileEffect missileEffect = player.GetComponent<MissileEffect>();
+            if (missileEffect != null) missileEffect.level = newLevel;
         }
     }
 
@@ -273,13 +310,11 @@ public class PowerUpManager : MonoBehaviour
     {
         foreach (var item in ownedPowerUps)
         {
-         
             if (item.Key.name.Contains(powerUpFileName))
             {
                 return item.Value;
             }
         }
-        return 0; 
+        return 0;
     }
 }
-
