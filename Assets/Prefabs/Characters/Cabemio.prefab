@@ -169,6 +169,12 @@ MonoBehaviour:
   damageToPlayer: 10
   expAmount: 100
   xpPickupPrefab: {fileID: 3430515638331036896, guid: 214eebb2ab4452741b7998899a5e221f, type: 3}
+  coinPrefab: {fileID: 687765003651938247, guid: 7a0450bf91b21c547819928b61570ea1, type: 3}
+  coinDropChance: 20
+  detectionRadius: 2
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 8
   isDead: 0
 --- !u!50 &7835940726786785943
 Rigidbody2D:
@@ -185,7 +191,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

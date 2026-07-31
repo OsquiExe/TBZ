@@ -13,17 +13,27 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector2 moveDirection;
 
     [Header("Vida")]
-    [SerializeField] private float health, maxHealth = 5f;
+    [SerializeField] private float health;
+    [SerializeField] private float maxHealth = 5f;
 
     [Header("Knockback & Colisiones")]
     [SerializeField] public Vector2 knockBackForce;
-    [SerializeField] private float knockbackDuration = 0.3f;
+    [SerializeField] private float knockbackDuration = 0.2f;
     [SerializeField] private float secondaryDamage = 2f;
-    [SerializeField] private float damageToPlayer = 10f;
+    [SerializeField] private float damageToPlayer = 5f;
 
     [Header("Experience Drop Settings")]
     [SerializeField] private int expAmount = 100;
-    [SerializeField] private GameObject xpPickupPrefab; 
+    [SerializeField] private GameObject xpPickupPrefab;
+
+    [Header("Dibi-Coins Drop Settings")]
+    [SerializeField] private GameObject coinPrefab; 
+    [Range(0f, 100f)]
+    [SerializeField] private float coinDropChance = 20f;
+
+    [Header("IA Evasión de Obstáculos")]
+    [SerializeField] private float detectionRadius = 1.5f;
+    [SerializeField] private LayerMask obstacleLayer;
 
     public bool isDead = false;
     private bool isKnockedBack = false;
@@ -36,8 +46,20 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            target = playerObj.transform;
+        }
         health = maxHealth;
+    }
+
+    public void SetupEnemyStats(float healthMultiplier, float damageMultiplier, float speedMultiplier)
+    {
+        maxHealth *= healthMultiplier;
+        health = maxHealth;
+        damageToPlayer *= damageMultiplier;
+        enemySpeed *= speedMultiplier;
     }
 
     private void Update()
@@ -46,16 +68,52 @@ public class Enemy : MonoBehaviour
 
         if (target && !isKnockedBack)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            moveDirection = direction;
+            Vector2 directionToPlayer = (target.position - transform.position).normalized;
+            Vector2 avoidance = Vector2.zero;
+
+            Collider2D obstacleHit = Physics2D.OverlapCircle(transform.position, detectionRadius, obstacleLayer);
+
+            if (obstacleHit != null)
+            {
+                Vector2 closestPoint = obstacleHit.ClosestPoint(transform.position);
+                Vector2 pushAway = ((Vector2)transform.position - closestPoint);
+                float distance = pushAway.magnitude;
+
+                if (distance < 0.01f)
+                {
+                    pushAway = -directionToPlayer;
+                    distance = 0.1f;
+                }
+
+                Vector2 normal = pushAway.normalized;
+                Vector2 tangent1 = new Vector2(-normal.y, normal.x);
+                Vector2 tangent2 = new Vector2(normal.y, -normal.x);
+                Vector2 bestTangent = (Vector2.Dot(tangent1, directionToPlayer) > Vector2.Dot(tangent2, directionToPlayer)) ? tangent1 : tangent2;
+
+                float avoidanceWeight = Mathf.Clamp01(1f - (distance / detectionRadius));
+                avoidance = (bestTangent * 2f + normal * 3f) * avoidanceWeight;
+            }
+
+            Vector2 separation = Vector2.zero;
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 0.6f);
+
+            foreach (var col in hitColliders)
+            {
+                if (col.gameObject != gameObject && col.CompareTag("Enemy"))
+                {
+                    Vector2 diff = transform.position - col.transform.position;
+                    separation += diff.normalized / Mathf.Max(diff.magnitude, 0.1f);
+                }
+            }
+
+            moveDirection = (directionToPlayer + avoidance + (separation * 0.4f)).normalized;
         }
     }
 
     private void FixedUpdate()
     {
         if (isDead || isKnockedBack) return;
-
-        enemyRb.velocity = new Vector2(moveDirection.x, moveDirection.y) * enemySpeed;
+        enemyRb.MovePosition(enemyRb.position + moveDirection * enemySpeed * Time.fixedDeltaTime);
     }
 
     public void TakeDamage(float damage, Vector2 force)
@@ -95,19 +153,26 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
 
-       
         if (xpPickupPrefab != null)
         {
             GameObject droppedXp = Instantiate(xpPickupPrefab, transform.position, Quaternion.identity);
             ExperiencePickup pickupScript = droppedXp.GetComponent<ExperiencePickup>();
             if (pickupScript != null)
             {
-                pickupScript.Setup(expAmount); 
+                pickupScript.Setup(expAmount);
             }
         }
-        else
+
+     
+        if (coinPrefab != null)
         {
-            Debug.LogWarning($"El prefab de gema XP no está asignado en el enemigo: {gameObject.name}");
+            float randomRoll = Random.Range(0f, 100f);
+            if (randomRoll <= coinDropChance)
+            {
+
+                Vector3 coinPos = transform.position + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
+                Instantiate(coinPrefab, coinPos, Quaternion.identity);
+            }
         }
 
         if (WaveManager.Instance != null)
@@ -153,10 +218,15 @@ public class Enemy : MonoBehaviour
             {
                 if (!player.isInvulnerable)
                 {
-                    Debug.Log($"💥 El enemigo golpeó al jugador por {damageToPlayer} de daño.");
                     player.TakeDamage(damageToPlayer);
                 }
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

@@ -21,7 +21,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Time.timeScale == 0f) return;
 
-  
         if (WaveManager.Instance != null && !WaveManager.Instance.CanSpawn()) return;
 
         if (spawnTime > 0)
@@ -32,7 +31,6 @@ public class EnemySpawner : MonoBehaviour
         if (spawnTime <= 0)
         {
             Spawn();
-
 
             if (WaveManager.Instance != null)
             {
@@ -59,6 +57,19 @@ public class EnemySpawner : MonoBehaviour
         float yPos = Random.Range(-sizeY, sizeY) + transform.position.y;
 
         Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
-        Instantiate(spawnee, spawnPosition, Quaternion.identity);
+        GameObject newEnemyObj = Instantiate(spawnee, spawnPosition, Quaternion.identity);
+
+
+        Enemy enemyScript = newEnemyObj.GetComponent<Enemy>();
+        if (enemyScript != null && WaveManager.Instance != null)
+        {
+
+            float healthMult = WaveManager.Instance.GetHealthMultiplier();
+            float damageMult = WaveManager.Instance.GetDamageMultiplier();
+            float speedMult = WaveManager.Instance.GetSpeedMultiplier();
+
+
+            enemyScript.SetupEnemyStats(healthMult, damageMult, speedMult);
+        }
     }
 }

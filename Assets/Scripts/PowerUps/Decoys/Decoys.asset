@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a42f4b270362ce4faf06ff1a57cdadc, type: 3}
   m_Name: Decoys
   m_EditorClassIdentifier: 
-  powerUpImage: {fileID: 21300000, guid: cc92cc55273221c48ac1733835c760e4, type: 3}
+  powerUpImageSquare: {fileID: 21300000, guid: cc92cc55273221c48ac1733835c760e4, type: 3}
+  powerUpIconRound: {fileID: 21300000, guid: 50e885a429a4bde4da9af8d6e8f1f9da, type: 3}
   powerUpText: Robotic capibaras thrown around to explode, they can get bigger.
   effectType: 4
   effectValue: 0

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a42f4b270362ce4faf06ff1a57cdadc, type: 3}
   m_Name: FireBullet
   m_EditorClassIdentifier: 
-  powerUpImage: {fileID: 21300000, guid: 3097dfec7b4aaaa4eb13736bf6e4b986, type: 3}
-  prefab: {fileID: 3177607329165194572, guid: 83dd4fdd3d26f5d49ab9b53ab7401baf, type: 3}
+  powerUpImageSquare: {fileID: 21300000, guid: 3097dfec7b4aaaa4eb13736bf6e4b986, type: 3}
+  powerUpIconRound: {fileID: 21300000, guid: 36b2fdfab3c58e14d9edf35746b5c976, type: 3}
   powerUpText: This fire bullet can burn everything in its path, it can get bigger.
   effectType: 2
   effectValue: 0

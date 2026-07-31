@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a42f4b270362ce4faf06ff1a57cdadc, type: 3}
   m_Name: ShockWave
   m_EditorClassIdentifier: 
-  powerUpImage: {fileID: 21300000, guid: dbb21594a5b856241a6033f2468428e2, type: 3}
+  powerUpImageSquare: {fileID: 21300000, guid: dbb21594a5b856241a6033f2468428e2, type: 3}
+  powerUpIconRound: {fileID: 21300000, guid: a317960e540f0174b9a3aae19d028a97, type: 3}
   powerUpText: A strong hit surrounding the player with a shockwave, it can get bigger.
   effectType: 7
   effectValue: 0
