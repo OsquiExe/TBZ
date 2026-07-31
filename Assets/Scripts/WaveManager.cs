@@ -58,7 +58,7 @@ public class WaveManager : MonoBehaviour
        
         if (currentWave == bossWaveIndex)
         {
-            Debug.Log(" ¡ALERTA! OLEADA DEL JEFE FINAL ");
+            Debug.Log("⚠️ ¡ALERTA! OLEADA DEL JEFE FINAL ⚠️");
             
         }
     }
@@ -95,7 +95,7 @@ public class WaveManager : MonoBehaviour
         
         if (currentWave >= bossWaveIndex)
         {
-            Debug.Log(" ¡Jefe derrotado! Victoria.");
+            Debug.Log("🏆 ¡Jefe derrotado! Victoria.");
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.TriggerVictory();
@@ -104,7 +104,7 @@ public class WaveManager : MonoBehaviour
         else
         {
           
-            Debug.Log($" Oleada {currentWave} Superada. Tomando un descanso...");
+            Debug.Log($"✅ Oleada {currentWave} Superada. Tomando un descanso...");
             if (waveText != null) waveText.text = "¡Oleada Superada!";
             StartCoroutine(WaveTransitionRoutine());
         }
