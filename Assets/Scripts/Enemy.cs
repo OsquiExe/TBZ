@@ -27,9 +27,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject xpPickupPrefab;
 
     [Header("Dibi-Coins Drop Settings")]
-    [SerializeField] private GameObject coinPrefab; // ARRASTRA EL PREFAB DE TU MONEDA ACÁ EN UNITY
+    [SerializeField] private GameObject coinPrefab; 
     [Range(0f, 100f)]
-    [SerializeField] private float coinDropChance = 20f; // 20% de probabilidad por defecto
+    [SerializeField] private float coinDropChance = 20f;
 
     [Header("IA Evasión de Obstáculos")]
     [SerializeField] private float detectionRadius = 1.5f;
@@ -153,7 +153,6 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
 
-        // 1. Suelta la Experiencia
         if (xpPickupPrefab != null)
         {
             GameObject droppedXp = Instantiate(xpPickupPrefab, transform.position, Quaternion.identity);
@@ -164,13 +163,13 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // 2. NUEVO: Suelta las Dibi-Coins basado en la probabilidad
+     
         if (coinPrefab != null)
         {
             float randomRoll = Random.Range(0f, 100f);
             if (randomRoll <= coinDropChance)
             {
-                // Instancia la moneda un poquito corrida para que no se pise exacto con la exp
+
                 Vector3 coinPos = transform.position + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
                 Instantiate(coinPrefab, coinPos, Quaternion.identity);
             }

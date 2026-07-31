@@ -195,7 +195,7 @@ public class PowerUpManager : MonoBehaviour
         else
         {
             ownedPowerUps.Add(selectedPowerUp, 1);
-            Debug.Log($"✨ Nuevo PowerUp adquirido: [{selectedPowerUp.powerUpText}] (Nivel 1)");
+            Debug.Log($" Nuevo PowerUp adquirido: [{selectedPowerUp.powerUpText}] (Nivel 1)");
             UpdateActivePowerUpUI(selectedPowerUp);
 
             ApplyNewPowerUpEffect(selectedPowerUp);

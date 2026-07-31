@@ -24,7 +24,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int enemiesIncreasePerWave = 5;
     [SerializeField] private float spawnCooldownMultiplier = 1f;
     [SerializeField] private float timeBetweenWaves = 3f;
-    [SerializeField] private int bossWaveIndex = 16; // Ajustado a 16 como pediste
+    [SerializeField] private int bossWaveIndex = 18; 
 
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class WaveManager : MonoBehaviour
 
         if (currentWave == bossWaveIndex)
         {
-            Debug.Log("⚠️ ¡ALERTA! OLEADA DEL JEFE FINAL ⚠️");
+            Debug.Log(" ¡ALERTA! OLEADA DEL JEFE FINAL ");
         }
     }
 
@@ -86,7 +86,7 @@ public class WaveManager : MonoBehaviour
 
         if (currentWave >= bossWaveIndex)
         {
-            Debug.Log("🏆 ¡Jefe derrotado! Victoria.");
+            Debug.Log(" ¡Jefe derrotado! Victoria.");
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.TriggerVictory();
@@ -94,7 +94,7 @@ public class WaveManager : MonoBehaviour
         }
         else
         {
-            Debug.Log($"✅ Oleada {currentWave} Superada. Tomando un descanso...");
+            Debug.Log($" Oleada {currentWave} Superada. Tomando un descanso...");
             if (waveText != null) waveText.text = "¡Oleada Superada!";
             StartCoroutine(WaveTransitionRoutine());
         }
@@ -125,23 +125,23 @@ public class WaveManager : MonoBehaviour
         return spawnCooldownMultiplier;
     }
 
-    // --- NUEVAS FUNCIONES DE ESCALADO DE ENEMIGOS ---
+
 
     public float GetHealthMultiplier()
     {
-        // Incrementa la vida un 15% extra por cada oleada superada
+
         return 1f + (currentWave * 0.15f);
     }
 
     public float GetDamageMultiplier()
     {
-        // Incrementa el daño un 10% extra por cada oleada superada
+
         return 1f + (currentWave * 0.10f);
     }
 
     public float GetSpeedMultiplier()
     {
-        // Incrementa la velocidad de movimiento un 2% por oleada
+
         return 1f + (currentWave * 0.02f);
     }
 }

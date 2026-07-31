@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using TMPro; // Necesario para crear el texto 3D por código
+using TMPro; 
 
 public class CoinPickup : MonoBehaviour
 {
@@ -12,39 +12,39 @@ public class CoinPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Si ya la agarramos este frame, ignoramos
+  
         if (isCollected) return;
 
-        // Verificamos que sea el jugador
+
         if (collision.CompareTag("Player"))
         {
             isCollected = true;
 
-            // Calculamos la plata
+          
             int coinsToGive = Random.Range(minCoins, maxCoins + 1);
 
-            // Sumamos la plata al sistema
+        
             if (CurrencyManager.Instance != null)
             {
                 CurrencyManager.Instance.AddCoins(coinsToGive);
             }
             else
             {
-                // Fallback por si probás suelto
+          
                 int current = PlayerPrefs.GetInt("DibiCoinsTotal", 0);
                 PlayerPrefs.SetInt("DibiCoinsTotal", current + coinsToGive);
                 PlayerPrefs.Save();
             }
 
-            // 1. Apagamos el dibujo de la moneda para que parezca que la agarramos
+
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null) sr.enabled = false;
 
-            // 2. Apagamos el colisionador para no agarrarla 2 veces
+      
             Collider2D col = GetComponent<Collider2D>();
             if (col != null) col.enabled = false;
 
-            // 3. Disparamos el efecto visual (esta corutina se encarga de destruir la moneda al final)
+
             StartCoroutine(ShowFloatingTextAndDie(coinsToGive));
         }
     }
@@ -58,7 +58,7 @@ public class CoinPickup : MonoBehaviour
 
         TextMeshPro tmpro = textObj.AddComponent<TextMeshPro>();
         tmpro.text = "+" + amount;
-        tmpro.color = Color.yellow; // Color oro
+        tmpro.color = Color.yellow;
         tmpro.fontSize = 6;
         tmpro.fontStyle = FontStyles.Bold;
         tmpro.alignment = TextAlignmentOptions.Center;

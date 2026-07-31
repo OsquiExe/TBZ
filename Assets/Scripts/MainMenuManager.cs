@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; // Esencial para controlar los textos modernos de Unity
+using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
     [Header("UI Monedas")]
-    [SerializeField] private TextMeshProUGUI dibiCoinsText; // Arrastrá acá tu texto de "Dibi-Coins"
+    [SerializeField] private TextMeshProUGUI dibiCoinsText; 
 
     [Header("Paneles de UI (Opcional para el futuro)")]
     public GameObject settingsPanel;
@@ -25,7 +25,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Nos suscribimos al evento: si la plata cambia mientras estamos acá, se actualiza solo
+
         if (CurrencyManager.Instance != null)
         {
             CurrencyManager.Instance.OnCoinsChanged += UpdateCoinsUI;
@@ -34,14 +34,14 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // Siempre es buena práctica desuscribirse al apagar el objeto
+
         if (CurrencyManager.Instance != null)
         {
             CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
         }
     }
 
-    // La función que escribe el número en la pantalla
+
     private void UpdateCoinsUI()
     {
         if (dibiCoinsText != null)
@@ -52,13 +52,12 @@ public class MainMenuManager : MonoBehaviour
             }
             else
             {
-                // Por si arrancas el menú y el CurrencyManager no se cargó todavía
+               
                 dibiCoinsText.text = PlayerPrefs.GetInt("DibiCoinsTotal", 0).ToString();
             }
         }
     }
 
-    // --- MÉTODOS PARA LOS BOTONES PRINCIPALES ---
 
     public void EmpezarMision()
     {
@@ -71,7 +70,7 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene(nombreEscena);
     }
 
-    // --- MÉTODOS PARA BOTONES SECUNDARIOS ---
+
 
     public void AbrirConfiguracion()
     {
@@ -95,7 +94,7 @@ public class MainMenuManager : MonoBehaviour
         Debug.Log("Abriendo Daily Rewards");
     }
 
-    // --- MÉTODO PARA SALIR ---
+
     public void SalirDelJuego()
     {
         Debug.Log("Saliendo del juego...");

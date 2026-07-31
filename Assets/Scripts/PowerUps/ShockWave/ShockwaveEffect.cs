@@ -32,7 +32,7 @@ public class ShockwaveEffect : MonoBehaviour
         float currentDamage = baseDamage + (level * 5f);
         float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.5f));
 
-        Debug.Log($"💥 [PowerUp] ¡Onda Expansiva Nivel {level}! Radio: {currentRadius}, Daño: {currentDamage}, CD: {currentCooldown}s");
+        Debug.Log($" [PowerUp] ¡Onda Expansiva Nivel {level}! Radio: {currentRadius}, Daño: {currentDamage}, CD: {currentCooldown}s");
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, currentRadius);
         foreach (var hit in hitEnemies)

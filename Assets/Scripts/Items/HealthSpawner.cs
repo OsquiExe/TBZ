@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthSpawner : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private GameObject healthPrefab; // Arrastrá acá tu prefab de la cura
+    [SerializeField] private GameObject healthPrefab; 
 
     [Header("Configuración de Aparición")]
     [SerializeField] private float spawnInterval = 25f; 
@@ -39,7 +39,7 @@ public class HealthSpawner : MonoBehaviour
     {
         if (healthPrefab == null)
         {
-            Debug.LogWarning("⚠️ No asignaste el prefab de la cura en el HealthSpawner.");
+            Debug.LogWarning(" No asignaste el prefab de la cura en el HealthSpawner.");
             return;
         }
 
@@ -52,7 +52,7 @@ public class HealthSpawner : MonoBehaviour
 
         Vector3 spawnPos = centerPoint + new Vector3(randomX, randomY, 0f);
 
-        // Creamos la cura
+  
         Instantiate(healthPrefab, spawnPos, Quaternion.identity);
     }
 }

@@ -29,7 +29,7 @@ public class TutorialManager : MonoBehaviour
     private bool isTyping = false;
     private string currentSentence = "";
 
-    // Banderas para saber si ya los mostramos en esta partida
+
     public bool hasShownStartTutorial = false;
     public bool hasShownLevelUpTutorial = false;
 
@@ -39,15 +39,14 @@ public class TutorialManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    // CORRECCIÓN: Ahora Start es una Corutina que espera un frame.
     IEnumerator Start()
     {
         tutorialPanel.SetActive(false);
 
-        // Esperamos un frame para que cualquier otro script que ponga Time.timeScale = 1 termine primero.
+
         yield return new WaitForEndOfFrame();
 
-        // Al arrancar el nivel 1-1, disparamos el tutorial inicial asegurando la pausa.
+
         TriggerStartTutorial();
     }
 
@@ -56,7 +55,7 @@ public class TutorialManager : MonoBehaviour
         if (hasShownStartTutorial) return;
         hasShownStartTutorial = true;
 
-        // Le pasamos 'null' porque al terminar solo queremos despausar
+
         StartDialogue(startTutorial, null);
     }
 
@@ -64,20 +63,19 @@ public class TutorialManager : MonoBehaviour
     {
         if (hasShownLevelUpTutorial)
         {
-            // Si ya lo vimos antes, abrimos los powerups directamente
+
             onComplete?.Invoke();
             return;
         }
         hasShownLevelUpTutorial = true;
 
-        // Le pasamos la función de abrir los powerups para que la ejecute al terminar de hablar
         StartDialogue(levelUpTutorial, onComplete);
     }
 
     private void StartDialogue(DialogueLine[] lines, Action onComplete)
     {
         tutorialPanel.SetActive(true);
-        Time.timeScale = 0f; // Ahora esta pausa sí va a ser la orden definitiva
+        Time.timeScale = 0f; 
         onTutorialComplete = onComplete;
         linesQueue.Clear();
 
@@ -89,12 +87,11 @@ public class TutorialManager : MonoBehaviour
         DisplayNextSentence();
     }
 
-    // ESTA FUNCIÓN VA EN EL ONCLICK DEL BOTÓN DEL PANEL
     public void DisplayNextSentence()
     {
         if (isTyping)
         {
-            // Si el jugador toca la pantalla mientras escribe, autocompleta el texto
+
             StopAllCoroutines();
             dialogueText.text = currentSentence;
             isTyping = false;

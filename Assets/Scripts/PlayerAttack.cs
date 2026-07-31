@@ -132,7 +132,7 @@ public class PlayerAttack : MonoBehaviour
         dashDirection = dir;
         lastDirection = dir;
 
-        OnAttack(); // Acá disparamos el golpe obligatorio
+        OnAttack(); 
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -198,22 +198,20 @@ public class PlayerAttack : MonoBehaviour
             playerController.SetAttackInvulnerability(true);
         }
 
-        // 1. Limpiamos cualquier trigger viejo trabado
         animator.ResetTrigger("Attack");
 
-        // 2. Le pasamos la dirección al FightTree
+
         animator.SetFloat("attackx", lastDirection.x);
         animator.SetFloat("attacky", lastDirection.y);
 
-        // 3. Forzamos el Moving y la dirección normal para que no vuelva a Idle
         animator.SetBool("Moving", true);
         animator.SetFloat("x", lastDirection.x);
         animator.SetFloat("y", lastDirection.y);
 
-        // 4. Disparamos el Trigger normal por seguridad
+
         animator.SetTrigger("Attack");
 
-        // 5. ¡LA SOLUCIÓN! Forzamos la reproducción inmediata del árbol de pelea
+
         animator.Play("FightTree", 0, 0f);
     }
 

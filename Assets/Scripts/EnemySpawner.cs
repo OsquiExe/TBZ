@@ -59,16 +59,16 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
         GameObject newEnemyObj = Instantiate(spawnee, spawnPosition, Quaternion.identity);
 
-        // NUEVO: Escalar al enemigo dependiendo de la ronda actual
+
         Enemy enemyScript = newEnemyObj.GetComponent<Enemy>();
         if (enemyScript != null && WaveManager.Instance != null)
         {
-            // Le pedimos al WaveManager los multiplicadores
+
             float healthMult = WaveManager.Instance.GetHealthMultiplier();
             float damageMult = WaveManager.Instance.GetDamageMultiplier();
             float speedMult = WaveManager.Instance.GetSpeedMultiplier();
 
-            // Inyectamos el poder!
+
             enemyScript.SetupEnemyStats(healthMult, damageMult, speedMult);
         }
     }

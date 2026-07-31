@@ -23,7 +23,7 @@ public class PowerUp : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"⚠️ El PowerUp '{powerUp.name}' NO tiene asignada la imagen CUADRADA en el Inspector.");
+                Debug.LogWarning($" El PowerUp '{powerUp.name}' NO tiene asignada la imagen CUADRADA en el Inspector.");
             }
         }
 
