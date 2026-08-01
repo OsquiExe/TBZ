@@ -5,7 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New PowerUp", menuName = "PowerUp")]
 public class PowerUpSO : ScriptableObject
 {
-    public Sprite powerUpImage;
+    [Header("Visuals (Sprites)")]
+
+    public Sprite powerUpImageSquare;
+    public Sprite powerUpIconRound; 
     public GameObject prefab;
 
     public string powerUpText;
