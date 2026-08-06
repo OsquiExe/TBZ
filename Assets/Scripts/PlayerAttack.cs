@@ -19,14 +19,18 @@ public class PlayerAttack : MonoBehaviour
     private float autoAttackTimer = 0f;
     private float activeAttackTimer = 0f;
 
-    [Header("Dash Settings (Mitad Superior)")]
+    [Header("Dash Settings")]
     public bool isDashing = false;
-    [SerializeField] private float dashSpeed = 15f;
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashSpeed = 40f;
+    [SerializeField] private float dashDuration = 0.35f;
     [SerializeField] private float dashCooldown = 0.5f;
     [SerializeField] private float dashDamage = 2f;
     [SerializeField] private float dashKnockbackForce = 10f;
     [SerializeField] private float minimumSwipeDistance = 50f;
+
+    [SerializeField] private LayerMask playerLayer;
+    private Camera mainCamera;
+    private bool touchStartedOnPlayer = false;
 
     private float dashCooldownTimer = 0f;
     private Vector2 dashDirection;
@@ -41,6 +45,12 @@ public class PlayerAttack : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         autoAttackTimer = autoAttackCooldown;
+
+        mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            Debug.LogError("PlayerAttack: No se encontró la cámara principal tagged como 'MainCamera'.");
+        }
     }
 
     public void Update()
@@ -49,14 +59,6 @@ public class PlayerAttack : MonoBehaviour
         HandleAutoAttack();
         CheckAttackTimer();
         HandleDashInput();
-    }
-
-    private void FixedUpdate()
-    {
-        if (isDashing && playerController != null && playerController.rb != null)
-        {
-            playerController.rb.velocity = dashDirection * dashSpeed;
-        }
     }
 
     public void SyncMovementDirection()
@@ -79,12 +81,10 @@ public class PlayerAttack : MonoBehaviour
             {
                 Touch touch = Input.GetTouch(i);
 
-                if (touch.position.y <= Screen.height / 2f) continue;
-                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touch.fingerId)) continue;
 
                 if (touch.phase == TouchPhase.Began)
                 {
-                    touchStartPos = touch.position;
+                    CheckTouchBegan(touch.position);
                 }
                 else if (touch.phase == TouchPhase.Ended)
                 {
@@ -97,22 +97,46 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (Input.mousePosition.y <= Screen.height / 2f) return;
-                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-                touchStartPos = Input.mousePosition;
+
+                CheckTouchBegan(Input.mousePosition);
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (Input.mousePosition.y <= Screen.height / 2f) return;
-                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
                 touchEndPos = Input.mousePosition;
                 ProcessSwipeGesture();
             }
         }
     }
 
+    private void CheckTouchBegan(Vector2 screenPosition)
+    {
+        if (mainCamera == null) return;
+
+        touchStartPos = screenPosition;
+        touchStartedOnPlayer = false;
+
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPosition);
+        Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
+
+
+        Collider2D[] playerColliders = Physics2D.OverlapCircleAll(worldPos2D, 1.5f, playerLayer);
+
+        foreach (var col in playerColliders)
+        {
+            if (col.gameObject == gameObject)
+            {
+                touchStartedOnPlayer = true;
+                break;
+            }
+        }
+    }
+
     private void ProcessSwipeGesture()
     {
+        if (!touchStartedOnPlayer) return;
+
+        touchStartedOnPlayer = false;
+
         float distance = Vector2.Distance(touchStartPos, touchEndPos);
 
         if (distance >= minimumSwipeDistance)
@@ -132,9 +156,31 @@ public class PlayerAttack : MonoBehaviour
         dashDirection = dir;
         lastDirection = dir;
 
-        OnAttack(); 
+        OnAttack();
 
-        yield return new WaitForSeconds(dashDuration);
+        float elapsed = 0f;
+
+        while (elapsed < dashDuration)
+        {
+            elapsed += Time.fixedDeltaTime;
+            float t = elapsed / dashDuration;
+
+
+            float speedMultiplier = Mathf.Pow(1f - t, 2f);
+            float currentSpeed = dashSpeed * speedMultiplier;
+
+            if (playerController != null && playerController.rb != null)
+            {
+                playerController.rb.velocity = dashDirection * currentSpeed;
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (playerController != null && playerController.rb != null)
+        {
+            playerController.rb.velocity = Vector2.zero;
+        }
 
         isDashing = false;
     }
@@ -200,7 +246,6 @@ public class PlayerAttack : MonoBehaviour
 
         animator.ResetTrigger("Attack");
 
-
         animator.SetFloat("attackx", lastDirection.x);
         animator.SetFloat("attacky", lastDirection.y);
 
@@ -208,9 +253,7 @@ public class PlayerAttack : MonoBehaviour
         animator.SetFloat("x", lastDirection.x);
         animator.SetFloat("y", lastDirection.y);
 
-
         animator.SetTrigger("Attack");
-
 
         animator.Play("FightTree", 0, 0f);
     }
@@ -232,11 +275,5 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyDetectionRadius);
     }
 }

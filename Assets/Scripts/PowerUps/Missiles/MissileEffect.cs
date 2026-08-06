@@ -9,7 +9,6 @@ public class MissileEffect : MonoBehaviour
 
     [Header("Settings de la Bomba")]
     [SerializeField] private float explosionRadius = 3f;
-    [SerializeField] private float baseDamage = 15f;
     [SerializeField] private float fuseTime = 1.5f;
     [SerializeField] private float baseCooldown = 10f;
     [SerializeField] private float minCooldown = 4f;
@@ -17,7 +16,6 @@ public class MissileEffect : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-
 
         float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.2f));
 
@@ -31,10 +29,12 @@ public class MissileEffect : MonoBehaviour
     private void SpawnBombs()
     {
         int bombsToSpawn = level;
-        float currentDamage = baseDamage + (level * 5f);
+
+
+        float currentDamage = 2f * level;
         float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.2f));
 
-        Debug.Log($"💣 [PowerUp] ¡Misiles Capibara Nivel {level}! Tirando {bombsToSpawn} misiles. CD: {currentCooldown}s");
+        Debug.Log($"💣 [PowerUp] ¡Misiles Nivel {level}! Tirando {bombsToSpawn} misiles. Daño: {currentDamage}. CD: {currentCooldown}s");
 
         for (int i = 0; i < bombsToSpawn; i++)
         {

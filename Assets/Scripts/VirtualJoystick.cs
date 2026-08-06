@@ -19,7 +19,6 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
         }
     }
 
-
     public void ResetJoystick()
     {
         inputVector = Vector2.zero;
@@ -29,10 +28,19 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-       
         if (PowerUpManager.Instance != null && PowerUpManager.Instance.uiPowerUpSelect != null && PowerUpManager.Instance.uiPowerUpSelect.activeInHierarchy) return;
 
-        if (eventData.position.y > Screen.height / 2f) return;
+ 
+        if (Camera.main != null)
+        {
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
+            Collider2D[] hits = Physics2D.OverlapPointAll(new Vector2(worldPos.x, worldPos.y));
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Player")) return; 
+            }
+        }
+
 
         if (joystickBackground != null)
         {

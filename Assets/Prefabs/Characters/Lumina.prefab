@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1220810775822676830}
   - component: {fileID: 3276323798921607437}
   - component: {fileID: 8218597491181544451}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Lumina
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -224,13 +224,17 @@ MonoBehaviour:
   isAttacking: 0
   attackDuration: 0.3
   autoAttackCooldown: 1
+  enemyDetectionRadius: 2.5
   isDashing: 0
-  dashSpeed: 15
-  dashDuration: 0.2
+  dashSpeed: 40
+  dashDuration: 0.5
   dashCooldown: 0.5
   dashDamage: 2
   dashKnockbackForce: 10
   minimumSwipeDistance: 50
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
   lastDirection: {x: 0, y: -1}
 --- !u!1 &5035691568137829167
 GameObject:

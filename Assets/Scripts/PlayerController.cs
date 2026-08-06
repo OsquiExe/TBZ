@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float currentHealth;
     [SerializeField] public float maxHealth = 100f;
-    [SerializeField] private Image healthBarFill;
+    public Image healthBarFill;
 
     [Header("Inactividad Castigo")]
     [SerializeField] private float timeBeforeDrain = 5f;
