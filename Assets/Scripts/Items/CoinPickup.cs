@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using TMPro; 
+using TMPro;
 
 public class CoinPickup : MonoBehaviour
 {
@@ -12,38 +12,37 @@ public class CoinPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-  
         if (isCollected) return;
-
 
         if (collision.CompareTag("Player"))
         {
             isCollected = true;
 
-          
             int coinsToGive = Random.Range(minCoins, maxCoins + 1);
 
-        
-            if (CurrencyManager.Instance != null)
+
+            if (GameManager.Instance != null)
             {
+                GameManager.Instance.AddCoinsToRun(coinsToGive);
+            }
+            else if (CurrencyManager.Instance != null)
+            {
+
                 CurrencyManager.Instance.AddCoins(coinsToGive);
             }
             else
             {
-          
+                // Fallback clásico
                 int current = PlayerPrefs.GetInt("DibiCoinsTotal", 0);
                 PlayerPrefs.SetInt("DibiCoinsTotal", current + coinsToGive);
                 PlayerPrefs.Save();
             }
 
-
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null) sr.enabled = false;
 
-      
             Collider2D col = GetComponent<Collider2D>();
             if (col != null) col.enabled = false;
-
 
             StartCoroutine(ShowFloatingTextAndDie(coinsToGive));
         }
@@ -51,9 +50,7 @@ public class CoinPickup : MonoBehaviour
 
     private IEnumerator ShowFloatingTextAndDie(int amount)
     {
-
         GameObject textObj = new GameObject("CoinFeedback");
- 
         textObj.transform.position = transform.position + Vector3.up * 0.5f;
 
         TextMeshPro tmpro = textObj.AddComponent<TextMeshPro>();
@@ -62,24 +59,21 @@ public class CoinPickup : MonoBehaviour
         tmpro.fontSize = 6;
         tmpro.fontStyle = FontStyles.Bold;
         tmpro.alignment = TextAlignmentOptions.Center;
-        tmpro.sortingOrder = 50; 
+        tmpro.sortingOrder = 50;
 
-  
-        float duration = 1f; 
+        float duration = 1f;
         float elapsed = 0f;
 
         Vector3 startPos = textObj.transform.position;
-        Vector3 endPos = startPos + Vector3.up * 1.5f; 
+        Vector3 endPos = startPos + Vector3.up * 1.5f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
 
-      
             textObj.transform.position = Vector3.Lerp(startPos, endPos, Mathf.Sin(t * Mathf.PI * 0.5f));
 
-       
             Color c = tmpro.color;
             c.a = Mathf.Lerp(1f, 0f, t);
             tmpro.color = c;
@@ -87,8 +81,7 @@ public class CoinPickup : MonoBehaviour
             yield return null;
         }
 
-
-        Destroy(textObj); 
-        Destroy(gameObject); 
+        Destroy(textObj);
+        Destroy(gameObject);
     }
 }

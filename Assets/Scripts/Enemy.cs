@@ -12,6 +12,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector2 moveDirection;
 
+    [Header("Feedback Visual de Daño")]
+    [SerializeField] private float flashDuration = 0.1f; 
+    private SpriteRenderer[] allRenderers;
+    private Material[] originalMaterials; 
+    private Material whiteFlashMaterial; 
+
     [Header("Vida")]
     [SerializeField] private float health;
     [SerializeField] private float maxHealth = 5f;
@@ -27,7 +33,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject xpPickupPrefab;
 
     [Header("Dibi-Coins Drop Settings")]
-    [SerializeField] private GameObject coinPrefab; 
+    [SerializeField] private GameObject coinPrefab;
     [Range(0f, 100f)]
     [SerializeField] private float coinDropChance = 20f;
 
@@ -42,6 +48,18 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         enemyRb = GetComponent<Rigidbody2D>();
+
+        allRenderers = GetComponentsInChildren<SpriteRenderer>();
+        originalMaterials = new Material[allRenderers.Length];
+
+        for (int i = 0; i < allRenderers.Length; i++)
+        {
+            originalMaterials[i] = allRenderers[i].material;
+        }
+
+
+        whiteFlashMaterial = new Material(Shader.Find("GUI/Text Shader"));
+        whiteFlashMaterial.color = Color.white;
     }
 
     private void Start()
@@ -120,6 +138,12 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
+
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(DamageFlashRoutine());
+        }
+
         health -= damage;
         if (health <= 0)
         {
@@ -130,6 +154,26 @@ public class Enemy : MonoBehaviour
             ApplyKnockback(force);
         }
     }
+
+
+    private IEnumerator DamageFlashRoutine()
+    {
+
+        for (int i = 0; i < allRenderers.Length; i++)
+        {
+            if (allRenderers[i] != null) allRenderers[i].material = whiteFlashMaterial;
+        }
+
+
+        yield return new WaitForSeconds(flashDuration);
+
+  
+        for (int i = 0; i < allRenderers.Length; i++)
+        {
+            if (allRenderers[i] != null) allRenderers[i].material = originalMaterials[i];
+        }
+    }
+
 
     public void ApplyKnockback(Vector2 force)
     {
@@ -163,15 +207,16 @@ public class Enemy : MonoBehaviour
             }
         }
 
-     
-        if (coinPrefab != null)
+        if (WaveManager.Instance != null && WaveManager.Instance.currentWave % 4 == 0)
         {
-            float randomRoll = Random.Range(0f, 100f);
-            if (randomRoll <= coinDropChance)
+            if (coinPrefab != null)
             {
-
-                Vector3 coinPos = transform.position + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
-                Instantiate(coinPrefab, coinPos, Quaternion.identity);
+                float randomRoll = Random.Range(0f, 100f);
+                if (randomRoll <= coinDropChance)
+                {
+                    Vector3 coinPos = transform.position + new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
+                    Instantiate(coinPrefab, coinPos, Quaternion.identity);
+                }
             }
         }
 

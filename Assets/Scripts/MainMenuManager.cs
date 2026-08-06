@@ -7,7 +7,7 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("UI Monedas")]
-    [SerializeField] private TextMeshProUGUI dibiCoinsText; 
+    [SerializeField] private TextMeshProUGUI dibiCoinsText;
 
     [Header("Paneles de UI (Opcional para el futuro)")]
     public GameObject settingsPanel;
@@ -21,10 +21,6 @@ public class MainMenuManager : MonoBehaviour
         if (storePanel != null) storePanel.SetActive(false);
 
         UpdateCoinsUI();
-    }
-
-    private void OnEnable()
-    {
 
         if (CurrencyManager.Instance != null)
         {
@@ -32,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
 
         if (CurrencyManager.Instance != null)
@@ -40,7 +36,6 @@ public class MainMenuManager : MonoBehaviour
             CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
         }
     }
-
 
     private void UpdateCoinsUI()
     {
@@ -52,12 +47,10 @@ public class MainMenuManager : MonoBehaviour
             }
             else
             {
-               
                 dibiCoinsText.text = PlayerPrefs.GetInt("DibiCoinsTotal", 0).ToString();
             }
         }
     }
-
 
     public void EmpezarMision()
     {
@@ -69,8 +62,6 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene(nombreEscena);
     }
-
-
 
     public void AbrirConfiguracion()
     {
@@ -93,7 +84,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log("Abriendo Daily Rewards");
     }
-
 
     public void SalirDelJuego()
     {

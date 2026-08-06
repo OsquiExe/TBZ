@@ -8,14 +8,12 @@ public class ShockwaveEffect : MonoBehaviour
 
     [Header("Settings de la Onda")]
     [SerializeField] private float baseRadius = 15f;
-    [SerializeField] private float baseDamage = 10f;
     [SerializeField] private float baseCooldown = 15f;
     [SerializeField] private float minCooldown = 7f;
 
     private void Update()
     {
         timer += Time.deltaTime;
-
 
         float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.5f));
 
@@ -29,10 +27,12 @@ public class ShockwaveEffect : MonoBehaviour
     private void TriggerShockwave()
     {
         float currentRadius = baseRadius + (level * 2f);
-        float currentDamage = baseDamage + (level * 5f);
+
+
+        float currentDamage = 2f * level;
         float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.5f));
 
-        Debug.Log($" [PowerUp] ¡Onda Expansiva Nivel {level}! Radio: {currentRadius}, Daño: {currentDamage}, CD: {currentCooldown}s");
+        Debug.Log($"🌊 [PowerUp] ¡Onda Expansiva Nivel {level}! Radio: {currentRadius}, Daño: {currentDamage}, CD: {currentCooldown}s");
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, currentRadius);
         foreach (var hit in hitEnemies)

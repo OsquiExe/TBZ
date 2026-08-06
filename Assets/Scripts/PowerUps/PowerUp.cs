@@ -18,7 +18,9 @@ public class PowerUp : MonoBehaviour
             if (powerUp.powerUpImageSquare != null)
             {
                 powerUpImageRenderer.sprite = powerUp.powerUpImageSquare;
-                powerUpImageRenderer.sortingLayerName = "Default";
+
+    
+                powerUpImageRenderer.sortingLayerName = "MenuSuperior";
                 powerUpImageRenderer.sortingOrder = 50;
             }
             else
@@ -30,6 +32,9 @@ public class PowerUp : MonoBehaviour
         if (powerUpTextRenderer != null)
         {
             powerUpTextRenderer.text = powerUp.powerUpText;
+
+       
+            powerUpTextRenderer.sortingLayerID = SortingLayer.NameToID("MenuSuperior");
             powerUpTextRenderer.sortingOrder = 51;
         }
     }

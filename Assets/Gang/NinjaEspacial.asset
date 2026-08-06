@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af738da3e57127a4383f7846b4b757cb, type: 3}
+  m_Name: NinjaEspacial
+  m_EditorClassIdentifier: 
+  price: 5
+  characterName: Ninja Espacial
+  characterIcon: {fileID: 21300000, guid: c3d36707713409940826fd6ccf4b74cc, type: 3}
+  characterPrefab: {fileID: 3907457022894481783, guid: 44d3eabf9cbe20e44b9164994d2c95a8, type: 3}
+  baseHealth: 100
+  baseDamage: 10
+  baseSpeed: 5
