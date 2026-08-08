@@ -4,28 +4,59 @@ using UnityEngine;
 
 namespace PowerUps {
     public class Missil : PowerUpClass {
-        [SerializeField] Rigidbody2D bullet;
-        [SerializeField] float rotation = -45;
-        [SerializeField] float bulletVelocity = 10;
+        [SerializeField] GameObject bulletPrefabs;
+        [SerializeField] List<Rigidbody2D> spawnedBullets = new();
+        [SerializeField] List<Weapon> spawnedBulletsTriggers = new();
 
-        private void Awake() {
-            bullet.transform.parent = null;
-        }
+        [Space(10)]
+        [SerializeField] float[] possibleRotations = { -45, 45, 225, 135 };
+        [SerializeField] float bulletVelocity = 10;
+        [SerializeField] int[] amountOfBullets = { 1, 3, 4, 8 };
+        [SerializeField] int[] damages = { 2, 4, 6, 8 };
+
 
         protected override void OnCooldownEnds() {
-            transform.localEulerAngles = new Vector3(0, 0, rotation);
-            bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            if(nivel - 1 < 0) return;
 
-            bullet.gameObject.SetActive(true);
-            bullet.velocity = -bullet.transform.right * bulletVelocity;
+            if(spawnedBullets.Count - 1 < amountOfBullets[nivel - 1]) {
+                int needToSpawn = amountOfBullets[nivel - 1] - spawnedBullets.Count;
+                for(int i = 0; i < needToSpawn; i++) {
+                    GameObject bullet = Instantiate(bulletPrefabs, null);
+                    spawnedBullets.Add(bullet.GetComponent<Rigidbody2D>());
+                    spawnedBulletsTriggers.Add(bullet.GetComponentInChildren<Weapon>(true));
+                }
+            }
+
+            for(int i = 0; i < spawnedBullets.Count; i++) {
+                transform.localEulerAngles = new Vector3(0, 0, possibleRotations[Random.Range(0, possibleRotations.Length)]);
+
+                Rigidbody2D bullet = spawnedBullets[i];
+
+                bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
+
+                bullet.gameObject.SetActive(true);
+                bullet.velocity = -bullet.transform.right * bulletVelocity;
+
+                spawnedBulletsTriggers[i].damage = damages[nivel - 1];
+            }
         }
 
         protected override void OnCooldownStarts() {
-            bullet.gameObject.SetActive(false);
+            for(int i = 0; i < spawnedBullets.Count; i++) {
+                Rigidbody2D bullet = spawnedBullets[i];
+                bullet.gameObject.SetActive(false);
+            }
         }
 
         protected override void OnUpdate() {
             base.OnUpdate();
+        }
+
+        private void OnDestroy() {
+            for(int i = 0; i < spawnedBullets.Count; i++) {
+                Rigidbody2D bullet = spawnedBullets[i];
+                if(bullet != null && bullet.gameObject != null) Destroy(bullet.gameObject);
+            }
         }
     }
 

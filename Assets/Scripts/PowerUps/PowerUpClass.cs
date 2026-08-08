@@ -9,7 +9,10 @@ public class PowerUpClass : MonoBehaviour
     [SerializeField] protected float cooldown = 5f;
     float activeTime = 0;
 
+    [SerializeField] protected int nivel = 1;
+
     private void Start() {
+        nivel = 1;
         OnCooldownEnds();
     }
 
@@ -41,4 +44,15 @@ public class PowerUpClass : MonoBehaviour
     protected virtual void OnCooldownStarts() { }
     protected virtual void OnCooldownEnds() { }
     protected virtual void OnUpdate() { }
+    protected virtual void OnUpgrade() { }
+
+    public void Upgrade() {
+        nivel++;
+        OnUpgrade();
+    }
+
+    public void Upgrade(int _n) {
+        nivel = _n;
+        OnUpgrade();
+    }
 }

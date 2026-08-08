@@ -51,6 +51,14 @@ public class PowerUpManager : MonoBehaviour
         HidePowerUpSelection();
     }
 
+    private void Update() {
+#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.P)) {
+            ExperienceManager.Instance.AddExperience(10);
+        }
+#endif
+    }
+
     public void ShowPowerUpSelection()
     {
         if (TutorialManager.Instance != null && !TutorialManager.Instance.hasShownLevelUpTutorial)
@@ -240,6 +248,19 @@ public class PowerUpManager : MonoBehaviour
             MissileEffect missileEffect = player.gameObject.AddComponent<MissileEffect>();
             missileEffect.level = 1;
         }
+
+        //Spawn the power Up
+        Transform playerTransform = PlayerController.GetPlayerTransform?.Invoke();
+        if(playerTransform == null) {
+            Debug.LogWarning("No hay ningun jugador en la escena!");
+
+            return;
+        }
+
+        if(powerUp.prefab != null) {
+            Instantiate(powerUp.prefab, playerTransform);
+        }
+
     }
 
     // ACTUALIZADOR DE NIVELES
@@ -275,6 +296,11 @@ public class PowerUpManager : MonoBehaviour
             MissileEffect missileEffect = player.GetComponent<MissileEffect>();
             if (missileEffect != null) missileEffect.level = newLevel;
         }
+
+        if(powerUp.prefab == null) return;
+        Type powerUpClass = powerUp.prefab.GetComponent<PowerUpClass>().GetType();
+        var PowerUpObject = (PowerUpClass)player.GetComponentInChildren(powerUpClass, true);
+        PowerUpObject.Upgrade(newLevel);
     }
 
     public void SkipPowerUp()
