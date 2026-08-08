@@ -57,12 +57,12 @@ public class WaveManager : MonoBehaviour
         {
             Debug.Log("🚨 ¡ALERTA! OLEADA DEL JEFE FINAL 🚨");
 
-      
-            totalEnemiesThisWave = 41;
+
+            totalEnemiesThisWave = 1;
             isWaveActive = true;
             UpdateUI();
 
-            SpawnBoss(); 
+            SpawnBoss();
         }
         else
         {
@@ -90,21 +90,18 @@ public class WaveManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector3 centerPoint = player != null ? player.transform.position : transform.position;
 
-
         Vector3 spawnPosition = centerPoint + new Vector3(0, spawnRadiusY, 0f);
 
         GameObject bossObj = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
 
 
-        Enemy bossScript = bossObj.GetComponent<Enemy>();
+        JefeController bossScript = bossObj.GetComponent<JefeController>();
         if (bossScript != null)
         {
-
-            bossScript.SetupEnemyStats(20f, 3f, 0.6f);
-
-
-            bossObj.transform.localScale = new Vector3(3f, 3f, 3f);
+            bossScript.vidaMaxima = 1500f; 
         }
+
+        bossObj.transform.localScale = new Vector3(3f, 3f, 3f);
 
         enemiesSpawnedThisWave++;
         Debug.Log("💀 ¡EL JEFE HA APARECIDO!");
