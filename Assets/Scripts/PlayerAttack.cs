@@ -189,18 +189,26 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isDashing)
         {
+            float totalDamage = dashDamage;
+            DamageIncreaseEffect dmgEffect = GetComponent<DamageIncreaseEffect>();
+
+            if (dmgEffect != null)
+            {
+                totalDamage += dmgEffect.GetExtraDamage();
+            }
+
+
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                float totalDamage = dashDamage;
-                DamageIncreaseEffect dmgEffect = GetComponent<DamageIncreaseEffect>();
-
-                if (dmgEffect != null)
-                {
-                    totalDamage += dmgEffect.GetExtraDamage();
-                }
-
                 enemy.TakeDamage(totalDamage, dashDirection * dashKnockbackForce);
+            }
+
+
+            JefeController jefe = collision.gameObject.GetComponent<JefeController>();
+            if (jefe != null)
+            {
+                jefe.RecibirDano(totalDamage);
             }
         }
     }
@@ -223,10 +231,17 @@ public class PlayerAttack : MonoBehaviour
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
         foreach (var hit in hitColliders)
         {
+
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null && !enemy.isDead)
             {
                 return true;
+            }
+
+            JefeController jefe = hit.GetComponent<JefeController>();
+            if (jefe != null)
+            {
+                return true; 
             }
         }
         return false;
