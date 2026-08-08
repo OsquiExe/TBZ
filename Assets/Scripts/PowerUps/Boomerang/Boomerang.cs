@@ -10,6 +10,11 @@ namespace PowerUps {
         [SerializeField] SpriteRenderer renderer;
         [SerializeField] Collider2D dmgScript;
 
+        [SerializeField] Weapon triggerDmg;
+
+        [SerializeField] float[] sizes;
+        [SerializeField] int[] damages = { 2, 4, 6, 8 };
+
         protected override void OnUpdate() {
             transform.Rotate(new Vector3(0, 0, 1), speed * Time.deltaTime, Space.Self);
         }
@@ -28,6 +33,9 @@ namespace PowerUps {
 
             renderer.color = c;
             dmgScript.enabled = true;
+
+            triggerDmg.damage = damages[nivel - 1];
+            dmgScript.transform.localScale = Vector3.one * sizes[nivel - 1]; 
         }
     }
 

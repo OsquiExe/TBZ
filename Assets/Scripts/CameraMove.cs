@@ -62,8 +62,8 @@ public class CameraMove : MonoBehaviour
       
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
 
-        
-        transform.position = smoothedPosition + currentShakeOffset;
+        //Se multiplica currentShakeOffset * Time.timeScale porque si el juego esta pausado mientras el efecto esta activado la camara se mueve muy lejos del jugador
+        transform.position = smoothedPosition + (currentShakeOffset * Time.timeScale);
     }
 
 

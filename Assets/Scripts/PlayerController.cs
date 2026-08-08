@@ -45,10 +45,16 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAttack playerAttack;
 
+    public delegate Transform GetTransform();
+    public static GetTransform GetPlayerTransform;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAttack = GetComponent<PlayerAttack>();
+
+        GetPlayerTransform = OnGetPlayerTransform;
+
         currentHealth = maxHealth;
         UpdateHealthUI();
     }
@@ -210,4 +216,6 @@ public class PlayerController : MonoBehaviour
         currentExperience = 0;
         maxExperience += 100;
     }
+
+    Transform OnGetPlayerTransform() { return transform; }
 }
