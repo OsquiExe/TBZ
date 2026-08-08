@@ -47,9 +47,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 10
   cooldown: 5
+  nivel: 1
   speed: 1000
   renderer: {fileID: 2796065979496030301}
   dmgScript: {fileID: 7337587752304031399}
+  triggerDmg: {fileID: 5196267219173368121}
+  sizes:
+  - 1
+  - 1.2
+  - 1.4
+  - 1.5
+  damages: 02000000040000000600000008000000
 --- !u!1 &7889693636571829883
 GameObject:
   m_ObjectHideFlags: 0
