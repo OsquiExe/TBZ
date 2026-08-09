@@ -41,6 +41,13 @@ public class PlayerAttack : MonoBehaviour
 
     private PlayerController playerController;
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
@@ -168,6 +175,7 @@ public class PlayerAttack : MonoBehaviour
 
             float speedMultiplier = Mathf.Pow(1f - t, 2f);
             float currentSpeed = dashSpeed * speedMultiplier;
+            AudioManager.PlaySFX(AudioManager.dashSFX);
 
             if (playerController != null && playerController.rb != null)
             {
@@ -202,6 +210,7 @@ public class PlayerAttack : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(totalDamage, dashDirection * dashKnockbackForce);
+                AudioManager.PlaySFX(AudioManager.punchSFX);
             }
 
 
@@ -209,6 +218,7 @@ public class PlayerAttack : MonoBehaviour
             if (jefe != null)
             {
                 jefe.RecibirDano(totalDamage);
+                AudioManager.PlaySFX(AudioManager.punchSFX);
             }
         }
     }
