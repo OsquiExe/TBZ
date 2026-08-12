@@ -15,8 +15,15 @@ namespace PowerUps {
         [SerializeField] float[] sizes;
         [SerializeField] int[] damages = { 2, 4, 6, 8 };
 
+        AudioManager AudioManager;
+
+        private void Awake()
+        {
+            AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        }
+
         protected override void OnUpdate() {
-            transform.Rotate(new Vector3(0, 0, 1), speed * Time.deltaTime, Space.Self);
+            transform.Rotate(new Vector3(0, 0, 1), speed * Time.deltaTime, Space.Self);            
         }
 
         protected override void OnCooldownStarts() {
@@ -35,7 +42,8 @@ namespace PowerUps {
             dmgScript.enabled = true;
 
             triggerDmg.damage = damages[nivel - 1];
-            dmgScript.transform.localScale = Vector3.one * sizes[nivel - 1]; 
+            dmgScript.transform.localScale = Vector3.one * sizes[nivel - 1];
+            AudioManager.PlaySFX(AudioManager.boomerangSFX);
         }
     }
 

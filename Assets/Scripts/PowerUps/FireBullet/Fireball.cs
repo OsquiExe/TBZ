@@ -18,8 +18,11 @@ namespace PowerUps {
         [SerializeField] float[] sizes;
         Vector2 originalSize;
 
+        AudioManager AudioManager;
+
         private void Awake() {
             originalSize = bulletPrefabs.transform.localScale;
+            AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         }
 
         protected override void OnCooldownEnds() {
@@ -32,6 +35,7 @@ namespace PowerUps {
                     spawnedBullets.Add(bullet.GetComponent<Rigidbody2D>());
                     spawnedBulletsTriggers.Add(bullet.GetComponent<Weapon>());
                 }
+                AudioManager.PlaySFX(AudioManager.fireBallSFX);
             }
 
             for(int i = 0; i < spawnedBullets.Count; i++) {

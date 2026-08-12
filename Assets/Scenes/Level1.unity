@@ -2217,7 +2217,7 @@ MonoBehaviour:
   missileSFX: {fileID: 8300000, guid: a580026ee66cdbd4593d90a5a1cb9a17, type: 3}
   laserSFX: {fileID: 8300000, guid: d779e40f3ae7e1e49ac37751af8bdc7f, type: 3}
   bombDecoysSFX: {fileID: 8300000, guid: 74f2bc5728e229d4db647daa09746d7e, type: 3}
-  boomerangSFX: {fileID: 0}
+  boomerangSFX: {fileID: 8300000, guid: 5d099bd6d5b5b254ca18f2382dfc758a, type: 3}
   fireBallSFX: {fileID: 8300000, guid: 88d5ae727a7eae54eaadf75fd15ae54c, type: 3}
   snakesSFX: {fileID: 8300000, guid: 47ef30b9597817d439d21a6b514b6073, type: 3}
   shockwaveSFX: {fileID: 8300000, guid: ac0b8175b4395bc4a8871733cddf9e17, type: 3}
@@ -11908,7 +11908,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ea29c89a02092ef4bb923911c73de452, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e505b06ac80ad9747be0cf8bd7908b23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

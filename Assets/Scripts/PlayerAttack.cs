@@ -175,7 +175,6 @@ public class PlayerAttack : MonoBehaviour
 
             float speedMultiplier = Mathf.Pow(1f - t, 2f);
             float currentSpeed = dashSpeed * speedMultiplier;
-            AudioManager.PlaySFX(AudioManager.dashSFX);
 
             if (playerController != null && playerController.rb != null)
             {
