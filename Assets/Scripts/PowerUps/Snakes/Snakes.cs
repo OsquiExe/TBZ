@@ -8,8 +8,11 @@ namespace PowerUps {
         [SerializeField] float[] possibleRotations = { -45, 45, 225, 135 };
         [SerializeField] float bulletVelocity = 10;
 
+        AudioManager AudioManager;
+
         private void Awake() {
             bullet.transform.parent = null;
+            AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         }
 
         protected override void OnCooldownEnds() {
@@ -18,6 +21,7 @@ namespace PowerUps {
 
             bullet.gameObject.SetActive(true);
             bullet.velocity = -bullet.transform.right * bulletVelocity;
+            AudioManager.PlaySFX(AudioManager.snakesSFX);
         }
 
         protected override void OnCooldownStarts() {

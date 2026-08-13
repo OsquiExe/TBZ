@@ -7,8 +7,16 @@ public class LaserBullet : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] float speedMult = 1;
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnEnable() {
         rb.AddForce(transform.right * speedMult, ForceMode2D.Impulse);
+        AudioManager.PlaySFX(AudioManager.laserSFX);
     }
 
     private void OnDisable() {

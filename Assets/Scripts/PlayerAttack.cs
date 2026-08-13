@@ -152,6 +152,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 Vector2 swipeDir = (touchEndPos - touchStartPos).normalized;
                 StartCoroutine(DashRoutine(swipeDir));
+                AudioManager.PlaySFX(AudioManager.dashSFX);
             }
         }
     }
