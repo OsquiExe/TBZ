@@ -18,26 +18,35 @@ namespace PowerUps {
         protected override void OnCooldownEnds() {
             if(nivel - 1 < 0) return;
 
-            if(spawnedBullets.Count - 1 < amountOfBullets[nivel - 1]) {
-                int needToSpawn = amountOfBullets[nivel - 1] - spawnedBullets.Count;
-                for(int i = 0; i < needToSpawn; i++) {
-                    GameObject bullet = Instantiate(bulletPrefabs, null);
-                    spawnedBullets.Add(bullet.GetComponent<Rigidbody2D>());
-                    spawnedBulletsTriggers.Add(bullet.GetComponentInChildren<Weapon>(true));
+            StartCoroutine(spawnBullets());
+
+            IEnumerator spawnBullets() {
+                if(spawnedBullets.Count - 1 < amountOfBullets[nivel - 1]) {
+                    int needToSpawn = amountOfBullets[nivel - 1] - spawnedBullets.Count;
+                    for(int i = 0; i < needToSpawn; i++) {
+                        GameObject bullet = Instantiate(bulletPrefabs, null);
+                        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+                        yield return null;
+                        Weapon w = bullet.GetComponentInChildren<Weapon>(true);
+
+                        spawnedBullets.Add(rb);
+                        spawnedBulletsTriggers.Add(w);
+                    }
                 }
-            }
 
-            for(int i = 0; i < spawnedBullets.Count; i++) {
-                transform.localEulerAngles = new Vector3(0, 0, possibleRotations[Random.Range(0, possibleRotations.Length)]);
+                for(int i = 0; i < spawnedBullets.Count; i++) {
+                    transform.localEulerAngles = new Vector3(0, 0, possibleRotations[Random.Range(0, possibleRotations.Length)]);
 
-                Rigidbody2D bullet = spawnedBullets[i];
+                    Rigidbody2D bullet = spawnedBullets[i];
 
-                bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                    bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
-                bullet.gameObject.SetActive(true);
-                bullet.velocity = -bullet.transform.right * bulletVelocity;
+                    bullet.gameObject.SetActive(true);
+                    bullet.velocity = -bullet.transform.right * bulletVelocity;
 
-                spawnedBulletsTriggers[i].damage = damages[nivel - 1];
+                    spawnedBulletsTriggers[i].damage = damages[nivel - 1];
+                }
             }
         }
 

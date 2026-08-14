@@ -7,6 +7,7 @@ namespace PowerUps {
 
         [Space(10)]
         [SerializeField] float speed = 80;
+        [SerializeField] float boomberangRotation = 120;
         [SerializeField] SpriteRenderer renderer;
         [SerializeField] Collider2D dmgScript;
 
@@ -23,7 +24,8 @@ namespace PowerUps {
         }
 
         protected override void OnUpdate() {
-            transform.Rotate(new Vector3(0, 0, 1), speed * Time.deltaTime, Space.Self);            
+            transform.Rotate(new Vector3(0, 0, 1), speed * Time.deltaTime, Space.Self);
+            triggerDmg.transform.Rotate(new Vector3(0, 0, 1), boomberangRotation * Time.deltaTime, Space.Self);
         }
 
         protected override void OnCooldownStarts() {

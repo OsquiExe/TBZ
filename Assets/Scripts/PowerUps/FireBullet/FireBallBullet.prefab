@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2201736575199689771}
   - component: {fileID: 1842646708710692464}
   - component: {fileID: 6395701855796352420}
+  - component: {fileID: 6874608882114225395}
   m_Layer: 0
   m_Name: FireBallBullet
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e3f87f7929fe5d4397d443d24ca7df5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -123,7 +124,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3.07, y: 3.16}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -173,3 +174,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6874608882114225395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083453197693959633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46943b0baa133d469edab035bb9b897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 5e3f87f7929fe5d4397d443d24ca7df5, type: 3}
+  - {fileID: 21300000, guid: ee37bffee6d60264e9c7b7b1bece0f67, type: 3}
+  - {fileID: 21300000, guid: 1c916b35606a39c43bece55e4bdbf646, type: 3}
+  - {fileID: 21300000, guid: 43f9923271a1e424d90cfa67a0e335d8, type: 3}
+  - {fileID: 21300000, guid: cee4e50e6c6812545a199f49d68e9015, type: 3}
+  renderer: {fileID: 2839918147649305099}
+  timeBetweenFrames: 0.05
+  size: 0.5
+  autoPlay: 1
+  loop: 0

@@ -14,10 +14,15 @@ public class SnakeBullet : MonoBehaviour
 
     [Space(10)]
     [SerializeField] Rigidbody2D rb;
+    [SerializeField] TrailRenderer tail;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
         positive = 1;
+    }
+
+    private void OnEnable() {
+        tail.Clear();
     }
 
     private void FixedUpdate() {

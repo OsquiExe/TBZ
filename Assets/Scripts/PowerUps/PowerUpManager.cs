@@ -20,8 +20,17 @@ public class PowerUpManager : MonoBehaviour
     private const int maxFreeRerolls = 3;
 
     [Header("Active PowerUps UI (Lateral)")]
-    [SerializeField] private Image[] activePowerUpSlots;
+    [SerializeField] private Sprite rayoOff;
+    [SerializeField] private Sprite rayoOn;
+
+    [SerializeField] private powerUpDeck[] activePowerUpSlots;
     private int currentSlotIndex = 0;
+
+    [System.Serializable]
+    public struct powerUpDeck {
+        public Image activePowerUp;
+        public Image[] rayos;
+    }
 
     [Header("Settings del Inventario")]
     [SerializeField] private List<PowerUpSO> deck;
@@ -243,7 +252,7 @@ public class PowerUpManager : MonoBehaviour
         }
 
         // 4. Misiles (Antes Capybara Bomb)
-        if (powerUp.name.Contains("Missile"))
+        if (powerUp.name.Contains("Decoys"))
         {
             MissileEffect missileEffect = player.gameObject.AddComponent<MissileEffect>();
             missileEffect.level = 1;
@@ -291,7 +300,7 @@ public class PowerUpManager : MonoBehaviour
         }
 
         // 4. Misiles
-        if (powerUp.name.Contains("Missile"))
+        if (powerUp.name.Contains("Decoys"))
         {
             MissileEffect missileEffect = player.GetComponent<MissileEffect>();
             if (missileEffect != null) missileEffect.level = newLevel;
@@ -301,12 +310,23 @@ public class PowerUpManager : MonoBehaviour
         Type powerUpClass = powerUp.prefab.GetComponent<PowerUpClass>().GetType();
         var PowerUpObject = (PowerUpClass)player.GetComponentInChildren(powerUpClass, true);
         PowerUpObject.Upgrade(newLevel);
+
+        //Update UI
+
+        for(int i = 0; i < activePowerUpSlots.Length; i++) {
+            if(activePowerUpSlots[i].activePowerUp.sprite != powerUp.powerUpIconRound) continue;
+
+            int rayosCount = activePowerUpSlots[i].rayos.Length;
+            for(int j = 0; j < rayosCount; j++) {
+                activePowerUpSlots[i].rayos[j].sprite = newLevel <= j ? rayoOff : rayoOn;
+            }
+        }
     }
 
     public void SkipPowerUp()
     {
         HidePowerUpSelection();
-        Time.timeScale = 1f;
+        Time.timeScale = 1f;    
 
         if (ExperienceManager.Instance != null)
         {
@@ -318,13 +338,15 @@ public class PowerUpManager : MonoBehaviour
     {
         if (activePowerUpSlots != null && currentSlotIndex < activePowerUpSlots.Length)
         {
-            Image currentSlot = activePowerUpSlots[currentSlotIndex];
+            Image currentSlot = activePowerUpSlots[currentSlotIndex].activePowerUp;
             if (currentSlot != null && powerUp.powerUpIconRound != null)
             {
                 currentSlot.sprite = powerUp.powerUpIconRound;
                 Color slotColor = currentSlot.color;
                 slotColor.a = 1f;
                 currentSlot.color = slotColor;
+
+                activePowerUpSlots[currentSlotIndex].rayos[0].sprite = rayoOn;
             }
             currentSlotIndex++;
         }

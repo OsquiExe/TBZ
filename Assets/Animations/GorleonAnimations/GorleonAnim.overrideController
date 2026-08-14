@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GorleonAnim
+  m_Controller: {fileID: 9100000, guid: b3a289d6d17693c4a9e77954679f1f0b, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: a4a684f4abd721648966c71103322918, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 49c9c0be83442f3498d4d18e26a5c049, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8d96ccf6ff22a084dadad1f305d5e73b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2335b8aafbddfd24fb22e3480b4013c2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 883d623704642b342ab857a239a8b0fd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9132e5a63e118904fb8f527f09ce7adc, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 536760b916ae8e44db4985ee2d2c3967, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 56802c421ec06be41b35df4cb53de74a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ee8dd4f029f38d94384fc665b9dd5c66, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 748e66e533109684ea24c6dc07130d4c, type: 2}

@@ -10,11 +10,30 @@ public class SpriteSheetAnimation : MonoBehaviour
     [SerializeField] float timeBetweenFrames = 0.1f;
     [SerializeField] float size = 0.2f;
 
+    [SerializeField] bool autoPlay = false;
+    [SerializeField] bool loop = true;
+
+    bool playing;
+    bool justEnabled = false;
+
+    private void OnEnable() {
+        playing = false;
+
+        if(autoPlay) Play();
+    }
+
+    private void Update() {
+        if(!playing && autoPlay && loop) Play();
+    }
+
     public void Play() {
+        if(playing) return;
 
         StartCoroutine(corrutine());
 
         IEnumerator corrutine() {
+            playing = true;
+
             Transform t = transform.parent;
             transform.parent = null;
 
@@ -27,6 +46,8 @@ public class SpriteSheetAnimation : MonoBehaviour
 
                 yield return new WaitForSeconds(timeBetweenFrames);
             }
+
+            playing = false;
         }
     }
 }

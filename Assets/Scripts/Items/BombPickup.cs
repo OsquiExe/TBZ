@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BombPickup : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class BombPickup : MonoBehaviour
     [SerializeField] private float massiveDamage = 99999f; 
 
     private bool isCollected = false;
+    [SerializeField] UnityEvent onExplode;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,6 +31,7 @@ public class BombPickup : MonoBehaviour
 
     private void Detonate()
     {
+        onExplode?.Invoke();
 
         if (CameraMove.Instance != null)
         {
@@ -55,7 +58,7 @@ public class BombPickup : MonoBehaviour
 
         Debug.Log($"☢️ [Bomba] ¡Bomba detonada! {killCount} enemigos eliminados de un golpe.");
 
-      
+
         StartCoroutine(VisualExplosionAndDie());
     }
 

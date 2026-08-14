@@ -1533,7 +1533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103, y: -140}
+  m_AnchoredPosition: {x: 96, y: -140}
   m_SizeDelta: {x: 364.6277, y: 364.633}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &244694396
@@ -2039,12 +2039,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2275,7 +2275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 86, y: 19}
+  m_AnchoredPosition: {x: 96, y: 19}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &441107175
@@ -3435,7 +3435,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 371, y: -226}
+  m_AnchoredPosition: {x: 384, y: -226}
   m_SizeDelta: {x: 241.3223, y: 276.2211}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &568736277
@@ -4402,10 +4402,10 @@ RectTransform:
   - {fileID: 392776961}
   m_Father: {fileID: 382845699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0022583008, y: -2.7999878}
-  m_SizeDelta: {x: 1080, y: 1920}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &744647924
 GameObject:
@@ -8209,7 +8209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -74.55899, y: 138.06}
+  m_AnchoredPosition: {x: -64, y: 138.06}
   m_SizeDelta: {x: 420.7337, y: 544.1007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1363568272
@@ -11343,11 +11343,33 @@ MonoBehaviour:
   powerUpPosition2: {fileID: 934158368}
   powerUpPosition3: {fileID: 211681428}
   rerollButtonText: {fileID: 692606613}
+  rayoOff: {fileID: 21300000, guid: 8c63ac99ab4827645b94230ae9f65fd9, type: 3}
+  rayoOn: {fileID: 21300000, guid: e9f81473f161f744cb802d1cdc69160d, type: 3}
   activePowerUpSlots:
-  - {fileID: 376605741}
-  - {fileID: 629650712}
-  - {fileID: 752638630}
-  - {fileID: 600153612}
+  - activePowerUp: {fileID: 376605741}
+    rayos:
+    - {fileID: 1229414668}
+    - {fileID: 883019777}
+    - {fileID: 1696401253}
+    - {fileID: 69496396}
+  - activePowerUp: {fileID: 629650712}
+    rayos:
+    - {fileID: 1409622996}
+    - {fileID: 2099616024}
+    - {fileID: 1741734158}
+    - {fileID: 1455478336}
+  - activePowerUp: {fileID: 752638630}
+    rayos:
+    - {fileID: 2003557470}
+    - {fileID: 838165341}
+    - {fileID: 222792920}
+    - {fileID: 1438553747}
+  - activePowerUp: {fileID: 600153612}
+    rayos:
+    - {fileID: 1465004362}
+    - {fileID: 2051590343}
+    - {fileID: 90945859}
+    - {fileID: 217175010}
   deck:
   - {fileID: 11400000, guid: 22055b2d7af82dd4fac7e50c4210402a, type: 2}
   - {fileID: 11400000, guid: a1b06e4faf24db24b8751e061dfafde3, type: 2}
