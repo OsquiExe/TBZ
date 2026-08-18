@@ -10,6 +10,13 @@ public class CoinPickup : MonoBehaviour
 
     private bool isCollected = false;
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isCollected) return;
@@ -45,6 +52,8 @@ public class CoinPickup : MonoBehaviour
             if (col != null) col.enabled = false;
 
             StartCoroutine(ShowFloatingTextAndDie(coinsToGive));
+
+            AudioManager.PlaySFX(AudioManager.coinSFX);
         }
     }
 

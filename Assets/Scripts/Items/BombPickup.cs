@@ -11,6 +11,13 @@ public class BombPickup : MonoBehaviour
     private bool isCollected = false;
     [SerializeField] UnityEvent onExplode;
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isCollected) return;
@@ -26,6 +33,8 @@ public class BombPickup : MonoBehaviour
             if (col != null) col.enabled = false;
 
             Detonate();
+
+            AudioManager.PlaySFX(AudioManager.bombSFX);
         }
     }
 

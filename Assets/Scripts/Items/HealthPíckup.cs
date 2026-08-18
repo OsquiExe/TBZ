@@ -7,6 +7,13 @@ public class HealthPickup : MonoBehaviour
     [Header("Configuración de Cura")]
     [SerializeField] private float healAmount = 25f; 
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
@@ -23,6 +30,8 @@ public class HealthPickup : MonoBehaviour
 
               
                 Destroy(gameObject);
+
+                AudioManager.PlaySFX(AudioManager.healSFX);
             }
         }
     }

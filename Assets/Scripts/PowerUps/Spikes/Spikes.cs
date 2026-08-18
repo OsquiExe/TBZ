@@ -14,6 +14,13 @@ namespace PowerUps {
         [SerializeField] int[] damages = { 2, 4, 6, 8 };
         bool spawning = false;
 
+        AudioManager AudioManager;
+
+        private void Awake()
+        {
+            AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        }
+
         private void LateUpdate() {
             if(transform.position != lastPlayerPosition) playerDelta = ((transform.position - lastPlayerPosition) * 100).normalized;
             else playerDelta = Vector3.up;
@@ -37,6 +44,7 @@ namespace PowerUps {
                         Weapon w = bullet.GetComponentInChildren<Weapon>(true);
                         spawnedSpikesTriggers.Add(w);
                     }
+                    AudioManager.PlaySFX(AudioManager.spikesSFX);
                 }
 
                 spawning = true;

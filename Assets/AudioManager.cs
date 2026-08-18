@@ -16,6 +16,10 @@ public class AudioManager : MonoBehaviour
    public AudioClip snakesSFX;
    public AudioClip shockwaveSFX;
    public AudioClip spikesSFX;
+   public AudioClip healSFX;
+   public AudioClip bombSFX;
+   public AudioClip coinSFX;
+   public AudioClip blackholeSFX;
 
    void Start()
    {

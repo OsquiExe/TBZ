@@ -14,11 +14,18 @@ namespace PowerUps {
         [SerializeField] int[] amountOfBullets = { 1, 3, 4, 8 };
         [SerializeField] int[] damages = { 2, 4, 6, 8 };
 
+        AudioManager AudioManager;
 
+        private void Awake()
+        {
+            AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        }
         protected override void OnCooldownEnds() {
             if(nivel - 1 < 0) return;
 
             StartCoroutine(spawnBullets());
+
+            AudioManager.PlaySFX(AudioManager.missileSFX);
 
             IEnumerator spawnBullets() {
                 if(spawnedBullets.Count - 1 < amountOfBullets[nivel - 1]) {
