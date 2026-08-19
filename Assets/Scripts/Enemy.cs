@@ -124,6 +124,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
+            anim.SetFloat("rot", (Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg) + 90, 0.1f, Time.deltaTime);
             moveDirection = (directionToPlayer + avoidance + (separation * 0.4f)).normalized;
         }
     }
@@ -196,6 +197,7 @@ public class Enemy : MonoBehaviour
     private void Die(Vector2 force)
     {
         isDead = true;
+        anim.SetTrigger("death");
 
         if (xpPickupPrefab != null)
         {

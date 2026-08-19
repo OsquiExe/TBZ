@@ -9,9 +9,16 @@ public class MissileEffect : MonoBehaviour
 
     [Header("Settings de la Bomba")]
     [SerializeField] private float explosionRadius = 3f;
-    [SerializeField] private float fuseTime = 1.5f;
+    [SerializeField] private float fuseTime = 1f;
     [SerializeField] private float baseCooldown = 10f;
     [SerializeField] private float minCooldown = 4f;
+
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     private void Update()
     {
@@ -42,6 +49,8 @@ public class MissileEffect : MonoBehaviour
             Vector2 spawnPosition = (Vector2)transform.position + randomOffset;
 
             StartCoroutine(BombRoutine(spawnPosition, currentDamage));
+
+            AudioManager.PlaySFX(AudioManager.bombDecoysSFX);
         }
     }
 

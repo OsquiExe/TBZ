@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BombPickup : MonoBehaviour
 {
@@ -8,6 +9,14 @@ public class BombPickup : MonoBehaviour
     [SerializeField] private float massiveDamage = 99999f; 
 
     private bool isCollected = false;
+    [SerializeField] UnityEvent onExplode;
+
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,11 +33,14 @@ public class BombPickup : MonoBehaviour
             if (col != null) col.enabled = false;
 
             Detonate();
+
+            AudioManager.PlaySFX(AudioManager.bombSFX);
         }
     }
 
     private void Detonate()
     {
+        onExplode?.Invoke();
 
         if (CameraMove.Instance != null)
         {
@@ -55,7 +67,7 @@ public class BombPickup : MonoBehaviour
 
         Debug.Log($"☢️ [Bomba] ¡Bomba detonada! {killCount} enemigos eliminados de un golpe.");
 
-      
+
         StartCoroutine(VisualExplosionAndDie());
     }
 

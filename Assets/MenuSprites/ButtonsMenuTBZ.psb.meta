@@ -1,0 +1,597 @@
+fileFormatVersion: 2
+guid: 3cfc7fc5fcdb1124c9c0885b886f6da9
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: settingsButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 576
+      y: 864
+      width: 81
+      height: 228
+    spriteID: 3fc629d637eab4f498887d05b754aa6d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 576, y: 864}
+    spritePosition: {x: 216, y: 167}
+  - name: workshopButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 381
+      y: 1425
+      width: 193
+      height: 228
+    spriteID: 5d3be0fd607a7ae40af8321f9bfb6311
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 381, y: 1425}
+    spritePosition: {x: 160, y: 164}
+  - name: dailyRewardsButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1577
+      width: 288
+      height: 271
+    spriteID: 791bd66001fa94b4cba67f153e86a340
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 1577}
+    spritePosition: {x: 115, y: 143}
+  - name: levelButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 596
+      y: 519
+      width: 108
+      height: 239
+    spriteID: aeba7664183407c458595723f48e6ff4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 596, y: 519}
+    spritePosition: {x: 196, y: 159}
+  - name: friendsButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 794
+      y: 4
+      width: 219
+      height: 238
+    spriteID: e4f0aba72bb678e4880be0747f3b1216
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 794, y: 4}
+    spritePosition: {x: 148, y: 159}
+  - name: battlePassButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1288
+      width: 314
+      height: 281
+    spriteID: 88673bfb1db51c6468cd9bbbd5a48b83
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 1288}
+    spritePosition: {x: 100, y: 182}
+  - name: digicoinsButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 381
+      y: 1209
+      width: 299
+      height: 208
+    spriteID: 8a2d7da0aab557344b0dd6159d32c911
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 381, y: 1209}
+    spritePosition: {x: 115, y: 186}
+  - name: bountiesButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 381
+      y: 293
+      width: 343
+      height: 218
+    spriteID: 3d4b229d3be7b424ca2d4832f72d0df3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 381, y: 293}
+    spritePosition: {x: 85, y: 181}
+  - name: cashButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 381
+      y: 4
+      width: 405
+      height: 281
+    spriteID: ad1a78f231c3e4447b80d1ff9d043029
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 381, y: 4}
+    spritePosition: {x: 48, y: 118}
+  - name: cajasButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 381
+      y: 519
+      width: 207
+      height: 337
+    spriteID: eac45613ad5a6994ea15f250fc71eab3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 381, y: 519}
+    spritePosition: {x: 178, y: 38}
+  - name: LabButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 381
+      y: 864
+      width: 187
+      height: 337
+    spriteID: 0b38887c6dd84464f9f1c3b2f6e236a8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 381, y: 864}
+    spritePosition: {x: 144, y: 38}
+  - name: tiendaButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 462
+      width: 278
+      height: 405
+    spriteID: aba4cca57a277124cb01a98fddc2abd6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 462}
+    spritePosition: {x: 130, y: 38}
+  - name: LabandaButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 875
+      width: 260
+      height: 405
+    spriteID: 2cc815443889a414ba9d5117770c7c34
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 875}
+    spritePosition: {x: 139, y: 32}
+  - name: MissionButton
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 369
+      height: 450
+    spriteID: 3f1830d4ca6b4d543976e6655a131108
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 76, y: 25}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  sharedRigSpriteImportData: []
+  sharedRigCharacterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  platformSettings: []
+  mosaicLayers: 1
+  characterMode: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  layerMappingOption: 2
+  generatePhysicsShape: 0
+  paperDollMode: 0
+  keepDupilcateSpriteName: 1
+  skeletonAssetReferenceID: 
+  pipeline: {instanceID: 0}
+  pipelineVersion: 
+  padding: 4
+  spriteSizeExpand: 0
+  spriteCategoryList:
+    categories: []
+  spritePackingTag: 
+  resliceFromLayer: 0
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: settingsButton
+    spriteName: settingsButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3fc629d637eab4f498887d05b754aa6d
+    layerID: 41
+    mosaicPosition: {x: 576, y: 864}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: workshopButton
+    spriteName: workshopButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5d3be0fd607a7ae40af8321f9bfb6311
+    layerID: 39
+    mosaicPosition: {x: 381, y: 1425}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: dailyRewardsButton
+    spriteName: dailyRewardsButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 791bd66001fa94b4cba67f153e86a340
+    layerID: 36
+    mosaicPosition: {x: 4, y: 1577}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: levelButton
+    spriteName: levelButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: aeba7664183407c458595723f48e6ff4
+    layerID: 34
+    mosaicPosition: {x: 596, y: 519}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: friendsButton
+    spriteName: friendsButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e4f0aba72bb678e4880be0747f3b1216
+    layerID: 32
+    mosaicPosition: {x: 794, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: battlePassButton
+    spriteName: battlePassButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 88673bfb1db51c6468cd9bbbd5a48b83
+    layerID: 30
+    mosaicPosition: {x: 4, y: 1288}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: digicoinsButton
+    spriteName: digicoinsButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 8a2d7da0aab557344b0dd6159d32c911
+    layerID: 24
+    mosaicPosition: {x: 381, y: 1209}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: bountiesButton
+    spriteName: bountiesButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3d4b229d3be7b424ca2d4832f72d0df3
+    layerID: 18
+    mosaicPosition: {x: 381, y: 293}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: cashButton
+    spriteName: cashButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ad1a78f231c3e4447b80d1ff9d043029
+    layerID: 16
+    mosaicPosition: {x: 381, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: cajasButton
+    spriteName: cajasButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: eac45613ad5a6994ea15f250fc71eab3
+    layerID: 12
+    mosaicPosition: {x: 381, y: 519}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: LabButton
+    spriteName: LabButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 0b38887c6dd84464f9f1c3b2f6e236a8
+    layerID: 10
+    mosaicPosition: {x: 381, y: 864}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: tiendaButton
+    spriteName: tiendaButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: aba4cca57a277124cb01a98fddc2abd6
+    layerID: 8
+    mosaicPosition: {x: 4, y: 462}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: LabandaButton
+    spriteName: LabandaButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2cc815443889a414ba9d5117770c7c34
+    layerID: 6
+    mosaicPosition: {x: 4, y: 875}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: MissionButton
+    spriteName: MissionButton
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3f1830d4ca6b4d543976e6655a131108
+    layerID: 4
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Capa 2
+    spriteName: 
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ca091e49ce9507742bcb203fa5db18b7
+    layerID: 14
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Fondo
+    spriteName: 
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5fbe6f3e82fb8604e9afbcef1e261526
+    layerID: 1
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  sharedRigPSDLayers: []
+  pSDLayerImportSetting: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
+  generateGOHierarchy: 0
+  textureAssetName: 
+  prefabAssetName: 
+  spriteLibAssetName: 
+  skeletonAssetName: 
+  secondarySpriteTextures: []

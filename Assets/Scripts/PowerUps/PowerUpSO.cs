@@ -6,17 +6,17 @@ using UnityEngine;
 public class PowerUpSO : ScriptableObject
 {
     [Header("Visuals (Sprites)")]
-    public Sprite powerUpImageSquare;
-    public Sprite powerUpIconRound;   
 
-    [Header("Info")]
+    public Sprite powerUpImageSquare;
+    public Sprite powerUpIconRound; 
+    public GameObject prefab;
+
     public string powerUpText;
     public PowerUpEffect effectType;
     public float effectValue;
     public bool isUnique;
     public int unlockLevel;
 }
-
 public enum PowerUpEffect
 {
     Boomerang,

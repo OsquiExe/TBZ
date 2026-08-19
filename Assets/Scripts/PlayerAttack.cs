@@ -41,6 +41,13 @@ public class PlayerAttack : MonoBehaviour
 
     private PlayerController playerController;
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
@@ -142,6 +149,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 Vector2 swipeDir = (touchEndPos - touchStartPos).normalized;
                 StartCoroutine(DashRoutine(swipeDir));
+                AudioManager.PlaySFX(AudioManager.dashSFX);
             }
         }
     }
@@ -197,12 +205,14 @@ public class PlayerAttack : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(totalDamage, dashDirection * dashKnockbackForce);
+                AudioManager.PlaySFX(AudioManager.punchSFX);
             }
 
             JefeController jefe = collision.gameObject.GetComponent<JefeController>();
             if (jefe != null)
             {
                 jefe.RecibirDano(totalDamage);
+                AudioManager.PlaySFX(AudioManager.punchSFX);
             }
         }
     }

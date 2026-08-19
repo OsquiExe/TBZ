@@ -11,6 +11,13 @@ public class ShockwaveEffect : MonoBehaviour
     [SerializeField] private float baseCooldown = 15f;
     [SerializeField] private float minCooldown = 7f;
 
+    AudioManager AudioManager;
+
+    private void Awake()
+    {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -21,6 +28,7 @@ public class ShockwaveEffect : MonoBehaviour
         {
             TriggerShockwave();
             timer = 0f;
+            AudioManager.PlaySFX(AudioManager.shockwaveSFX);
         }
     }
 

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpImageSquare: {fileID: 21300000, guid: db0becee2df862a4097b1adfb7dfb26d, type: 3}
   powerUpIconRound: {fileID: 21300000, guid: 1af180d6109131f4d938d01d1607d617, type: 3}
+  prefab: {fileID: 2759327549280629598, guid: 85314011df1b7d2448a13ffad1241119, type: 3}
   powerUpText: Piercing blades ripping from below, they can get faster and bigger.
   effectType: 6
   effectValue: 0
