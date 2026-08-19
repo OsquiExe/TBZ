@@ -188,6 +188,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 7471038297402555482}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   activaDespuesDe: 2
 --- !u!114 &1799345054920512790
 MonoBehaviour:
@@ -202,15 +214,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 9c77874f8b0e4984d9b39b0c1e3881b2, type: 3}
-  - {fileID: 21300000, guid: 15de49485cf456441a7e9d0d98e4c765, type: 3}
-  - {fileID: 21300000, guid: 2baa3d38127d7154c87b981d7948b8fb, type: 3}
-  - {fileID: 21300000, guid: dfb90d20a2871b140960dac38dbd46fa, type: 3}
-  - {fileID: 21300000, guid: 09c4be03f8d0bde469b349580f3d2aa5, type: 3}
-  - {fileID: 21300000, guid: 3f33471e548987e4fb7c2f5d79b783f0, type: 3}
-  - {fileID: 21300000, guid: 79f057ae57cc3294cabd29af2427a513, type: 3}
-  - {fileID: 21300000, guid: 206757085f1712640ad25480b4e315f6, type: 3}
-  - {fileID: 21300000, guid: b636c831d77f1a841903390ef84ec624, type: 3}
+  - {fileID: 21300000, guid: e27d973b276be1845bcd68cbbe11d813, type: 3}
+  - {fileID: 21300000, guid: c814c8c5d4e1e3249ad03d4eb9ee001c, type: 3}
+  - {fileID: 21300000, guid: feef831140a4ab143b9351f997fb594a, type: 3}
+  - {fileID: 21300000, guid: 94af3261cfc89d046bae24f39ac9c3f8, type: 3}
+  - {fileID: 21300000, guid: a241c8fc5b877244e95bacc6e2927cfb, type: 3}
+  - {fileID: 21300000, guid: e6b6c9c3d38ade84098bf8cef40426cb, type: 3}
+  - {fileID: 21300000, guid: 45e79156bcb7dcd41962cf8bb9292e3a, type: 3}
+  - {fileID: 21300000, guid: f84d5cfa96d37574f99c588f786cfff1, type: 3}
   - {fileID: 0}
   renderer: {fileID: 8090410760857705284}
   timeBetweenFrames: 0.1
@@ -407,6 +418,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5603975440760492662}
         m_TargetAssemblyTypeName: UnityEngine.Rigidbody2D, UnityEngine
         m_MethodName: set_simulated
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7471038297402555482}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
