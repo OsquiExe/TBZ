@@ -2282,6 +2282,7 @@ MonoBehaviour:
   bombSFX: {fileID: 8300000, guid: 4c001a936b59e794780e4c7ff9e88039, type: 3}
   coinSFX: {fileID: 8300000, guid: a05f822877c7b024c9d6bc33a6df61db, type: 3}
   blackholeSFX: {fileID: 8300000, guid: 8ff199fe9ebe87448bd728022aaa5989, type: 3}
+  Sfxs: []
 --- !u!4 &418573059
 Transform:
   m_ObjectHideFlags: 0
@@ -7999,6 +8000,7 @@ GameObject:
   - component: {fileID: 1283259148}
   - component: {fileID: 1283259147}
   - component: {fileID: 1283259146}
+  - component: {fileID: 1283259149}
   m_Layer: 0
   m_Name: PowerUpCanvas
   m_TagString: Untagged
@@ -8089,6 +8091,27 @@ Canvas:
   m_SortingLayerID: 2069936349
   m_SortingOrder: 10
   m_TargetDisplay: 0
+--- !u!95 &1283259149
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283259144}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4a03c076db7c67245966b9983bc2fe69, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1283330317
 GameObject:
   m_ObjectHideFlags: 0
@@ -8857,7 +8880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5053842648496922281, guid: eefe036e2c5bd4f418cc4c888fa30196, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -11.000061
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 5053842648496922281, guid: eefe036e2c5bd4f418cc4c888fa30196, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -11370,6 +11393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1758711885}
+  - component: {fileID: 1758711886}
   m_Layer: 0
   m_Name: PowerUpSelectionUI
   m_TagString: Untagged
@@ -11388,11 +11412,23 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -115.74222, y: 15.667969, z: 241}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1484389249}
   m_Father: {fileID: 1283259145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &1758711886
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758711884}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1762920982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11863,6 +11899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiPowerUpSelect: {fileID: 1283259144}
+  uiPowerUpSelectAnimator: {fileID: 1283259149}
   powerUpPrefab: {fileID: 1836649568576320650, guid: 4cdc499ac126fc54983aa8916af0f48d, type: 3}
   powerUpPosition1: {fileID: 974011990}
   powerUpPosition2: {fileID: 934158368}

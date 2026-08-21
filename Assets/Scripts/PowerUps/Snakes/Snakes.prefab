@@ -55,5 +55,5 @@ MonoBehaviour:
   - 45
   - 225
   - 135
-  bulletVelocity: 2
+  bulletVelocity: 10
   amountOfBullets: 01000000020000000300000004000000

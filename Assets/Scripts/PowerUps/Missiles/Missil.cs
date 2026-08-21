@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace PowerUps {
-    public class Missil : PowerUpClass {
-        [SerializeField] GameObject bulletPrefabs;
+    public class Missil : BulletSpawner {
+        /*[SerializeField] GameObject bulletPrefabs;
         [SerializeField] List<Rigidbody2D> spawnedBullets = new();
         [SerializeField] List<Weapon> spawnedBulletsTriggers = new();
 
@@ -14,13 +14,13 @@ namespace PowerUps {
         [SerializeField] int[] amountOfBullets = { 1, 3, 4, 8 };
         [SerializeField] int[] damages = { 2, 4, 6, 8 };
 
-        AudioManager AudioManager;
+        AudioManager AudioManager;*/
 
         private void Awake()
         {
             AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         }
-        protected override void OnCooldownEnds() {
+        /*protected override void OnCooldownEnds() {
             if(nivel - 1 < 0) return;
 
             StartCoroutine(spawnBullets());
@@ -55,7 +55,7 @@ namespace PowerUps {
                     spawnedBulletsTriggers[i].damage = damages[nivel - 1];
                 }
             }
-        }
+        }*/
 
         protected override void OnCooldownStarts() {
             for(int i = 0; i < spawnedBullets.Count; i++) {
@@ -68,12 +68,12 @@ namespace PowerUps {
             base.OnUpdate();
         }
 
-        private void OnDestroy() {
+        /*private void OnDestroy() {
             for(int i = 0; i < spawnedBullets.Count; i++) {
                 Rigidbody2D bullet = spawnedBullets[i];
                 if(bullet != null && bullet.gameObject != null) Destroy(bullet.gameObject);
             }
-        }
+        }*/
     }
 
 }

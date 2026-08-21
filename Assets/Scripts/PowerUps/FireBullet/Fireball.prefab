@@ -42,28 +42,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 3177607329165194572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b70894115f2e1e4b951a5f0a3fbd9ec, type: 3}
+  m_Script: {fileID: 11500000, guid: fcb2c7d709c51d946bfaf78a02a84320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
   cooldown: 0.1
   nivel: 1
   bulletPrefabs: {fileID: 1083453197693959633, guid: 8b2b146eac5da2244b8496f599d18c98, type: 3}
+  maxLevelBulletPrefabs: {fileID: 1083453197693959633, guid: 787506c90de3be64b9e96f831c460948, type: 3}
   spawnedBullets: []
   spawnedBulletsTriggers: []
-  bulletVelocity: 10
+  amountOfBullets: 01000000020000000300000004000000
   possibleRotations:
   - -45
   - 45
   - 225
   - 135
-  amountOfBullets: 01000000020000000300000004000000
   damages: 02000000040000000600000008000000
   sizes:
   - 1
   - 1.2
   - 1.5
   - 2
+  bulletVelocities:
+  - 10
+  - 10
+  - 10
+  - 10
 --- !u!1 &4876997172233268980
 GameObject:
   m_ObjectHideFlags: 0

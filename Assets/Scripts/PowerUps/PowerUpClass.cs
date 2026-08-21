@@ -46,13 +46,18 @@ public class PowerUpClass : MonoBehaviour
     protected virtual void OnUpdate() { }
     protected virtual void OnUpgrade() { }
 
+    protected virtual void OnMaxUpgraded() { }
     public void Upgrade() {
         nivel++;
         OnUpgrade();
+
+        if(nivel >= 4) OnMaxUpgraded();
     }
 
     public void Upgrade(int _n) {
         nivel = _n;
         OnUpgrade();
+
+        if(nivel >= 4) OnMaxUpgraded();
     }
 }

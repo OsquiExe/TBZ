@@ -9,6 +9,7 @@ public class PowerUpManager : MonoBehaviour
 {
     [Header("UI & References")]
     [SerializeField] public GameObject uiPowerUpSelect;
+    [SerializeField] public Animator uiPowerUpSelectAnimator;
     [SerializeField] public GameObject powerUpPrefab;
     [SerializeField] private Transform powerUpPosition1;
     [SerializeField] private Transform powerUpPosition2;
@@ -82,7 +83,10 @@ public class PowerUpManager : MonoBehaviour
 
     private void OpenPowerUpMenu()
     {
-        if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(true);
+        if(uiPowerUpSelect != null) {
+            uiPowerUpSelect.SetActive(true);
+            uiPowerUpSelectAnimator.SetTrigger("open");
+        }
 
         Time.timeScale = 0f;
 
