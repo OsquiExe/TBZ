@@ -310,10 +310,11 @@ public class PowerUpManager : MonoBehaviour
             if (missileEffect != null) missileEffect.level = newLevel;
         }
 
-        if(powerUp.prefab == null) return;
-        Type powerUpClass = powerUp.prefab.GetComponent<PowerUpClass>().GetType();
-        var PowerUpObject = (PowerUpClass)player.GetComponentInChildren(powerUpClass, true);
-        PowerUpObject.Upgrade(newLevel);
+        if(powerUp.prefab != null) {
+            Type powerUpClass = powerUp.prefab.GetComponent<PowerUpClass>().GetType();
+            var PowerUpObject = (PowerUpClass)player.GetComponentInChildren(powerUpClass, true);
+            PowerUpObject.Upgrade(newLevel);
+        }
 
         //Update UI
 
