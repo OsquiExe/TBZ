@@ -20,6 +20,10 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
 
+    [Header("Animadores de Personajes")]
+    public Animator kalaAnimator;
+    public Animator ramoAnimator;
+
     [Header("Dialogues (Llenar en el Inspector)")]
     public DialogueLine[] startTutorial;
     public DialogueLine[] levelUpTutorial;
@@ -29,9 +33,10 @@ public class TutorialManager : MonoBehaviour
     private bool isTyping = false;
     private string currentSentence = "";
 
-
     public bool hasShownStartTutorial = false;
     public bool hasShownLevelUpTutorial = false;
+
+    private bool isLevelUpTutorialActive = false;
 
     void Awake()
     {
@@ -43,10 +48,10 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialPanel.SetActive(false);
 
+        if (kalaAnimator != null) kalaAnimator.gameObject.SetActive(false);
+        if (ramoAnimator != null) ramoAnimator.gameObject.SetActive(false);
 
         yield return new WaitForEndOfFrame();
-
-
         TriggerStartTutorial();
     }
 
@@ -54,8 +59,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (hasShownStartTutorial) return;
         hasShownStartTutorial = true;
-
-
+        isLevelUpTutorialActive = false;
         StartDialogue(startTutorial, null);
     }
 
@@ -63,19 +67,18 @@ public class TutorialManager : MonoBehaviour
     {
         if (hasShownLevelUpTutorial)
         {
-
             onComplete?.Invoke();
             return;
         }
         hasShownLevelUpTutorial = true;
-
+        isLevelUpTutorialActive = true;
         StartDialogue(levelUpTutorial, onComplete);
     }
 
     private void StartDialogue(DialogueLine[] lines, Action onComplete)
     {
         tutorialPanel.SetActive(true);
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
         onTutorialComplete = onComplete;
         linesQueue.Clear();
 
@@ -91,7 +94,6 @@ public class TutorialManager : MonoBehaviour
     {
         if (isTyping)
         {
-
             StopAllCoroutines();
             dialogueText.text = currentSentence;
             isTyping = false;
@@ -108,6 +110,58 @@ public class TutorialManager : MonoBehaviour
         nameText.text = line.characterName;
         currentSentence = line.dialogueText;
 
+
+        if (isLevelUpTutorialActive)
+        {
+            if (line.characterName.Contains("Ramo"))
+            {
+
+                if (ramoAnimator != null)
+                {
+                    ramoAnimator.gameObject.SetActive(true);
+                    ramoAnimator.Play("Ramo");
+                }
+                if (kalaAnimator != null)
+                {
+                    kalaAnimator.gameObject.SetActive(true);
+                    kalaAnimator.Play("IdleKala");
+                }
+            }
+            else
+            {
+     
+                if (kalaAnimator != null)
+                {
+                    kalaAnimator.gameObject.SetActive(true);
+                }
+
+                if (ramoAnimator != null)
+                {
+                    ramoAnimator.gameObject.SetActive(true);
+                    ramoAnimator.Play("IdleRamo");
+                }
+
+                if (linesQueue.Count == 0)
+                {
+                    if (kalaAnimator != null) kalaAnimator.Play("KalaWhatever");
+                }
+                else
+                {
+                    if (kalaAnimator != null) kalaAnimator.Play("KalaSignal");
+                }
+            }
+        }
+        else
+        {
+   
+            if (kalaAnimator != null)
+            {
+                kalaAnimator.gameObject.SetActive(true);
+                kalaAnimator.Play("IdleKala");
+            }
+            if (ramoAnimator != null) ramoAnimator.gameObject.SetActive(false);
+        }
+
         StopAllCoroutines();
         StartCoroutine(TypeSentence(currentSentence));
     }
@@ -119,7 +173,7 @@ public class TutorialManager : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSecondsRealtime(0.03f); 
+            yield return new WaitForSecondsRealtime(0.03f);
         }
         isTyping = false;
     }
@@ -129,7 +183,9 @@ public class TutorialManager : MonoBehaviour
         tutorialPanel.SetActive(false);
         Time.timeScale = 1f;
 
-       
+        if (kalaAnimator != null) kalaAnimator.gameObject.SetActive(false);
+        if (ramoAnimator != null) ramoAnimator.gameObject.SetActive(false);
+
         onTutorialComplete?.Invoke();
     }
 }

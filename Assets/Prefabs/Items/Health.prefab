@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7422762787550065897}
   - component: {fileID: 2626143090822534413}
   - component: {fileID: -5895173491498040491}
+  - component: {fileID: -6690688293975337232}
   - component: {fileID: 3745187847299812858}
   m_Layer: 0
   m_Name: Health
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1501507492053239993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.427843, y: 6.1166844, z: 0}
+  m_LocalPosition: {x: -4.406, y: 6.153, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a65b256edc1bcdf44b3a159db51ec3e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,6 +100,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 25
+--- !u!114 &-6690688293975337232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501507492053239993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46943b0baa133d469edab035bb9b897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: a65b256edc1bcdf44b3a159db51ec3e6, type: 3}
+  - {fileID: 21300000, guid: 1e4c5d319e2c9ce48a7fdf2980d1cd54, type: 3}
+  - {fileID: 21300000, guid: 5804c67d6d205674f84e4b2294867cce, type: 3}
+  - {fileID: 21300000, guid: 12b9660b40b9eb342a28874a692b75d1, type: 3}
+  renderer: {fileID: 0}
+  timeBetweenFrames: 0.1
+  size: 0.2
+  autoPlay: 0
+  loop: 1
 --- !u!58 &3745187847299812858
 CircleCollider2D:
   m_ObjectHideFlags: 0

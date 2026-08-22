@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6097304070518690923}
   - component: {fileID: 8243215025813425291}
   - component: {fileID: 517591446836128303}
+  - component: {fileID: 6508564980240738646}
   - component: {fileID: 7712540041133234803}
   m_Layer: 0
   m_Name: Satelite1
@@ -182,6 +183,20 @@ PolygonCollider2D:
       - {x: 0.58, y: -1.38}
       - {x: 0.61, y: -1.3199999}
   m_UseDelaunayMesh: 0
+--- !u!114 &6508564980240738646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000601434329095175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c225a3f1c21b054ba97cabe00a02a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  danioAlJugador: 5
+  velocidadMinimaParaDanio: 3
 --- !u!50 &7712540041133234803
 Rigidbody2D:
   serializedVersion: 4
@@ -194,8 +209,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 100
-  m_LinearDrag: 0
+  m_Mass: 1
+  m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

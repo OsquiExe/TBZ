@@ -49,9 +49,7 @@ public class JefeController : MonoBehaviour
 #endif
         rb = GetComponent<Rigidbody2D>();
 
- 
         spriteRenderer = GetComponent<SpriteRenderer>();
-
 
         allRenderers = GetComponentsInChildren<SpriteRenderer>();
         originalMaterials = new Material[allRenderers.Length];
@@ -63,7 +61,6 @@ public class JefeController : MonoBehaviour
 
         whiteFlashMaterial = new Material(Shader.Find("GUI/Text Shader"));
         whiteFlashMaterial.color = Color.white;
-   
 
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) player = p.transform;
@@ -72,7 +69,6 @@ public class JefeController : MonoBehaviour
 
         estadoActual = EstadoJefe.Caminando;
         temporizadorCostados = cooldownAtaqueCostados;
-
 
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas != null)
@@ -207,6 +203,10 @@ public class JefeController : MonoBehaviour
         if (lineaEmbestida != null) lineaEmbestida.enabled = false;
         spriteRenderer.color = Color.white;
 
+    
+        float masaOriginal = rb.mass;
+        rb.mass = 9999f; 
+
         float tiempoPasado = 0f;
 
         while (tiempoPasado < duracionEmbestida)
@@ -217,6 +217,11 @@ public class JefeController : MonoBehaviour
         }
 
         rb.velocity = Vector2.zero;
+
+   
+        rb.mass = masaOriginal;
+  
+
         FinalizarAtaque();
     }
 
@@ -273,7 +278,6 @@ public class JefeController : MonoBehaviour
             barraVida.value = vidaActual;
         }
 
-
         StartCoroutine(DamageFlashRoutine());
 
         if (vidaActual <= 0)
@@ -282,17 +286,14 @@ public class JefeController : MonoBehaviour
         }
     }
 
-
     private IEnumerator DamageFlashRoutine()
     {
-
         for (int i = 0; i < allRenderers.Length; i++)
         {
             if (allRenderers[i] != null) allRenderers[i].material = whiteFlashMaterial;
         }
 
         yield return new WaitForSeconds(flashDuration);
-
 
         for (int i = 0; i < allRenderers.Length; i++)
         {
