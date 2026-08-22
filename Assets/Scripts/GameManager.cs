@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject defeatPanel;
     [SerializeField] private GameObject victoryPanel;
 
+    [Space(10)]
+    [SerializeField] private TMP_Text coinsRecollected;
+
     [Header("Monedas del Nivel")]
     [SerializeField] private TextMeshProUGUI runCoinsText;
     public int coinsCollectedThisRun { get; private set; } = 0; 
@@ -111,6 +114,7 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
+            coinsRecollected.text = coinsCollectedThisRun.ToString();
             if(victoryPanel) victoryPanel.SetActive(true);
             Time.timeScale = 0f;
         }
