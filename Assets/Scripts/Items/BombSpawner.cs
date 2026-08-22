@@ -13,7 +13,7 @@ public class BombSpawner : MonoBehaviour
     [Header("Tiempos de Aparición")]
     [SerializeField] private float minSpawnTime = 20f;
     [SerializeField] private float maxSpawnTime = 40f;
-
+     
     private float spawnTimer;
 
     private void Start()

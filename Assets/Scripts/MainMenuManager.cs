@@ -30,7 +30,6 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnDestroy()
     {
-
         if (CurrencyManager.Instance != null)
         {
             CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
@@ -54,13 +53,30 @@ public class MainMenuManager : MonoBehaviour
 
     public void EmpezarMision()
     {
-        Debug.Log("Cargando el nivel...");
-        SceneManager.LoadScene("Level1");
+        Debug.Log("Cargando el nivel con pantalla de carga...");
+
+
+        if (TransitionManager.Instance != null)
+        {
+            TransitionManager.Instance.LoadScene("Level1");
+        }
+        else
+        {
+
+            SceneManager.LoadScene("Level1");
+        }
     }
 
     public void CargarEscena(string nombreEscena)
     {
-        SceneManager.LoadScene(nombreEscena);
+        if (TransitionManager.Instance != null)
+        {
+            TransitionManager.Instance.LoadScene(nombreEscena);
+        }
+        else
+        {
+            SceneManager.LoadScene(nombreEscena);
+        }
     }
 
     public void AbrirConfiguracion()

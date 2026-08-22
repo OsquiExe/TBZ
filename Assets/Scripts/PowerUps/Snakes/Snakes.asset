@@ -15,6 +15,18 @@ MonoBehaviour:
   powerUpImageSquare: {fileID: 21300000, guid: d7215359966b409488627687010db73f, type: 3}
   powerUpIconRound: {fileID: 21300000, guid: ed095024dbe88a1408e33583e7ca3172, type: 3}
   prefab: {fileID: 8672771585214363775, guid: 53793e96821b1b9449c031f18aefb704, type: 3}
+  spritesPrincipales:
+  - {fileID: 21300000, guid: 85781fbd12ad2ad40b7203bf92f5ce8b, type: 3}
+  - {fileID: 21300000, guid: 480e4716cbe76eb4f9398567fc7231b8, type: 3}
+  - {fileID: 21300000, guid: 680b5934fd30ed3489a2015d67e778d1, type: 3}
+  - {fileID: 21300000, guid: c9f8c70dda04d364f945b7d727bea952, type: 3}
+  - {fileID: 21300000, guid: d6482e52477bffc44be8b5fc5ebc6e5d, type: 3}
+  spritesSecundarios:
+  - {fileID: 21300000, guid: 9f0350cd54161804ab85cf7bb4449bac, type: 3}
+  - {fileID: 21300000, guid: 1951c974e5cf9134cbccb64d7b3a1823, type: 3}
+  - {fileID: 21300000, guid: 1abefb41a9f0d7c4aa33ec3dafe8f9a7, type: 3}
+  - {fileID: 21300000, guid: 3163aaed152f8a04c89504557fdd5023, type: 3}
+  - {fileID: 21300000, guid: c41fea95b36986a4bb0e0508b3783558, type: 3}
   powerUpText: 'Robotic snakes being shot in all directions, they can get faster. '
   effectType: 5
   effectValue: 0
