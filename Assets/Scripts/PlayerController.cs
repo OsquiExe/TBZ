@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -48,6 +49,9 @@ public class PlayerController : MonoBehaviour
     public delegate Transform GetTransform();
     public static GetTransform GetPlayerTransform;
 
+    bool canMove = true;
+    bool isDeath = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -57,10 +61,15 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = maxHealth;
         UpdateHealthUI();
+
+        GameManager.Instance.onVictory += OnVictory;
+        GameManager.Instance.onDefeat += OnDefeat;
     }
 
     private void Update()
     {
+        if(isDeath) return;
+
         GetInput();
         Animate();
         HandleHealthDrain();
@@ -133,6 +142,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnVictory() {
+        input = Vector2.zero;
+
+        playerAttack.enabled = false;
+
+        canMove = false;
+        anim.SetTrigger("onWin");
+    }
+
+    void OnDefeat() {
+        input = Vector2.zero;
+
+        playerAttack.enabled = false;
+
+        isDeath = true;
+        canMove = false;
+        anim.SetTrigger("onDefeat");
+    }
+
     private void UpdateHealthUI()
     {
         if (healthBarFill != null) healthBarFill.fillAmount = currentHealth / maxHealth;
@@ -145,7 +173,7 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput()
     {
-        if (playerAttack != null && playerAttack.isDashing) return;
+        if (playerAttack != null && playerAttack.isDashing || !canMove) return;
 
         x = joystick != null ? joystick.GetHorizontal() : 0f;
         y = joystick != null ? joystick.GetVertical() : 0f;

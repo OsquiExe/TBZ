@@ -22,6 +22,7 @@ public class JefeController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public GameObject balaPrefab;
     public LineRenderer lineaEmbestida;
+    public Animator animator;
     private Slider barraVida;
 
     [Header("Feedback Visual de Daño")]
@@ -42,6 +43,10 @@ public class JefeController : MonoBehaviour
     void Start()
     {
         vidaActual = vidaMaxima;
+
+#if UNITY_EDITOR
+        vidaActual = 1;
+#endif
         rb = GetComponent<Rigidbody2D>();
 
  
@@ -125,6 +130,8 @@ public class JefeController : MonoBehaviour
 
         if (direccion.x < 0) spriteRenderer.flipX = true;
         else if (direccion.x > 0) spriteRenderer.flipX = false;
+
+        animator.SetFloat("rot", (Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg) + 90, 0.1f, Time.deltaTime);
     }
 
     private void ElegirAtaqueAleatorio()
@@ -146,6 +153,8 @@ public class JefeController : MonoBehaviour
 
         estadoActual = EstadoJefe.Atacando;
         spriteRenderer.color = Color.white;
+
+        animator.SetTrigger("attack");
 
         transform.position += new Vector3(0, 0.5f, 0);
         yield return new WaitForSeconds(0.2f);
@@ -296,6 +305,9 @@ public class JefeController : MonoBehaviour
         estadoActual = EstadoJefe.Muerto;
         rb.velocity = Vector2.zero;
 
+        animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        animator.SetTrigger("death");
+
         if (barraVida != null)
         {
             barraVida.gameObject.SetActive(false);
@@ -306,6 +318,6 @@ public class JefeController : MonoBehaviour
             GameManager.Instance.TriggerVictory();
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject, 5);
     }
 }

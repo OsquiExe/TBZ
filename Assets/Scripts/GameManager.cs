@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; 
+using TMPro;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
     private bool isPaused = false;
+
+    public Action onVictory;
+    public Action onDefeat;
 
     private void Awake()
     {
@@ -78,22 +82,38 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver) return;
 
-        isGameOver = true;
-        SaveRunCoinsToGlobal();
+        StartCoroutine(corrutine());
 
-        if (defeatPanel) defeatPanel.SetActive(true);
-        Time.timeScale = 0f;
+        IEnumerator corrutine() {
+            isGameOver = true;
+            SaveRunCoinsToGlobal();
+
+            onDefeat?.Invoke();
+
+            yield return new WaitForSeconds(2f);
+
+            if(defeatPanel) defeatPanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
     }
 
     public void TriggerVictory()
     {
         if (isGameOver) return;
 
-        isGameOver = true;
-        SaveRunCoinsToGlobal(); 
+        StartCoroutine(corrutine());
 
-        if (victoryPanel) victoryPanel.SetActive(true);
-        Time.timeScale = 0f;
+        IEnumerator corrutine() {
+            isGameOver = true;
+            SaveRunCoinsToGlobal();
+
+            onVictory?.Invoke();
+
+            yield return new WaitForSeconds(1f);
+
+            if(victoryPanel) victoryPanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
     }
 
     public void RestartGame()

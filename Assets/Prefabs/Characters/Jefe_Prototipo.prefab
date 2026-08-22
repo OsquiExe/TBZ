@@ -84,7 +84,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -135,7 +135,7 @@ Animator:
   m_GameObject: {fileID: 4357967227749977923}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b3a289d6d17693c4a9e77954679f1f0b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9acee8493045dd64aabb2021ec76686b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -296,6 +296,7 @@ MonoBehaviour:
   duracionEmbestida: 0.8
   balaPrefab: {fileID: 2261024941811852547, guid: 89a399b56dc90874d82949cbe4f9bf31, type: 3}
   lineaEmbestida: {fileID: -6392511479470026146}
+  animator: {fileID: 4066411477111559853}
   flashDuration: 0.1
   cooldownAtaquesBasicos: 3
 --- !u!96 &-8635323872710194643
