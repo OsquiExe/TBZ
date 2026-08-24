@@ -14,21 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpImageSquare: {fileID: 21300000, guid: dbb21594a5b856241a6033f2468428e2, type: 3}
   powerUpIconRound: {fileID: 21300000, guid: a317960e540f0174b9a3aae19d028a97, type: 3}
-  prefab: {fileID: 0}
-  spritesPrincipales:
-  - {fileID: 21300000, guid: b473c14d4e23382439e03d9372cb4704, type: 3}
-  - {fileID: 21300000, guid: e8aa5ec06a0dbf44bbf3a3c4807374e1, type: 3}
-  - {fileID: 21300000, guid: 61813cdedfed6764d9d9aa176fa20725, type: 3}
-  - {fileID: 21300000, guid: 7be10e12dcfbfbc458bd8ba5dc1e90a3, type: 3}
-  - {fileID: 21300000, guid: 3d2564cb461e4dd48aaa0a18028e806d, type: 3}
-  - {fileID: 21300000, guid: bd2ea7814912b544cadce5c58c7572db, type: 3}
-  spritesSecundarios:
-  - {fileID: 21300000, guid: 558f1bd2d57d28944b33059a43caeaa8, type: 3}
-  - {fileID: 21300000, guid: 74abb9288e6589a4eb8739ad52a7e807, type: 3}
-  - {fileID: 21300000, guid: 1bf722eced7d3eb41883f9a3e930455b, type: 3}
-  - {fileID: 21300000, guid: 8904fb99278f43b4abe893eeadc9681e, type: 3}
-  - {fileID: 21300000, guid: 60a3c105d2fed61469332203a6c4ae40, type: 3}
-  - {fileID: 21300000, guid: 07fe8e14c37ee7944b6dc8253151a3a5, type: 3}
   powerUpText: A strong hit surrounding the player with a shockwave, it can get bigger.
   effectType: 7
   effectValue: 0

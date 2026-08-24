@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5376557470317429904}
   - component: {fileID: 1831232299566696585}
   - component: {fileID: 6677818464762078530}
-  - component: {fileID: -7123452895785118893}
   - component: {fileID: -1168729521385011139}
   m_Layer: 0
   m_Name: Bomb
@@ -55,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8dae8f90587bc2445936d3b4baa7cda0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,28 +103,6 @@ MonoBehaviour:
   onExplode:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-7123452895785118893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3727784485538355724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c46943b0baa133d469edab035bb9b897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 8dae8f90587bc2445936d3b4baa7cda0, type: 3}
-  - {fileID: 21300000, guid: 358c8a3ae66be35478aa5a6295601e81, type: 3}
-  - {fileID: 21300000, guid: a0df195b168fdd544b8ad0b0bc35321f, type: 3}
-  - {fileID: 21300000, guid: 2fb420008d6c58341acccffd83edfaee, type: 3}
-  renderer: {fileID: 0}
-  timeBetweenFrames: 0.1
-  size: 0.2
-  autoPlay: 0
-  loop: 1
 --- !u!61 &-1168729521385011139
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -162,7 +139,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4, y: 4}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

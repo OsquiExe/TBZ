@@ -9,6 +9,7 @@ public class PowerUpManager : MonoBehaviour
 {
     [Header("UI & References")]
     [SerializeField] public GameObject uiPowerUpSelect;
+    [SerializeField] public Animator uiPowerUpSelectAnimator;
     [SerializeField] public GameObject powerUpPrefab;
     [SerializeField] private Transform powerUpPosition1;
     [SerializeField] private Transform powerUpPosition2;
@@ -27,8 +28,7 @@ public class PowerUpManager : MonoBehaviour
     private int currentSlotIndex = 0;
 
     [System.Serializable]
-    public struct powerUpDeck
-    {
+    public struct powerUpDeck {
         public Image activePowerUp;
         public Image[] rayos;
     }
@@ -61,11 +61,9 @@ public class PowerUpManager : MonoBehaviour
         HidePowerUpSelection();
     }
 
-    private void Update()
-    {
+    private void Update() {
 #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.P))
-        {
+        if(Input.GetKeyDown(KeyCode.P)) {
             ExperienceManager.Instance.AddExperience(10);
         }
 #endif
@@ -85,13 +83,18 @@ public class PowerUpManager : MonoBehaviour
 
     private void OpenPowerUpMenu()
     {
-        if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(true);
+        if(uiPowerUpSelect != null) {
+            uiPowerUpSelect.SetActive(true);
+            uiPowerUpSelectAnimator.SetTrigger("open");
+        }
+
         Time.timeScale = 0f;
 
         if (zonaTactilJoystick != null)
         {
             VirtualJoystick vj = zonaTactilJoystick.GetComponent<VirtualJoystick>();
             if (vj != null) vj.ResetJoystick();
+
             zonaTactilJoystick.SetActive(false);
         }
 
@@ -102,7 +105,9 @@ public class PowerUpManager : MonoBehaviour
     public void HidePowerUpSelection()
     {
         if (uiPowerUpSelect != null) uiPowerUpSelect.SetActive(false);
+
         if (zonaTactilJoystick != null) zonaTactilJoystick.SetActive(true);
+
         ClearOldCards();
     }
 
@@ -116,6 +121,7 @@ public class PowerUpManager : MonoBehaviour
     void RandomizeNewPowerUps()
     {
         ClearOldCards();
+
         if (deck == null || deck.Count == 0) return;
 
         List<PowerUpSO> availablePowerUps = new List<PowerUpSO>(deck);
@@ -127,6 +133,7 @@ public class PowerUpManager : MonoBehaviour
             bool isAtMaxLevel = ownedPowerUps.ContainsKey(powerUp) && ownedPowerUps[powerUp] >= maxLevelPerPowerUp;
             bool levelNotReached = powerUp.unlockLevel > currentLevel;
             bool isUniqueAndOwned = powerUp.isUnique && ownedPowerUps.ContainsKey(powerUp);
+
             return isNewAndInventoryFull || isAtMaxLevel || levelNotReached || isUniqueAndOwned;
         });
 
@@ -142,6 +149,7 @@ public class PowerUpManager : MonoBehaviour
         while (randomizePowerUps.Count < optionsToCreate)
         {
             PowerUpSO randomPowerUp = availablePowerUps[UnityEngine.Random.Range(0, availablePowerUps.Count)];
+
             if (!randomizePowerUps.Contains(randomPowerUp)) randomizePowerUps.Add(randomPowerUp);
         }
 
@@ -183,6 +191,7 @@ public class PowerUpManager : MonoBehaviour
     private void UpdateRerollButtonText()
     {
         if (rerollButtonText == null) return;
+
         if (totalRerollsUsed >= maxFreeRerolls)
         {
             rerollButtonText.text = "Reroll (Ver Ad)";
@@ -200,109 +209,120 @@ public class PowerUpManager : MonoBehaviour
         {
             ownedPowerUps[selectedPowerUp]++;
             int newLevel = ownedPowerUps[selectedPowerUp];
+            Debug.Log($"⬆️ PowerUp [{selectedPowerUp.powerUpText}] subió al nivel {newLevel}");
+
             UpdatePowerUpEffect(selectedPowerUp, newLevel);
         }
         else
         {
             ownedPowerUps.Add(selectedPowerUp, 1);
+            Debug.Log($" Nuevo PowerUp adquirido: [{selectedPowerUp.powerUpText}] (Nivel 1)");
             UpdateActivePowerUpUI(selectedPowerUp);
+
             ApplyNewPowerUpEffect(selectedPowerUp);
         }
 
         HidePowerUpSelection();
         Time.timeScale = 1f;
+
         if (ExperienceManager.Instance != null) ExperienceManager.Instance.ProcessNextLevelUp();
     }
 
-
+    // INYECTOR DE SCRIPTS
     private void ApplyNewPowerUpEffect(PowerUpSO powerUp)
     {
         PlayerController player = FindObjectOfType<PlayerController>();
         if (player == null) return;
 
+        // 1. Cura Progresiva
         if (powerUp.name.Contains("Progressive"))
         {
             ProgressiveHealEffect healEffect = player.gameObject.AddComponent<ProgressiveHealEffect>();
             healEffect.level = 1;
         }
 
+        // 2. Potenciador de Daño
         if (powerUp.name.Contains("Damage"))
         {
             DamageIncreaseEffect dmgEffect = player.gameObject.AddComponent<DamageIncreaseEffect>();
             dmgEffect.level = 1;
         }
 
+        // 3. Onda Expansiva
         if (powerUp.name.Contains("Shock") || powerUp.name.Contains("Wave"))
         {
             ShockwaveEffect shockEffect = player.gameObject.AddComponent<ShockwaveEffect>();
             shockEffect.level = 1;
-
-            shockEffect.spritesNormal = powerUp.spritesPrincipales;
-            shockEffect.spritesMaximo = powerUp.spritesSecundarios;
         }
 
+        // 4. Misiles (Antes Capybara Bomb)
         if (powerUp.name.Contains("Decoys"))
         {
-            DecoysEffect decoysEffect = player.gameObject.AddComponent<DecoysEffect>();
-            decoysEffect.level = 1;
-
-            decoysEffect.spritesNormal = powerUp.spritesPrincipales;
-            decoysEffect.spritesMaximo = powerUp.spritesSecundarios;
+            MissileEffect missileEffect = player.gameObject.AddComponent<MissileEffect>();
+            missileEffect.level = 1;
         }
 
+        //Spawn the power Up
         Transform playerTransform = PlayerController.GetPlayerTransform?.Invoke();
-        if (playerTransform == null)
-        {
+        if(playerTransform == null) {
             Debug.LogWarning("No hay ningun jugador en la escena!");
+
             return;
         }
 
-        if (powerUp.prefab != null)
-        {
+        if(powerUp.prefab != null) {
             Instantiate(powerUp.prefab, playerTransform);
         }
+
     }
 
+    // ACTUALIZADOR DE NIVELES
     private void UpdatePowerUpEffect(PowerUpSO powerUp, int newLevel)
     {
         PlayerController player = FindObjectOfType<PlayerController>();
         if (player == null) return;
 
+        // 1. Cura Progresiva
         if (powerUp.name.Contains("Progressive"))
         {
             ProgressiveHealEffect healEffect = player.GetComponent<ProgressiveHealEffect>();
             if (healEffect != null) healEffect.level = newLevel;
         }
 
+        // 2. Potenciador de Daño
         if (powerUp.name.Contains("Damage"))
         {
             DamageIncreaseEffect dmgEffect = player.GetComponent<DamageIncreaseEffect>();
             if (dmgEffect != null) dmgEffect.level = newLevel;
         }
 
+        // 3. Onda Expansiva
         if (powerUp.name.Contains("Shock") || powerUp.name.Contains("Wave"))
         {
             ShockwaveEffect shockEffect = player.GetComponent<ShockwaveEffect>();
             if (shockEffect != null) shockEffect.level = newLevel;
         }
 
+        // 4. Misiles
         if (powerUp.name.Contains("Decoys"))
         {
-            DecoysEffect decoysEffect = player.GetComponent<DecoysEffect>();
-            if (decoysEffect != null) decoysEffect.level = newLevel;
+            MissileEffect missileEffect = player.GetComponent<MissileEffect>();
+            if (missileEffect != null) missileEffect.level = newLevel;
         }
 
-        if (powerUp.prefab == null) return;
-        Type powerUpClass = powerUp.prefab.GetComponent<PowerUpClass>().GetType();
-        var PowerUpObject = (PowerUpClass)player.GetComponentInChildren(powerUpClass, true);
-        PowerUpObject.Upgrade(newLevel);
+        if(powerUp.prefab != null) {
+            Type powerUpClass = powerUp.prefab.GetComponent<PowerUpClass>().GetType();
+            var PowerUpObject = (PowerUpClass)player.GetComponentInChildren(powerUpClass, true);
+            PowerUpObject.Upgrade(newLevel);
+        }
 
-        for (int i = 0; i < activePowerUpSlots.Length; i++)
-        {
-            if (activePowerUpSlots[i].activePowerUp.sprite != powerUp.powerUpIconRound) continue;
+        //Update UI
+
+        for(int i = 0; i < activePowerUpSlots.Length; i++) {
+            if(activePowerUpSlots[i].activePowerUp.sprite != powerUp.powerUpIconRound) continue;
+
             int rayosCount = activePowerUpSlots[i].rayos.Length;
-            for (int j = 0; j < rayosCount; j++)
-            {
+            for(int j = 0; j < rayosCount; j++) {
                 activePowerUpSlots[i].rayos[j].sprite = newLevel <= j ? rayoOff : rayoOn;
             }
         }
@@ -311,7 +331,8 @@ public class PowerUpManager : MonoBehaviour
     public void SkipPowerUp()
     {
         HidePowerUpSelection();
-        Time.timeScale = 1f;
+        Time.timeScale = 1f;    
+
         if (ExperienceManager.Instance != null)
         {
             ExperienceManager.Instance.ProcessNextLevelUp();
@@ -329,6 +350,7 @@ public class PowerUpManager : MonoBehaviour
                 Color slotColor = currentSlot.color;
                 slotColor.a = 1f;
                 currentSlot.color = slotColor;
+
                 activePowerUpSlots[currentSlotIndex].rayos[0].sprite = rayoOn;
             }
             currentSlotIndex++;

@@ -15,21 +15,6 @@ MonoBehaviour:
   powerUpImageSquare: {fileID: 21300000, guid: db0becee2df862a4097b1adfb7dfb26d, type: 3}
   powerUpIconRound: {fileID: 21300000, guid: 1af180d6109131f4d938d01d1607d617, type: 3}
   prefab: {fileID: 2759327549280629598, guid: 85314011df1b7d2448a13ffad1241119, type: 3}
-  spritesPrincipales:
-  - {fileID: 21300000, guid: 7b8aa069d3e1d6745bfdcb82eb977439, type: 3}
-  - {fileID: 21300000, guid: 5fadb1c9888f1b5479e54fab363b10bd, type: 3}
-  - {fileID: 21300000, guid: 3799bc991375f524e9f0cea8f84c1666, type: 3}
-  - {fileID: 21300000, guid: a9094f0c8325f824aa9055bbc5b57fde, type: 3}
-  - {fileID: 21300000, guid: e8b7e07c32cacad41963ac972f065e06, type: 3}
-  - {fileID: 21300000, guid: 4ba769f3a328c054f881bb4198fe07b8, type: 3}
-  spritesSecundarios:
-  - {fileID: 21300000, guid: 8543493eac5757e4ab97a739e4e1ce11, type: 3}
-  - {fileID: 21300000, guid: 1a13e772704f28548be988536997c5b2, type: 3}
-  - {fileID: 21300000, guid: ab1147080c267a2438715398a6eee27e, type: 3}
-  - {fileID: 21300000, guid: 626c4bac62f1c54428f0afb5fea5be16, type: 3}
-  - {fileID: 21300000, guid: 2f1ce307e0dcbd74d9d3098f5676f6ca, type: 3}
-  - {fileID: 21300000, guid: 975548490863232409decac829787dc1, type: 3}
-  - {fileID: 21300000, guid: 2eef816805b6c1e41a55c29010cc6265, type: 3}
   powerUpText: Piercing blades ripping from below, they can get faster and bigger.
   effectType: 6
   effectValue: 0

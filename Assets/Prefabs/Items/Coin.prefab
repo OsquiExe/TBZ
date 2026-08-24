@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3481298830435986440}
   - component: {fileID: 4073080463003015711}
   - component: {fileID: 2572174299181504795}
-  - component: {fileID: -6510317151750426692}
   - component: {fileID: -6196223469740146566}
   m_Layer: 0
   m_Name: Coin
@@ -91,40 +90,17 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 842513333cf177a49ac57678ea80b385, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: 42c58eec25aef134292fe21f23a10a23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6510317151750426692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687765003651938247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c46943b0baa133d469edab035bb9b897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 842513333cf177a49ac57678ea80b385, type: 3}
-  - {fileID: 21300000, guid: 86fa6b0a7de54ba4bbe239f30690a443, type: 3}
-  - {fileID: 21300000, guid: 7c8b960e29ad71941936a472308af3e5, type: 3}
-  - {fileID: 21300000, guid: 570fbab25bd062445ad96ae784861160, type: 3}
-  - {fileID: 21300000, guid: 15dd35064d3bb71479558c1fde9b7056, type: 3}
-  renderer: {fileID: 0}
-  timeBetweenFrames: 0.1
-  size: 0.2
-  autoPlay: 0
-  loop: 1
 --- !u!58 &-6196223469740146566
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -234,7 +210,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.8503309, b: 0, a: 0}
+  m_Color: {r: 1, g: 0.8503309, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

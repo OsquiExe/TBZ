@@ -11,9 +11,6 @@ public class ShockwaveEffect : MonoBehaviour
     [SerializeField] private float baseCooldown = 15f;
     [SerializeField] private float minCooldown = 7f;
 
-    [HideInInspector] public Sprite[] spritesNormal;
-    [HideInInspector] public Sprite[] spritesMaximo;
-
     AudioManager AudioManager;
 
     private void Awake()
@@ -24,20 +21,26 @@ public class ShockwaveEffect : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
+
         float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.5f));
 
         if (timer >= currentCooldown)
         {
             TriggerShockwave();
             timer = 0f;
-            if (AudioManager != null) AudioManager.PlaySFX(AudioManager.shockwaveSFX);
+            AudioManager.PlaySFX(AudioManager.shockwaveSFX);
         }
     }
 
     private void TriggerShockwave()
     {
         float currentRadius = baseRadius + (level * 2f);
+
+
         float currentDamage = 2f * level;
+        float currentCooldown = Mathf.Max(minCooldown, baseCooldown - (level * 1.5f));
+
+        Debug.Log($"🌊 [PowerUp] ¡Onda Expansiva Nivel {level}! Radio: {currentRadius}, Daño: {currentDamage}, CD: {currentCooldown}s");
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, currentRadius);
         foreach (var hit in hitEnemies)
@@ -63,28 +66,48 @@ public class ShockwaveEffect : MonoBehaviour
         GameObject waveObj = new GameObject("ShockwaveVFX");
         waveObj.transform.position = transform.position;
 
-        SpriteRenderer sr = waveObj.AddComponent<SpriteRenderer>();
-        sr.sortingOrder = 50;
-        waveObj.transform.localScale = new Vector3(maxRadius * 1.5f, maxRadius * 1.5f, 1f);
+        LineRenderer line = waveObj.AddComponent<LineRenderer>();
+        line.positionCount = 50;
+        line.loop = true;
+        line.useWorldSpace = false;
+        line.startWidth = 0.6f;
+        line.endWidth = 0.6f;
 
-        Sprite[] spritesActivos = (level >= 4 && spritesMaximo != null && spritesMaximo.Length > 0) ? spritesMaximo : spritesNormal;
+        line.material = new Material(Shader.Find("Sprites/Default"));
+        line.sortingOrder = 50;
 
-        if (spritesActivos != null && spritesActivos.Length > 0)
+        float duration = 1.2f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            sr.sprite = spritesActivos[0];
-            float timePerFrame = 0.5f / spritesActivos.Length;
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
 
-            for (int i = 0; i < spritesActivos.Length; i++)
+            float easeOut = Mathf.Sin(t * Mathf.PI * 0.5f);
+            float currentVisualRadius = Mathf.Lerp(0f, maxRadius, easeOut);
+
+            for (int i = 0; i < 50; i++)
             {
-                sr.sprite = spritesActivos[i];
-                yield return new WaitForSeconds(timePerFrame);
+                float angle = (i / 50f) * Mathf.PI * 2f;
+                float x = Mathf.Cos(angle) * currentVisualRadius;
+                float y = Mathf.Sin(angle) * currentVisualRadius;
+                line.SetPosition(i, new Vector3(x, y, 0));
             }
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.5f);
+
+            float alpha = Mathf.Lerp(1f, 0f, t);
+            line.startColor = new Color(0f, 1f, 1f, alpha);
+            line.endColor = new Color(0f, 1f, 1f, alpha);
+
+            yield return null;
         }
 
         Destroy(waveObj);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, baseRadius);
     }
 }
