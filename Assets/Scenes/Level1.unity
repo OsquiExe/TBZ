@@ -2276,8 +2276,8 @@ MonoBehaviour:
   boomerangSFX: {fileID: 8300000, guid: 5d099bd6d5b5b254ca18f2382dfc758a, type: 3}
   fireBallSFX: {fileID: 8300000, guid: 88d5ae727a7eae54eaadf75fd15ae54c, type: 3}
   snakesSFX: {fileID: 8300000, guid: 47ef30b9597817d439d21a6b514b6073, type: 3}
-  shockwaveSFX: {fileID: 8300000, guid: ac0b8175b4395bc4a8871733cddf9e17, type: 3}
-  spikesSFX: {fileID: 8300000, guid: 26852e1d9b8eaab458db2b9de933b7ef, type: 3}
+  shockwaveSFX: {fileID: 8300000, guid: 26852e1d9b8eaab458db2b9de933b7ef, type: 3}
+  spikesSFX: {fileID: 8300000, guid: 5b5935fac41f4694faa92ac21e3cb3f6, type: 3}
   healSFX: {fileID: 8300000, guid: f8a5390ca43304c4ea6b0d3d11e3f61d, type: 3}
   bombSFX: {fileID: 8300000, guid: 4c001a936b59e794780e4c7ff9e88039, type: 3}
   coinSFX: {fileID: 8300000, guid: a05f822877c7b024c9d6bc33a6df61db, type: 3}
@@ -4658,11 +4658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a74efed2c8c0394088acf8b134bbcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 4647558242710902050, guid: b8fb55065f6cdda4b838d03cdd28a545, type: 3}
-  spawnRadiusX: 15
-  spawnRadiusY: 15
-  minSpawnTime: 20
-  maxSpawnTime: 40
 --- !u!4 &734842513
 Transform:
   m_ObjectHideFlags: 0
@@ -10050,7 +10045,7 @@ EdgeCollider2D:
   - {x: 39.608807, y: -39.697937}
   - {x: -35.381565, y: -39.615826}
   - {x: -35.62703, y: 35.588783}
-  - {x: 39.69755, y: 34.72726}
+  - {x: 39.635365, y: 34.88272}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

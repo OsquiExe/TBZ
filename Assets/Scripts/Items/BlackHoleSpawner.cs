@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlackHoleSpawner : MonoBehaviour {
-    [Header("Configuración del Spawner")]
+    /*[Header("Configuraciï¿½n del Spawner")]
     [SerializeField] private GameObject itemPrefab;
 
-    [Tooltip("El tamaño del área (cuadrado) alrededor del jugador donde pueden aparecer los ítems.")]
+    [Tooltip("El tamaï¿½o del ï¿½rea (cuadrado) alrededor del jugador donde pueden aparecer los ï¿½tems.")]
     [SerializeField] private float spawnRadiusX = 15f;
     [SerializeField] private float spawnRadiusY = 15f;
 
-    [Header("Tiempos de Aparición")]
+    [Header("Tiempos de Apariciï¿½n")]
     [SerializeField] private float minSpawnTime = 20f;
     [SerializeField] private float maxSpawnTime = 40f;
 
@@ -35,7 +35,7 @@ public class BlackHoleSpawner : MonoBehaviour {
 
     private void SpawnItem() {
         if(itemPrefab == null) {
-            Debug.LogWarning("Falta asignar el prefab del ítem en el BombSpawner.");
+            Debug.LogWarning("Falta asignar el prefab del ï¿½tem en el BombSpawner.");
             return;
         }
 
@@ -68,5 +68,5 @@ public class BlackHoleSpawner : MonoBehaviour {
         }
 
         Gizmos.DrawWireCube(center, new Vector3(spawnRadiusX * 2, spawnRadiusY * 2, 0));
-    }
+    }*/
 }
