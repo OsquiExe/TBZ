@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace PowerUps {
-    public class Spikes : PowerUpClass {
-        [SerializeField] GameObject spikePrefab;
+    public class Spikes : BulletSpawner {
         [SerializeField] Vector3 playerDelta;
         Vector3 lastPlayerPosition;
 
-        [SerializeField] List<Weapon> spawnedSpikesTriggers = new();
         [SerializeField] float distanceBetweenSpikes = 2;
-        [SerializeField] int[] amountOfSpikes = { 1, 3, 4, 8 };
-        [SerializeField] int[] damages = { 2, 4, 6, 8 };
         bool spawning = false;
-
-        AudioManager AudioManager;
 
         private void Awake()
         {
@@ -34,32 +28,35 @@ namespace PowerUps {
             StartCoroutine(spawnBullets());
 
             IEnumerator spawnBullets() {
-                if(spawnedSpikesTriggers.Count - 1 < amountOfSpikes[nivel - 1]) {
-                    int needToSpawn = amountOfSpikes[nivel - 1] - spawnedSpikesTriggers.Count;
+                GameObject prefab = nivel >= 4 ? maxLevelBulletPrefabs : bulletPrefabs;
+                if(spawnClip) AudioManager.PlaySFX(clip);
 
+                //Cantidad
+                if(spawnedBullets.Count - 1 < amountOfBullets[nivel - 1]) {
+                    int needToSpawn = amountOfBullets[nivel - 1] - spawnedBullets.Count;
                     for(int i = 0; i < needToSpawn; i++) {
-                        GameObject bullet = Instantiate(spikePrefab, null);
+                        GameObject bullet = Instantiate(prefab, null);
 
                         yield return null;
                         Weapon w = bullet.GetComponentInChildren<Weapon>(true);
-                        spawnedSpikesTriggers.Add(w);
+
+                        spawnedBulletsTriggers.Add(w);
                     }
-                    AudioManager.PlaySFX(AudioManager.spikesSFX);
                 }
 
                 spawning = true;
-                for(int i = 0; i < spawnedSpikesTriggers.Count; i++) {
-                    GameObject spike = spawnedSpikesTriggers[i].gameObject;
+                for(int i = 0; i < spawnedBulletsTriggers.Count; i++) {
+                    GameObject spike = spawnedBulletsTriggers[i].gameObject;
 
                     spike.transform.position = transform.position - playerDelta;
                     spike.SetActive(true);
                     spike.transform.parent = null;
 
-                    spawnedSpikesTriggers[i].damage = damages[nivel - 1];
+                    spawnedBulletsTriggers[i].damage = damages[nivel - 1];
 
                     if(i == 0) continue;
 
-                    while(Vector3.Distance(transform.position, spawnedSpikesTriggers[i - 1].transform.position) < distanceBetweenSpikes) {
+                    while(Vector3.Distance(transform.position, spawnedBulletsTriggers[i - 1].transform.position) < distanceBetweenSpikes) {
                         yield return null;
 
                         if(!spawning) yield break;
@@ -72,18 +69,21 @@ namespace PowerUps {
 
         protected override void OnCooldownStarts() {
             spawning = false;
-
-            for(int i = 0; i < spawnedSpikesTriggers.Count; i++) {
-                GameObject spike = spawnedSpikesTriggers[i].gameObject;
-                spike.SetActive(false);
-            }
+            base.OnCooldownStarts();
         }
 
-        private void OnDestroy() {
-            for(int i = 0; i < spawnedSpikesTriggers.Count; i++) {
-                if(spawnedSpikesTriggers[i] == null) continue;
+        protected override void OnMaxUpgraded() {
+            for(int i = 0; i < spawnedBulletsTriggers.Count; i++) {
+                if(spawnedBulletsTriggers[i].gameObject != null) Destroy(spawnedBulletsTriggers[i].gameObject);
+            }
 
-                GameObject spike = spawnedSpikesTriggers[i].gameObject;
+            spawnedBulletsTriggers.Clear();
+        }
+        protected override void OnDestroy() {
+            for(int i = 0; i < spawnedBulletsTriggers.Count; i++) {
+                if(spawnedBulletsTriggers[i] == null) continue;
+
+                GameObject spike = spawnedBulletsTriggers[i].gameObject;
                 Destroy(spike);
             }
         }

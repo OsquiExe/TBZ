@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace PowerUps {
-    public class Fireball : PowerUpClass {
-        [SerializeField] GameObject bulletPrefabs;
+    public class Fireball : BulletSpawner {
+        /*[SerializeField] GameObject bulletPrefabs;
         [SerializeField] List<Rigidbody2D> spawnedBullets = new();
         [SerializeField] List<Weapon> spawnedBulletsTriggers = new();
 
@@ -69,7 +69,7 @@ namespace PowerUps {
                 Rigidbody2D bullet = spawnedBullets[i];
                 if(bullet != null && bullet.gameObject != null) Destroy(bullet.gameObject);
             }
-        }
+        }*/
     }
 
 }

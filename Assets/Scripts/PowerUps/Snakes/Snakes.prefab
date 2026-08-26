@@ -48,12 +48,22 @@ MonoBehaviour:
   cooldown: 5
   nivel: 1
   bulletPrefabs: {fileID: 5667067933518647505, guid: 662669ae1aef5474797c0a885d966041, type: 3}
+  maxLevelBulletPrefabs: {fileID: 5667067933518647505, guid: f88f73f3739a2c7418e70386b83e66b3, type: 3}
   spawnedBullets: []
   spawnedBulletsTriggers: []
+  spawnClip: 1
+  clip: 8
+  bulletMovesWithPlayer: 0
+  amountOfBullets: 01000000020000000300000004000000
   possibleRotations:
   - -45
   - 45
   - 225
   - 135
-  bulletVelocity: 10
-  amountOfBullets: 01000000020000000300000004000000
+  damages: 02000000020000000200000002000000
+  sizes: []
+  bulletVelocities:
+  - 10
+  - 10
+  - 10
+  - 10

@@ -47,9 +47,25 @@ MonoBehaviour:
   duration: 10
   cooldown: 5
   nivel: 1
-  spikePrefab: {fileID: 3620864992944423662, guid: fc11849814609c2478fa4f150ed84424, type: 3}
-  spike: {fileID: 0}
-  playerDelta: {x: 0, y: 0, z: 0}
-  spawnedSpikesTriggers: []
-  amountOfSpikes: 01000000030000000400000008000000
+  bulletPrefabs: {fileID: 3620864992944423662, guid: fc11849814609c2478fa4f150ed84424, type: 3}
+  maxLevelBulletPrefabs: {fileID: 3620864992944423662, guid: 5da114795e4a9b149b59246acf5001b3, type: 3}
+  spawnedBullets: []
+  spawnedBulletsTriggers: []
+  spawnClip: 1
+  clip: 10
+  bulletMovesWithPlayer: 0
+  amountOfBullets: 01000000030000000400000008000000
+  possibleRotations:
+  - -45
+  - 45
+  - 225
+  - 135
   damages: 02000000040000000600000008000000
+  sizes: []
+  bulletVelocities:
+  - 10
+  - 15
+  - 20
+  - 25
+  playerDelta: {x: 0, y: 0, z: 0}
+  distanceBetweenSpikes: 2

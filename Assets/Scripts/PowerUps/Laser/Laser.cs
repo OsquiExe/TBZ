@@ -4,18 +4,10 @@ using UnityEngine;
 
 
 namespace PowerUps {
-    public class Laser : PowerUpClass {
-        [SerializeField] GameObject bulletPrefabs;
-        [SerializeField] List<Rigidbody2D> spawnedBullets = new();
-        [SerializeField] List<Weapon> spawnedBulletsTriggers = new();
+    public class Laser : BulletSpawner {
 
-        [Space(10)]
-        [SerializeField] float[] possibleRotations = { -45, 45, 225, 135 };
-        [SerializeField] float[] bulletVelocities = { 10, 15, 20, 25 };
-        [SerializeField] int[] amountOfBullets = { 1, 2, 3, 4 };
-        [SerializeField] int[] damages = { 2, 4, 6, 8 };
-
-
+        //[SerializeField] float[] bulletVelocities = { 10, 15, 20, 25 };
+        /*
         protected override void OnCooldownEnds() {
             if(nivel - 1 < 0) return;
 
@@ -58,7 +50,7 @@ namespace PowerUps {
                 Rigidbody2D bullet = spawnedBullets[i];
                 if(bullet != null && bullet.gameObject != null) Destroy(bullet.gameObject);
             }
-        }
+        }*/
     }
 
 }

@@ -13,9 +13,11 @@ public class BulletSpawner : PowerUpClass {
     [Space(10)]
 
     Vector2 originalSize;
-    protected bool spawnClip;
+    [SerializeField] protected bool spawnClip = true;
+    [SerializeField] protected AudioManager.AudioClipNames clip;
+
+    [Space(10)]
     [SerializeField] protected bool bulletMovesWithPlayer = false;
-    protected AudioManager.AudioClipNames clip;
     protected AudioManager AudioManager;
 
     //-Cantidad

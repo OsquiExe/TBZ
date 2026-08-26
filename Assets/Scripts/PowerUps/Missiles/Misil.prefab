@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 571361910397490513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb2c7d709c51d946bfaf78a02a84320, type: 3}
+  m_Script: {fileID: 11500000, guid: f9f28512fd8364044b0ee5fed1df8f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
@@ -52,6 +52,9 @@ MonoBehaviour:
   maxLevelBulletPrefabs: {fileID: 2668686503774860292, guid: 68ffbb98e743e6547a18942dcef9caae, type: 3}
   spawnedBullets: []
   spawnedBulletsTriggers: []
+  spawnClip: 1
+  clip: 3
+  bulletMovesWithPlayer: 0
   amountOfBullets: 02000000030000000400000008000000
   possibleRotations:
   - -45

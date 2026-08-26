@@ -63,8 +63,8 @@ public class PowerUpManager : MonoBehaviour
 
     private void Update() {
 #if UNITY_EDITOR
-        if(Input.GetKeyDown(KeyCode.P)) {
-            ExperienceManager.Instance.AddExperience(10);
+        if(Input.GetKey(KeyCode.P)) {
+            ExperienceManager.Instance.AddExperience(20);
         }
 #endif
     }

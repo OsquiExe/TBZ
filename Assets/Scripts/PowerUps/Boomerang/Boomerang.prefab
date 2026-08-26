@@ -52,6 +52,8 @@ MonoBehaviour:
   maxLevelBulletPrefabs: {fileID: 7897110526510019152, guid: 599be401386f74d43a0eac25688c5913, type: 3}
   spawnedBullets: []
   spawnedBulletsTriggers: []
+  spawnClip: 1
+  clip: 6
   bulletMovesWithPlayer: 1
   amountOfBullets: 01000000010000000100000001000000
   possibleRotations:
