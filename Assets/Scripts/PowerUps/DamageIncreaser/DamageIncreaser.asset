@@ -14,6 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpImageSquare: {fileID: 21300000, guid: 70745cc4d1521cd43b52fd442a786689, type: 3}
   powerUpIconRound: {fileID: 21300000, guid: 0d9e0c4ec080e27448f6cd5d241a5102, type: 3}
+  prefab: {fileID: 0}
+  spritesPrincipales:
+  - {fileID: 21300000, guid: 0764ab5993524f64fa34bb50e8119913, type: 3}
+  - {fileID: 21300000, guid: 84c37d9b1db57b647971da7c26794175, type: 3}
+  - {fileID: 21300000, guid: 6dd6b9b9e2cb0354ba29a455972849c5, type: 3}
+  - {fileID: 21300000, guid: 51a54d468dc3b87489f263a365e70e3b, type: 3}
+  - {fileID: 21300000, guid: dbcc77b554dc35e4480a32958b3874f7, type: 3}
+  - {fileID: 21300000, guid: 997ad6dbcb156264491379af04dd17d8, type: 3}
+  - {fileID: 21300000, guid: 50f420ba886c0f34c95e6e950a1db860, type: 3}
+  - {fileID: 21300000, guid: fcae48758f883ea469549ec80eb407d3, type: 3}
+  spritesSecundarios: []
   powerUpText: Condensed matter that increase the player's strenght.
   effectType: 8
   effectValue: 0
