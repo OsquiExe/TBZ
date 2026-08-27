@@ -43,6 +43,9 @@ public class PlayerAttack : MonoBehaviour
 
     AudioManager AudioManager;
 
+    [Header("VFX")]
+    [SerializeField] public Sprite[] hitSprites; 
+
     private void Awake()
     {
         AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -210,6 +213,13 @@ public class PlayerAttack : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(totalDamage, dashDirection * dashKnockbackForce);
+                if (hitSprites != null && hitSprites.Length > 0)
+                {
+                    GameObject vfx = new GameObject("HitVFX");
+                    vfx.transform.position = collision.transform.position;
+                    vfx.AddComponent<SpriteRenderer>().sortingOrder = 50;
+                    vfx.AddComponent<VFXPlayer>().PlayAndDestroy(hitSprites, 0.05f);
+                }
                 AudioManager.PlaySFX(AudioManager.punchSFX);
             }
 
@@ -281,6 +291,13 @@ public class PlayerAttack : MonoBehaviour
         animator.SetTrigger("Attack");
 
         animator.Play("FightTree", 0, 0f);
+        if (hitSprites != null && hitSprites.Length > 0)
+        {
+            GameObject vfx = new GameObject("HitVFX");
+            vfx.transform.position = transform.position + (Vector3)(lastDirection * 1.5f);
+            vfx.AddComponent<SpriteRenderer>().sortingOrder = 50;
+            vfx.AddComponent<VFXPlayer>().PlayAndDestroy(hitSprites, 0.05f);
+        }
     }
 
     public void CheckAttackTimer()
