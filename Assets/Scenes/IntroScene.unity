@@ -200,6 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 694786162}
   - component: {fileID: 694786161}
+  - component: {fileID: 694786163}
   m_Layer: 0
   m_Name: IntroManager
   m_TagString: Untagged
@@ -219,9 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6283f94486b12448068f81d76a8292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1736047504}
-  touchText: {fileID: 2047070990}
-  mainMenuSceneName: MainMenu
 --- !u!4 &694786162
 Transform:
   m_ObjectHideFlags: 0
@@ -237,6 +235,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &694786163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694786160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 995c7a6b3f56f434fba5c00f7d72ceee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1736047504}
+  touchText: {fileID: 2047070990}
+  mainMenuSceneName: MainMenu
 --- !u!1 &1254351654
 GameObject:
   m_ObjectHideFlags: 0

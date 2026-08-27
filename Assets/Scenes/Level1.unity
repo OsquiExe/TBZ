@@ -2110,6 +2110,7 @@ MonoBehaviour:
   bombSFX: {fileID: 8300000, guid: 4c001a936b59e794780e4c7ff9e88039, type: 3}
   coinSFX: {fileID: 8300000, guid: a05f822877c7b024c9d6bc33a6df61db, type: 3}
   blackholeSFX: {fileID: 8300000, guid: 8ff199fe9ebe87448bd728022aaa5989, type: 3}
+  Sfxs: []
 --- !u!4 &418573059
 Transform:
   m_ObjectHideFlags: 0
@@ -6544,7 +6545,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -176}
+  m_AnchoredPosition: {x: 17.009, y: -190}
   m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1048879794
@@ -6567,7 +6568,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 8b6a3e69150e2fe489ce409b0134f24a, type: 2}
+  m_Texture: {fileID: 8400000, guid: 2b6f86abb1e5d8c4a9129843d0a28e00, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7068,12 +7069,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -79.4
+      value: -77.61
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.7
+      value: -5.23
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7649,8 +7662,6 @@ MonoBehaviour:
   tutorialPanel: {fileID: 603322202}
   nameText: {fileID: 1651540838}
   dialogueText: {fileID: 1457710284}
-  kalaAnimator: {fileID: 1789510191}
-  ramoAnimator: {fileID: 1154995333}
   startTutorial:
   - characterName: 'Kala:'
     dialogueText: Se que me escuchas maldita borracha, Rami me dejo a cargo asi que
@@ -8295,6 +8306,7 @@ MonoBehaviour:
   pausePanel: {fileID: 180612278}
   defeatPanel: {fileID: 1247844564}
   victoryPanel: {fileID: 758826640}
+  coinsRecollected: {fileID: 0}
   runCoinsText: {fileID: 553047004}
 --- !u!4 &1293351459
 Transform:
@@ -8699,7 +8711,7 @@ Transform:
   m_GameObject: {fileID: 1348066595}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.005811173, w: 0.99998313}
-  m_LocalPosition: {x: -75.6, y: -0.06, z: -80}
+  m_LocalPosition: {x: -75.59, y: 1.09, z: -80}
   m_LocalScale: {x: 1, y: 3.7436976, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11580,12 +11592,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -70.40001
+      value: -73.31
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.88
+      value: -5.63
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11912,6 +11936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiPowerUpSelect: {fileID: 1283259144}
+  uiPowerUpSelectAnimator: {fileID: 0}
   powerUpPrefab: {fileID: 1836649568576320650, guid: 4cdc499ac126fc54983aa8916af0f48d, type: 3}
   powerUpPosition1: {fileID: 974011990}
   powerUpPosition2: {fileID: 934158368}
