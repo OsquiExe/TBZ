@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
     public delegate Transform GetTransform();
     public static GetTransform GetPlayerTransform;
 
+    public static Action VictoryAnim;
+
     bool canMove = true;
     bool isDeath = false;
 
@@ -62,7 +65,7 @@ public class PlayerController : MonoBehaviour
         currentHealth = maxHealth;
         UpdateHealthUI();
 
-        GameManager.Instance.onVictory += OnVictory;
+        VictoryAnim += OnVictory;
         GameManager.Instance.onDefeat += OnDefeat;
     }
 

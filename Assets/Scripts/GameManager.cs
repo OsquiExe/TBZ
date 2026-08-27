@@ -114,6 +114,9 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
+            PlayerController.VictoryAnim?.Invoke();
+            yield return new WaitForSeconds(1f);
+
             coinsRecollected.text = coinsCollectedThisRun.ToString();
             if(victoryPanel) victoryPanel.SetActive(true);
             Time.timeScale = 0f;
