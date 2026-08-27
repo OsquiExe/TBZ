@@ -65,7 +65,8 @@ public class ShockwaveEffect : MonoBehaviour
 
         SpriteRenderer sr = waveObj.AddComponent<SpriteRenderer>();
         sr.sortingOrder = 50;
-        waveObj.transform.localScale = new Vector3(maxRadius * 1.5f, maxRadius * 1.5f, 1f);
+
+        waveObj.transform.localScale = new Vector3(maxRadius * 0.25f, maxRadius * 0.25f, 1f);
 
         Sprite[] spritesActivos = (level >= 4 && spritesMaximo != null && spritesMaximo.Length > 0) ? spritesMaximo : spritesNormal;
 

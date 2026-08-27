@@ -74,7 +74,7 @@ public class DecoysEffect : MonoBehaviour
 
 
         int idleFrames = Mathf.Min(4, spritesActivos.Length);
-        Vector3 originalScale = new Vector3(1.5f, 1.5f, 1f);
+        Vector3 originalScale = new Vector3(0.7f, 0.7f, 1f);
 
         while (elapsed < fuseTime)
         {
@@ -106,7 +106,7 @@ public class DecoysEffect : MonoBehaviour
         if (CameraMove.Instance != null) CameraMove.Instance.ShakeCamera(0.2f, 0.1f);
 
 
-        bombObj.transform.localScale = new Vector3(explosionRadius * 1.5f, explosionRadius * 1.5f, 1f);
+        bombObj.transform.localScale = new Vector3(explosionRadius * 0.8f, explosionRadius * 0.8f, 1f);
 
         if (spritesActivos.Length > idleFrames)
         {
