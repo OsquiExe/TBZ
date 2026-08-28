@@ -34,6 +34,10 @@ public class WaveManager : MonoBehaviour
     [Header("Jefe Final")] 
     [SerializeField] private GameObject bossPrefab;
 
+    [Space(50)]
+    [Header("DEBUG")]
+    [SerializeField] bool jefePrimerRonda = true;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(gameObject);
@@ -42,6 +46,10 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
+        if(jefePrimerRonda) bossWaveIndex = 1;
+#endif
+
         StartWave();
     }
 
@@ -98,10 +106,10 @@ public class WaveManager : MonoBehaviour
         JefeController bossScript = bossObj.GetComponent<JefeController>();
         if (bossScript != null)
         {
-            bossScript.vidaMaxima = 1500f; 
+            //bossScript.vidaMaxima = 1500f; 
         }
 
-        bossObj.transform.localScale = new Vector3(3f, 3f, 3f);
+        //bossObj.transform.localScale = new Vector3(3f, 3f, 3f);
 
         enemiesSpawnedThisWave++;
         Debug.Log("💀 ¡EL JEFE HA APARECIDO!");

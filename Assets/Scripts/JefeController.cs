@@ -23,7 +23,7 @@ public class JefeController : MonoBehaviour
     public GameObject balaPrefab;
     public LineRenderer lineaEmbestida;
     public Animator animator;
-    private Slider barraVida;
+    private Image barraVida;
 
     [Header("Feedback Visual de Daño")]
     [SerializeField] private float flashDuration = 0.1f;
@@ -40,12 +40,16 @@ public class JefeController : MonoBehaviour
     private enum EstadoJefe { Caminando, PreparandoAtaque, Atacando, Muerto }
     private EstadoJefe estadoActual;
 
+    [Space(50)]
+    [Header("DEBUG")]
+    [SerializeField] bool oneShoot = true;
+
     void Start()
     {
         vidaActual = vidaMaxima;
 
 #if UNITY_EDITOR
-        vidaActual = 1;
+        if(oneShoot) vidaActual = 1;
 #endif
         rb = GetComponent<Rigidbody2D>();
 
@@ -81,11 +85,10 @@ public class JefeController : MonoBehaviour
 
             if (barraTransform != null)
             {
-                barraVida = barraTransform.GetComponent<Slider>();
+                barraVida = barraTransform.GetComponent<Image>();
                 if (barraVida != null)
                 {
-                    barraVida.maxValue = vidaMaxima;
-                    barraVida.value = vidaActual;
+                    barraVida.fillAmount = vidaActual / vidaMaxima;
                     barraVida.gameObject.SetActive(true);
                 }
             }
@@ -270,7 +273,7 @@ public class JefeController : MonoBehaviour
 
         if (barraVida != null)
         {
-            barraVida.value = vidaActual;
+            barraVida.fillAmount = vidaActual / vidaMaxima;
         }
 
 
