@@ -210,6 +210,8 @@ public class JefeController : MonoBehaviour
         if (lineaEmbestida != null) lineaEmbestida.enabled = false;
         spriteRenderer.color = Color.white;
 
+        float masaOriginal = rb.mass;
+        rb.mass = 9999f;
         float tiempoPasado = 0f;
 
         while (tiempoPasado < duracionEmbestida)
@@ -219,6 +221,7 @@ public class JefeController : MonoBehaviour
             yield return null;
         }
 
+        rb.mass = masaOriginal;
         rb.velocity = Vector2.zero;
         FinalizarAtaque();
     }
