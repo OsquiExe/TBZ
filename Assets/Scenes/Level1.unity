@@ -4466,8 +4466,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 228023362603713360, guid: 1476bcdf57c9f804dbc6ddf275a633ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 731201967}
   m_SourcePrefab: {fileID: 100100000, guid: 1476bcdf57c9f804dbc6ddf275a633ab, type: 3}
+--- !u!1 &731201964 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 228023362603713360, guid: 1476bcdf57c9f804dbc6ddf275a633ab, type: 3}
+  m_PrefabInstance: {fileID: 731201963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &731201965 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 765377192247370206, guid: 1476bcdf57c9f804dbc6ddf275a633ab, type: 3}
+  m_PrefabInstance: {fileID: 731201963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &731201966 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6612504717658617772, guid: 1476bcdf57c9f804dbc6ddf275a633ab, type: 3}
+  m_PrefabInstance: {fileID: 731201963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &731201967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731201964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af5fc27f45513e643918ab4f32911ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: {fileID: 731201966}
+  SFXSource: {fileID: 731201965}
+  backgroundLevel1: {fileID: 8300000, guid: 6bc0b1b22c107594a975f7cb47c0e498, type: 3}
+  dashSFX: {fileID: 8300000, guid: 675431a7759b3f44eb7bce1408a254d4, type: 3}
+  punchSFX: {fileID: 8300000, guid: a8679b2fdf1a1ec4fac874a2180397b9, type: 3}
+  missileSFX: {fileID: 8300000, guid: a580026ee66cdbd4593d90a5a1cb9a17, type: 3}
+  laserSFX: {fileID: 8300000, guid: d779e40f3ae7e1e49ac37751af8bdc7f, type: 3}
+  bombDecoysSFX: {fileID: 8300000, guid: 74f2bc5728e229d4db647daa09746d7e, type: 3}
+  boomerangSFX: {fileID: 8300000, guid: 5d099bd6d5b5b254ca18f2382dfc758a, type: 3}
+  fireBallSFX: {fileID: 8300000, guid: 88d5ae727a7eae54eaadf75fd15ae54c, type: 3}
+  snakesSFX: {fileID: 8300000, guid: 47ef30b9597817d439d21a6b514b6073, type: 3}
+  shockwaveSFX: {fileID: 8300000, guid: 26852e1d9b8eaab458db2b9de933b7ef, type: 3}
+  spikesSFX: {fileID: 8300000, guid: 5b5935fac41f4694faa92ac21e3cb3f6, type: 3}
+  healSFX: {fileID: 8300000, guid: f8a5390ca43304c4ea6b0d3d11e3f61d, type: 3}
+  bombSFX: {fileID: 8300000, guid: 4c001a936b59e794780e4c7ff9e88039, type: 3}
+  coinSFX: {fileID: 8300000, guid: a05f822877c7b024c9d6bc33a6df61db, type: 3}
+  blackholeSFX: {fileID: 0}
+  Sfxs: []
 --- !u!1001 &739336274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6201,37 +6249,6 @@ RectTransform:
   m_AnchoredPosition: {x: -338, y: -0.005004883}
   m_SizeDelta: {x: 1080, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &979317752
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 979317753}
-  m_Layer: 0
-  m_Name: AudioManager2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &979317753
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979317752}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 167.89589, y: 151.78375, z: -2.871803}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1000329657
 GameObject:
   m_ObjectHideFlags: 0
@@ -10938,7 +10955,7 @@ MonoBehaviour:
   spawnRadiusX: 15
   spawnRadiusY: 15
   bossPrefab: {fileID: 4357967227749977923, guid: 1bae31dcbd60e904fa409ff9959f774f, type: 3}
-  jefePrimerRonda: 1
+  jefePrimerRonda: 0
 --- !u!4 &1661259337
 Transform:
   m_ObjectHideFlags: 0
@@ -13343,4 +13360,3 @@ SceneRoots:
   - {fileID: 1154995331}
   - {fileID: 1789510189}
   - {fileID: 731201963}
-  - {fileID: 979317753}
