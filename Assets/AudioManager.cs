@@ -1,10 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-   [SerializeField] AudioSource musicSource;
-   [SerializeField] AudioSource SFXSource;
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource SFXSource;
 
     public AudioClip backgroundLevel1;
     public AudioClip dashSFX;
@@ -25,8 +26,9 @@ public class AudioManager : MonoBehaviour
 
     public List<AudioClip> Sfxs;
 
-    public enum AudioClipNames {
-           backgroundLevel1
+    public enum AudioClipNames
+    {
+        backgroundLevel1
     , dashSFX
     , punchSFX
     , missileSFX
@@ -41,12 +43,12 @@ public class AudioManager : MonoBehaviour
     , bombSFX
     , coinSFX
     , blackholeSFX
-}
+    }
 
-   void Start()
-   {
-       musicSource.clip = backgroundLevel1;
-       musicSource.Play();
+    void Start()
+    {
+        musicSource.clip = backgroundLevel1;
+        musicSource.Play();
 
         //Automatizar despues del evento
         Sfxs.Add(backgroundLevel1);
@@ -66,12 +68,13 @@ public class AudioManager : MonoBehaviour
         Sfxs.Add(blackholeSFX);
     }
 
-   public void PlaySFX(AudioClip clip)
-   {
-       SFXSource.PlayOneShot(clip);
-}
+    public void PlaySFX(AudioClip clip)
+    {
+        SFXSource.PlayOneShot(clip);
+    }
 
-    public void PlaySFX(AudioClipNames clip) {
+    public void PlaySFX(AudioClipNames clip)
+    {
         SFXSource.PlayOneShot(Sfxs[(int)clip]);
     }
 }
