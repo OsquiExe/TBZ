@@ -253,13 +253,19 @@ public class PowerUpManager : MonoBehaviour
         {
             ShockwaveEffect shockEffect = player.gameObject.AddComponent<ShockwaveEffect>();
             shockEffect.level = 1;
+            // ¡Acá inyectamos los sprites de la Onda!
+            shockEffect.spritesNormal = powerUp.spritesPrincipales;
+            shockEffect.spritesMaximo = powerUp.spritesSecundarios;
         }
 
-        // 4. Misiles (Antes Capybara Bomb)
+        // 4. Misiles (Antes Capybara Bomb / Decoys)
         if (powerUp.name.Contains("Decoys"))
         {
-            MissileEffect missileEffect = player.gameObject.AddComponent<MissileEffect>();
-            missileEffect.level = 1;
+            DecoysEffect decoysEffect = player.gameObject.AddComponent<DecoysEffect>();
+            decoysEffect.level = 1;
+            // ¡Acá inyectamos los sprites de los Señuelos!
+            decoysEffect.spritesNormal = powerUp.spritesPrincipales;
+            decoysEffect.spritesMaximo = powerUp.spritesSecundarios;
         }
 
         //Spawn the power Up
@@ -306,8 +312,8 @@ public class PowerUpManager : MonoBehaviour
         // 4. Misiles
         if (powerUp.name.Contains("Decoys"))
         {
-            MissileEffect missileEffect = player.GetComponent<MissileEffect>();
-            if (missileEffect != null) missileEffect.level = newLevel;
+            DecoysEffect decoysEffect = player.GetComponent<DecoysEffect>();
+            if (decoysEffect != null) decoysEffect.level = newLevel;
         }
 
         if(powerUp.prefab != null) {

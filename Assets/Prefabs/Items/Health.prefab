@@ -101,12 +101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healAmount: 25
   healSprites:
-  - {fileID: 21300000, guid: c95d30d1fd703a54eb18be3f97faeb8a, type: 3}
-  - {fileID: 21300000, guid: 94152880b89536f42bf5696272c4fa3c, type: 3}
-  - {fileID: 21300000, guid: 7fcd67e09e0343d428639b6732fdd98d, type: 3}
-  - {fileID: 21300000, guid: 9a9b8dcdf0e6d6c43bd6b0a3af3352ce, type: 3}
-  - {fileID: 21300000, guid: df552546defbc454194ac9a61b1e817f, type: 3}
-  - {fileID: 21300000, guid: 5f07d556b2dc04e4c9716d4c320031e5, type: 3}
+  - {fileID: 21300000, guid: 1c532afe9ba19db4d939eb4902c9d3f5, type: 3}
+  - {fileID: 21300000, guid: 1abf27744b90a4f4ba9c4754dea14b8d, type: 3}
+  - {fileID: 21300000, guid: 3f0ed50fea21b3944b028450d226ba27, type: 3}
+  - {fileID: 21300000, guid: 0ea1a86884ae924498473c8a159a937f, type: 3}
+  - {fileID: 21300000, guid: e0ae141ab265f9b4681b4dfd695c6abc, type: 3}
+  - {fileID: 21300000, guid: 351651e242ead9b4eb63b7e582720b9c, type: 3}
 --- !u!114 &-6690688293975337232
 MonoBehaviour:
   m_ObjectHideFlags: 0

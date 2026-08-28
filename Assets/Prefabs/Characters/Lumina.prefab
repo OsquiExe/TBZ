@@ -236,6 +236,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   lastDirection: {x: 0, y: -1}
+  hitSprites:
+  - {fileID: 21300000, guid: 23ae51cd787ed2d4dbdadf519fff5369, type: 3}
+  - {fileID: 21300000, guid: e3b8e7f9d3dff1e458f7eb964d028144, type: 3}
+  - {fileID: 21300000, guid: ba79ba93cfffe154fbed64873de476b2, type: 3}
+  - {fileID: 21300000, guid: ac8c15df5aa55c94ca7427a767073b6a, type: 3}
+  - {fileID: 21300000, guid: c941d058841194b4b8b2be6fffd55179, type: 3}
+  - {fileID: 21300000, guid: 91366b554ab627044be0d0c3a5b9887f, type: 3}
 --- !u!1 &5035691568137829167
 GameObject:
   m_ObjectHideFlags: 0

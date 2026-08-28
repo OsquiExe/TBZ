@@ -43,6 +43,9 @@ public class PlayerAttack : MonoBehaviour
 
     AudioManager AudioManager;
 
+    [Header("VFX")]
+    [SerializeField] public Sprite[] hitSprites;
+
     private void Awake()
     {
         AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -88,7 +91,6 @@ public class PlayerAttack : MonoBehaviour
             {
                 Touch touch = Input.GetTouch(i);
 
-
                 if (touch.phase == TouchPhase.Began)
                 {
                     CheckTouchBegan(touch.position);
@@ -104,7 +106,6 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-
                 CheckTouchBegan(Input.mousePosition);
             }
             else if (Input.GetMouseButtonUp(0))
@@ -124,7 +125,6 @@ public class PlayerAttack : MonoBehaviour
 
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPosition);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-
 
         Collider2D[] playerColliders = Physics2D.OverlapCircleAll(worldPos2D, 1.5f, playerLayer);
 
@@ -153,7 +153,7 @@ public class PlayerAttack : MonoBehaviour
                 Vector2 swipeDir = (touchEndPos - touchStartPos).normalized;
                 StartCoroutine(DashRoutine(swipeDir));
 
-          
+              
                 if (AudioManager != null)
                 {
                     AudioManager.PlaySFX(AudioManager.dashSFX);
@@ -177,7 +177,6 @@ public class PlayerAttack : MonoBehaviour
         {
             elapsed += Time.fixedDeltaTime;
             float t = elapsed / dashDuration;
-
 
             float speedMultiplier = Mathf.Pow(1f - t, 2f);
             float currentSpeed = dashSpeed * speedMultiplier;
@@ -210,14 +209,19 @@ public class PlayerAttack : MonoBehaviour
                 totalDamage += dmgEffect.GetExtraDamage();
             }
 
-
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
                 enemy.TakeDamage(totalDamage, dashDirection * dashKnockbackForce);
+                if (hitSprites != null && hitSprites.Length > 0)
+                {
+                    GameObject vfx = new GameObject("HitVFX");
+                    vfx.transform.position = collision.transform.position;
+                    vfx.AddComponent<SpriteRenderer>().sortingOrder = 50;
+                    vfx.AddComponent<VFXPlayer>().PlayAndDestroy(hitSprites, 0.05f);
+                }
                 AudioManager.PlaySFX(AudioManager.punchSFX);
             }
-
 
             JefeController jefe = collision.gameObject.GetComponent<JefeController>();
             if (jefe != null)
@@ -241,22 +245,34 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+
     private bool IsEnemyNearby()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
+
         foreach (var hit in hitColliders)
         {
+            bool esObjetivoValido = false;
 
             Enemy enemy = hit.GetComponent<Enemy>();
-            if (enemy != null && !enemy.isDead)
-            {
-                return true;
-            }
+            if (enemy != null && !enemy.isDead) esObjetivoValido = true;
 
             JefeController jefe = hit.GetComponent<JefeController>();
-            if (jefe != null)
+            if (jefe != null) esObjetivoValido = true;
+
+            if (esObjetivoValido)
             {
-                return true; 
+
+                Vector2 direccionAlEnemigo = (hit.transform.position - transform.position).normalized;
+
+
+                float anguloFrente = Vector2.Dot(lastDirection, direccionAlEnemigo);
+
+
+                if (anguloFrente > 0.25f)
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -286,6 +302,13 @@ public class PlayerAttack : MonoBehaviour
         animator.SetTrigger("Attack");
 
         animator.Play("FightTree", 0, 0f);
+        if (hitSprites != null && hitSprites.Length > 0)
+        {
+            GameObject vfx = new GameObject("HitVFX");
+            vfx.transform.position = transform.position + (Vector3)(lastDirection * 1.5f);
+            vfx.AddComponent<SpriteRenderer>().sortingOrder = 50;
+            vfx.AddComponent<VFXPlayer>().PlayAndDestroy(hitSprites, 0.05f);
+        }
     }
 
     public void CheckAttackTimer()
@@ -305,5 +328,15 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, enemyDetectionRadius);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, (Vector2)transform.position + (lastDirection * enemyDetectionRadius));
     }
 }

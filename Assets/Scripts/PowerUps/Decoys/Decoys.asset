@@ -14,6 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpImageSquare: {fileID: 21300000, guid: cc92cc55273221c48ac1733835c760e4, type: 3}
   powerUpIconRound: {fileID: 21300000, guid: 50e885a429a4bde4da9af8d6e8f1f9da, type: 3}
+  prefab: {fileID: 0}
+  spritesPrincipales:
+  - {fileID: 21300000, guid: 2f46b226283940b45b5ec8ee51734f17, type: 3}
+  - {fileID: 21300000, guid: da4685bfaf358234d98ccd0a8099bba5, type: 3}
+  - {fileID: 21300000, guid: 39e08fd08cfa6d24d9853cee06ec5883, type: 3}
+  - {fileID: 21300000, guid: 63dea314b98fc6548a800eec1a4baf33, type: 3}
+  - {fileID: 21300000, guid: f452f36e6fa334249a5e3b3ddb691a1c, type: 3}
+  - {fileID: 21300000, guid: cdf67becd735c7e48ab0521badde182e, type: 3}
+  - {fileID: 21300000, guid: 493ecd796a7c56542a1690887c22520b, type: 3}
+  - {fileID: 21300000, guid: 26c18627d54736a429057e81e0cf160a, type: 3}
+  - {fileID: 21300000, guid: 4411a76a5fd424640838022fc3884fc5, type: 3}
+  - {fileID: 21300000, guid: 0923c6e0c542d814a92f74ac16e7fa15, type: 3}
+  spritesSecundarios:
+  - {fileID: 21300000, guid: 6b9a859016f9da2439bd1b12d15ea1d8, type: 3}
+  - {fileID: 21300000, guid: e0ee94dabf5723c43860145c33e27378, type: 3}
+  - {fileID: 21300000, guid: a4b463fb26ef90146abd1c6e93e7455f, type: 3}
+  - {fileID: 21300000, guid: 8379edc77d4d78a4e959bc7e029979ed, type: 3}
+  - {fileID: 21300000, guid: f3f08332f3c1fe34091d8bb0a647095a, type: 3}
+  - {fileID: 21300000, guid: a35f70337300f8948acd610eead9d605, type: 3}
+  - {fileID: 21300000, guid: f43baa013ddcfeb4b8f694e913d96ca6, type: 3}
+  - {fileID: 21300000, guid: 72b7067eb88ebff49a2bb989c74886c5, type: 3}
+  - {fileID: 21300000, guid: 85dfbb8c6ffd52b418c5701942b75ec6, type: 3}
+  - {fileID: 21300000, guid: d9044e5d9562cef49a7e44964e83c0e8, type: 3}
+  - {fileID: 21300000, guid: a0ccff863e5b1e34282fe3e45a9c5810, type: 3}
+  - {fileID: 21300000, guid: 4cb03f0504d8b9d4aa682a21cbe8b9c6, type: 3}
+  - {fileID: 21300000, guid: 5545845f1ca30444f801dfe15679b321, type: 3}
+  - {fileID: 21300000, guid: 85cd1ba5335d4a74cbbdd15b4a5c9978, type: 3}
   powerUpText: Robotic capibaras thrown around to explode, they can get bigger.
   effectType: 4
   effectValue: 0
