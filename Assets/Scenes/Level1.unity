@@ -2093,24 +2093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6a389cf9b1b734e9691322b49815d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 1035516943}
-  SFXSource: {fileID: 744647925}
-  backgroundLevel1: {fileID: 8300000, guid: 6bc0b1b22c107594a975f7cb47c0e498, type: 3}
-  dashSFX: {fileID: 8300000, guid: 50ac07dae594c9947b50921c6f11766a, type: 3}
-  punchSFX: {fileID: 8300000, guid: a8679b2fdf1a1ec4fac874a2180397b9, type: 3}
-  missileSFX: {fileID: 8300000, guid: a580026ee66cdbd4593d90a5a1cb9a17, type: 3}
-  laserSFX: {fileID: 8300000, guid: d779e40f3ae7e1e49ac37751af8bdc7f, type: 3}
-  bombDecoysSFX: {fileID: 8300000, guid: 74f2bc5728e229d4db647daa09746d7e, type: 3}
-  boomerangSFX: {fileID: 8300000, guid: 5d099bd6d5b5b254ca18f2382dfc758a, type: 3}
-  fireBallSFX: {fileID: 8300000, guid: 88d5ae727a7eae54eaadf75fd15ae54c, type: 3}
-  snakesSFX: {fileID: 8300000, guid: 47ef30b9597817d439d21a6b514b6073, type: 3}
-  shockwaveSFX: {fileID: 8300000, guid: ac0b8175b4395bc4a8871733cddf9e17, type: 3}
-  spikesSFX: {fileID: 8300000, guid: 26852e1d9b8eaab458db2b9de933b7ef, type: 3}
-  healSFX: {fileID: 8300000, guid: f8a5390ca43304c4ea6b0d3d11e3f61d, type: 3}
-  bombSFX: {fileID: 8300000, guid: 4c001a936b59e794780e4c7ff9e88039, type: 3}
-  coinSFX: {fileID: 8300000, guid: a05f822877c7b024c9d6bc33a6df61db, type: 3}
-  blackholeSFX: {fileID: 8300000, guid: 8ff199fe9ebe87448bd728022aaa5989, type: 3}
-  Sfxs: []
 --- !u!4 &418573059
 Transform:
   m_ObjectHideFlags: 0
@@ -6545,7 +6527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.009, y: -190}
+  m_AnchoredPosition: {x: -0.000017166, y: -188.43}
   m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1048879794
@@ -6568,7 +6550,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 2b6f86abb1e5d8c4a9129843d0a28e00, type: 2}
+  m_Texture: {fileID: 8400000, guid: 14e91931d8dc1da4c87a3359606c6c82, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7070,23 +7052,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -77.61
+      value: -79.35
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.23
+      value: -9.08
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7119,6 +7101,14 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311580695235782034, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.9339952
+      objectReference: {fileID: 0}
+    - target: {fileID: 311580695235782034, guid: 0b92ac8d6e55f4347bb90c8458af2494, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05135549
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8692,7 +8682,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 8b6a3e69150e2fe489ce409b0134f24a, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 14e91931d8dc1da4c87a3359606c6c82, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -11593,23 +11583,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -73.31
+      value: -71.95
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.63
+      value: -9.32
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 39c0ab65e9072364290d4c38b2407427, type: 3}
       propertyPath: m_LocalPosition.z
