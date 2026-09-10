@@ -20,6 +20,9 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
 
+    [Header("Animators")]
+    public Animator kalaAnimator; // Referencia para controlar a Kala
+
     [Header("Dialogues (Llenar en el Inspector)")]
     public DialogueLine[] startTutorial;
     public DialogueLine[] levelUpTutorial;
@@ -29,9 +32,11 @@ public class TutorialManager : MonoBehaviour
     private bool isTyping = false;
     private string currentSentence = "";
 
-
     public bool hasShownStartTutorial = false;
     public bool hasShownLevelUpTutorial = false;
+
+    // Variable para saber si estamos en el tutorial de Level Up y disparar la animación final
+    private bool isPlayingLevelUp = false;
 
     void Awake()
     {
@@ -42,11 +47,7 @@ public class TutorialManager : MonoBehaviour
     IEnumerator Start()
     {
         tutorialPanel.SetActive(false);
-
-
         yield return new WaitForEndOfFrame();
-
-
         TriggerStartTutorial();
     }
 
@@ -54,7 +55,10 @@ public class TutorialManager : MonoBehaviour
     {
         if (hasShownStartTutorial) return;
         hasShownStartTutorial = true;
+        isPlayingLevelUp = false;
 
+        // Animación base al inicio
+        if (kalaAnimator != null) kalaAnimator.Play("IdleKala");
 
         StartDialogue(startTutorial, null);
     }
@@ -63,11 +67,14 @@ public class TutorialManager : MonoBehaviour
     {
         if (hasShownLevelUpTutorial)
         {
-
             onComplete?.Invoke();
             return;
         }
         hasShownLevelUpTutorial = true;
+        isPlayingLevelUp = true;
+
+        // Transición a KalaSignal antes de los powerups
+        if (kalaAnimator != null) kalaAnimator.Play("KalaSignal");
 
         StartDialogue(levelUpTutorial, onComplete);
     }
@@ -75,7 +82,7 @@ public class TutorialManager : MonoBehaviour
     private void StartDialogue(DialogueLine[] lines, Action onComplete)
     {
         tutorialPanel.SetActive(true);
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
         onTutorialComplete = onComplete;
         linesQueue.Clear();
 
@@ -91,7 +98,6 @@ public class TutorialManager : MonoBehaviour
     {
         if (isTyping)
         {
-
             StopAllCoroutines();
             dialogueText.text = currentSentence;
             isTyping = false;
@@ -119,17 +125,46 @@ public class TutorialManager : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSecondsRealtime(0.03f); 
+            yield return new WaitForSecondsRealtime(0.03f);
         }
         isTyping = false;
     }
 
     private void EndDialogue()
     {
+        // Si estamos en el tutorial de subir nivel, hacemos la pausa para la animación
+        if (isPlayingLevelUp && kalaAnimator != null)
+        {
+            StartCoroutine(WaitAnimationAndClose());
+        }
+        else
+        {
+            // Si es el tutorial de inicio, cerramos de golpe como siempre
+            CloseTutorial();
+        }
+    }
+
+    private IEnumerator WaitAnimationAndClose()
+    {
+        // 1. Borramos el texto para que la pantalla quede limpia
+        dialogueText.text = "";
+        nameText.text = "";
+
+        // 2. Disparamos la animación final
+        kalaAnimator.Play("KalaWhatever");
+
+        // 3. Esperamos 1.5 segundos (en tiempo real porque el juego está pausado)
+        // Podés cambiar este 1.5f por lo que dure exactamente tu animación
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        // 4. Ahora sí, cerramos todo
+        CloseTutorial();
+    }
+
+    private void CloseTutorial()
+    {
         tutorialPanel.SetActive(false);
         Time.timeScale = 1f;
-
-       
         onTutorialComplete?.Invoke();
     }
 }

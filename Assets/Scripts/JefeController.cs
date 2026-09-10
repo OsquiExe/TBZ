@@ -231,8 +231,6 @@ public class JefeController : MonoBehaviour
         estadoActual = EstadoJefe.Atacando;
         temporizadorCostados = cooldownAtaqueCostados;
 
-        spriteRenderer.color = Color.cyan;
-
         for (int i = 0; i < 5; i++)
         {
             SeguirAlJugador();
