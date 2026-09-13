@@ -14,46 +14,53 @@ public class PlayerSpawner : MonoBehaviour
     [Header("Interfaz (UI) de la Escena")] 
     public Image sceneHealthBar;
 
+#if UNITY_EDITOR
+    [Space(10)]
+    public string DEBUG_CHARACTER;
+#endif
+
     private void Awake()
     {
+#if UNITY_EDITOR
+        SpawnSelectedCharacter(DEBUG_CHARACTER);
+#else
         SpawnSelectedCharacter();
+#endif
     }
 
-    private void SpawnSelectedCharacter()
-    {
-        string savedName = PlayerPrefs.GetString("EquippedCharacter", "");
+    void SpawnSelectedCharacter(string savedName) {
         CharacterSO characterToSpawn = characterCatalog.Find(c => c.characterName == savedName);
 
-        if (characterToSpawn == null && characterCatalog.Count > 0)
-        {
+        if(characterToSpawn == null && characterCatalog.Count > 0) {
             characterToSpawn = characterCatalog[0];
         }
 
-        if (characterToSpawn != null && characterToSpawn.characterPrefab != null)
-        {
+        if(characterToSpawn != null && characterToSpawn.characterPrefab != null) {
             Vector3 finalSpawnPos = spawnPoint.position;
             finalSpawnPos.z = 0f;
 
             GameObject playerInstance = Instantiate(characterToSpawn.characterPrefab, finalSpawnPos, Quaternion.identity);
 
             PlayerController pc = playerInstance.GetComponent<PlayerController>();
-            if (pc != null)
-            {
+            if(pc != null) {
 
                 pc.joystick = FindObjectOfType<VirtualJoystick>();
 
 
-                if (sceneHealthBar != null)
-                {
+                if(sceneHealthBar != null) {
                     pc.healthBarFill = sceneHealthBar;
                 }
             }
 
             Debug.Log($"[Spawner] Ha aparecido: {characterToSpawn.characterName}");
-        }
-        else
-        {
+        } else {
             Debug.LogError("[Spawner] Faltan configurar los personajes en el catálogo.");
         }
+    }
+
+    private void SpawnSelectedCharacter()
+    {
+        string savedName = PlayerPrefs.GetString("EquippedCharacter", "");
+        SpawnSelectedCharacter(savedName);
     }
 }

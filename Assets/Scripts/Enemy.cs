@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
     public bool isDead = false;
     private bool isKnockedBack = false;
     private bool canDamageOtherEnemy = false;
+    bool takingDmg = false;
 
     private void Awake()
     {
@@ -137,7 +138,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage, Vector2 force)
     {
-        if (isDead) return;
+        if (isDead || takingDmg) return;
 
 
         if (gameObject.activeInHierarchy)
@@ -159,7 +160,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator DamageFlashRoutine()
     {
-
+        takingDmg = true;
         for (int i = 0; i < allRenderers.Length; i++)
         {
             if (allRenderers[i] != null) allRenderers[i].material = whiteFlashMaterial;
@@ -173,6 +174,7 @@ public class Enemy : MonoBehaviour
         {
             if (allRenderers[i] != null) allRenderers[i].material = originalMaterials[i];
         }
+        takingDmg = false;
     }
 
 

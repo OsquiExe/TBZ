@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header("Mobile Controls")]
+    [SerializeField] bool useJoystick = true;
     [SerializeField] public VirtualJoystick joystick;
 
     [Header("Player Settings")]
@@ -67,6 +68,10 @@ public class PlayerController : MonoBehaviour
 
         VictoryAnim += OnVictory;
         GameManager.Instance.onDefeat += OnDefeat;
+
+        if(!useJoystick) {
+            joystick.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -176,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput()
     {
-        if (playerAttack != null && playerAttack.isDashing || !canMove) return;
+        if (playerAttack != null && playerAttack.isDashing || !canMove || !useJoystick) return;
 
         x = joystick != null ? joystick.GetHorizontal() : 0f;
         y = joystick != null ? joystick.GetVertical() : 0f;
