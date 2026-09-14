@@ -36,6 +36,7 @@ public class SimoneAim : MonoBehaviour
         Vector3 _pos;
 
         if(Input.touchCount > 0) {
+            Debug.Log(Input.touchCount);
             for(int i = 0; i < Input.touchCount; i++) {
                 Touch touch = Input.GetTouch(i);
                 _pos = cam.ScreenToWorldPoint(touch.position);
@@ -56,29 +57,30 @@ public class SimoneAim : MonoBehaviour
         } else if(isAiming && phase == TouchPhase.Ended) {
 
             isAiming = false;
-            if(Vector2.Distance(transform.position, _pos) > safeTouch && !isShooting) {
+            if(Vector2.Distance(transform.position, _pos) > safeTouch) {
                 aimDirection = _pos;
-                isShooting = true;
                 StartCoroutine(shootCorrutine());
             }
         }
     }
 
     IEnumerator shootCorrutine() {
+        if(isShooting) yield break;
+
+        isShooting = true;
         Debug.DrawLine(transform.position, aimDirection, Color.cyan);
 
         Vector3 rotDir = (aimDirection - transform.position).normalized;
         rotDir = Mathf.Atan2(rotDir.y, rotDir.x) * Mathf.Rad2Deg * Vector3.forward;
         Vector3 initialDir = sniperPivot.eulerAngles;
 
-        /* float t = 0;
+        float t = 0;
          while(t < 1) {
              sniperPivot.eulerAngles = LerpAngles(initialDir, rotDir, t);
 
              t += Time.deltaTime * 16f;
-             Debug.Log(t);
              yield return null;
-         }*/
+         }
 
         yield return null;
         sniperPivot.eulerAngles = rotDir;

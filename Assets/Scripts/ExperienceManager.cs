@@ -65,7 +65,7 @@ public class ExperienceManager : MonoBehaviour
         bool leveledUp = false;
 
      
-        while (maxExperience >= nextLevelsExperience)
+        while (maxExperience >= nextLevelsExperience && experienceCurve.length > 0)
         {
             currentLevel++;
             UpdateLevel();
