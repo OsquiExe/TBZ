@@ -85,6 +85,10 @@ public class SimoneAim : MonoBehaviour
         yield return null;
         sniperPivot.eulerAngles = rotDir;
 
+        if(CameraMove.Instance != null) {
+            CameraMove.Instance.ShakeCamera(0.1f, 0.05f);
+        }
+
         GameObject b = Instantiate(bulletPrefab, sniperSpawn.position, sniperPivot.rotation * Quaternion.Euler(new Vector3(0, 0, 180)));
         Rigidbody2D r = b.GetComponent<Rigidbody2D>();
         r.velocity = -b.transform.right * 10;
