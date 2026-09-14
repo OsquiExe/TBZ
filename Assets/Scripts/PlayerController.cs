@@ -51,10 +51,17 @@ public class PlayerController : MonoBehaviour
     public delegate Transform GetTransform();
     public static GetTransform GetPlayerTransform;
 
+    public delegate PlayerController GetController();
+    public static GetController GetPlayerController;
+
     public static Action VictoryAnim;
 
     bool canMove = true;
     bool isDeath = false;
+
+    private void Awake() {
+        GetPlayerController = OnGetPlayerController;
+    }
 
     private void Start()
     {
@@ -230,6 +237,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Moving", moving);
     }
 
+    public float GetIdleTime() { return idleTimer; }
+
     private void OnEnable()
     {
         if (ExperienceManager.Instance != null) ExperienceManager.Instance.OnExperienceChange += HandleExperienceChange;
@@ -253,5 +262,6 @@ public class PlayerController : MonoBehaviour
         maxExperience += 100;
     }
 
+    PlayerController OnGetPlayerController() { return this; }
     Transform OnGetPlayerTransform() { return transform; }
 }

@@ -14,6 +14,7 @@ public class SimoneAim : MonoBehaviour
     bool isShooting;
     Vector3 aimDirection;
 
+    PlayerController pController;
 
     private void Awake() {
         cam = Camera.main;
@@ -22,7 +23,7 @@ public class SimoneAim : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        pController = PlayerController.GetPlayerController?.Invoke();
     }
 
     // Update is called once per frame
@@ -32,7 +33,6 @@ public class SimoneAim : MonoBehaviour
     }
 
     private void HandleAimInput() {
-
         Vector3 _pos;
 
         if(Input.touchCount > 0) {
@@ -51,13 +51,15 @@ public class SimoneAim : MonoBehaviour
     }
 
     void ProcessInput(TouchPhase phase,Vector3 _pos) {
+        bool pC = pController != null && pController.GetIdleTime() < 0.25f;
+
         if(phase == TouchPhase.Began && Vector2.Distance(transform.position, _pos) > safeTouch) {
             isAiming = true;
 
         } else if(isAiming && phase == TouchPhase.Ended) {
 
             isAiming = false;
-            if(Vector2.Distance(transform.position, _pos) > safeTouch) {
+            if(Vector2.Distance(transform.position, _pos) > safeTouch && !pC) {
                 aimDirection = _pos;
                 StartCoroutine(shootCorrutine());
             }

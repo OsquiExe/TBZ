@@ -5,6 +5,11 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
+    public enum MovementType {
+        Continuo,
+        Discreto
+    }
+
     [Header("Referencias")]
     [SerializeField] private Animator anim;
     [SerializeField] public float enemySpeed = 5f;
@@ -38,6 +43,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float coinDropChance = 20f;
 
     [Header("IA Evasión de Obstáculos")]
+    [SerializeField] MovementType movementType = MovementType.Continuo;
+    [SerializeField] float discreteStepTime = 1;
+    float lastMovTimer = 0; 
     [SerializeField] private float detectionRadius = 1.5f;
     [SerializeField] private LayerMask obstacleLayer;
 
@@ -85,7 +93,8 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-        if (target && !isKnockedBack)
+        lastMovTimer += Time.deltaTime;
+        if (target && !isKnockedBack && (movementType == MovementType.Continuo || (movementType == MovementType.Discreto && lastMovTimer > discreteStepTime)))
         {
             Vector2 directionToPlayer = (target.position - transform.position).normalized;
             Vector2 avoidance = Vector2.zero;
@@ -127,6 +136,8 @@ public class Enemy : MonoBehaviour
 
             anim.SetFloat("rot", (Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg) + 90, 0.1f, Time.deltaTime);
             moveDirection = (directionToPlayer + avoidance + (separation * 0.4f)).normalized;
+
+            lastMovTimer = 0;
         }
     }
 
