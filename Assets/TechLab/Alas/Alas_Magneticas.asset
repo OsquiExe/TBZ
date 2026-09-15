@@ -16,6 +16,8 @@ MonoBehaviour:
   itemName: "Alas Magn\xE9ticas"
   itemIcon: {fileID: 21300000, guid: c46f29534276473419451f450eb552d0, type: 3}
   equipmentType: 3
+  equipmentTier: 1
   healthBonus: 2
   damageBonus: 3
   speedBonus: 1
+  niveles: []

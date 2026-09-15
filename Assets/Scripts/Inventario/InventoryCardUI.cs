@@ -15,13 +15,18 @@ public class InventoryCardUI : MonoBehaviour
     {
         myItem = item;
 
+        if(item == null) {
+            nameText.text = "(NONE)";
+
+            return;
+        }
+
         if (nameText != null) nameText.text = item.itemName;
         if (iconImage != null)
         {
             iconImage.sprite = item.itemIcon;
             iconImage.color = Color.white;
         }
-
 
         string stats = "";
         if (item.healthBonus > 0) stats += $"+{item.healthBonus} Vida\n";
@@ -36,4 +41,6 @@ public class InventoryCardUI : MonoBehaviour
     {
         TechLabManager.Instance.EquipItem(myItem);
     }
+
+    public EquipmentItemSO getItem() { return myItem; }
 }
