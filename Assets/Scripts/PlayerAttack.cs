@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -28,6 +29,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float dashKnockbackForce = 10f;
     [SerializeField] private float minimumSwipeDistance = 50f;
 
+    [Header("Stamina & UI")]
+    [SerializeField] private float maxStamina = 4f;
+    [SerializeField] private float currentStamina;
+    [Tooltip("Cuánto tarda en recargar 1 dash entero (Ej: 0.8 tarda poco más de 1 segundo)")]
+    [SerializeField] private float staminaRegenRate = 0.8f;
+    public Image staminaBarFill;
+
     [SerializeField] private LayerMask playerLayer;
     private Camera mainCamera;
     private bool touchStartedOnPlayer = false;
@@ -48,12 +56,29 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
-        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        GameObject audioObj = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObj != null) AudioManager = audioObj.GetComponent<AudioManager>();
     }
 
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
+
+        if (playerController != null)
+        {
+            autoAttackCooldown -= playerController.bonusCDR;
+            if (autoAttackCooldown < 0.1f) autoAttackCooldown = 0.1f;
+
+            dashCooldown -= playerController.bonusCDR;
+            if (dashCooldown < 0.1f) dashCooldown = 0.1f;
+
+            dashDamage += playerController.bonusDamage;
+        }
+
+        // Llenar Stamina al iniciar
+        currentStamina = maxStamina;
+        if (staminaBarFill != null) staminaBarFill.fillAmount = currentStamina / maxStamina;
+
         autoAttackTimer = autoAttackCooldown;
 
         mainCamera = Camera.main;
@@ -69,6 +94,21 @@ public class PlayerAttack : MonoBehaviour
         HandleAutoAttack();
         CheckAttackTimer();
         HandleDashInput();
+        HandleStaminaRegen();
+    }
+
+    private void HandleStaminaRegen()
+    {
+        if (currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegenRate * Time.deltaTime;
+            currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+
+            if (staminaBarFill != null)
+            {
+                staminaBarFill.fillAmount = currentStamina / maxStamina;
+            }
+        }
     }
 
     public void SyncMovementDirection()
@@ -143,7 +183,6 @@ public class PlayerAttack : MonoBehaviour
         if (!touchStartedOnPlayer) return;
 
         touchStartedOnPlayer = false;
-
         float distance = Vector2.Distance(touchStartPos, touchEndPos);
 
         if (distance >= minimumSwipeDistance)
@@ -153,7 +192,6 @@ public class PlayerAttack : MonoBehaviour
                 Vector2 swipeDir = (touchEndPos - touchStartPos).normalized;
                 StartCoroutine(DashRoutine(swipeDir));
 
-              
                 if (AudioManager != null)
                 {
                     AudioManager.PlaySFX(AudioManager.dashSFX);
@@ -171,15 +209,33 @@ public class PlayerAttack : MonoBehaviour
 
         OnAttack();
 
+        // LOGICA DE STAMINA Y CANSANCIO
+        bool isTired = currentStamina < 1f;
+
+        if (isTired)
+        {
+            currentStamina = 0f; // Vacía el poquito que le quedaba
+        }
+        else
+        {
+            currentStamina -= 1f; // Consume un Dash completo
+        }
+
+        if (staminaBarFill != null) staminaBarFill.fillAmount = currentStamina / maxStamina;
+
+        // Si está cansado, dura menos y corre a la mitad de velocidad
+        float actualDashDuration = isTired ? dashDuration * 0.4f : dashDuration;
+        float actualDashSpeed = isTired ? dashSpeed * 0.5f : dashSpeed;
+
         float elapsed = 0f;
 
-        while (elapsed < dashDuration)
+        while (elapsed < actualDashDuration)
         {
             elapsed += Time.fixedDeltaTime;
-            float t = elapsed / dashDuration;
+            float t = elapsed / actualDashDuration;
 
             float speedMultiplier = Mathf.Pow(1f - t, 2f);
-            float currentSpeed = dashSpeed * speedMultiplier;
+            float currentSpeed = actualDashSpeed * speedMultiplier;
 
             if (playerController != null && playerController.rb != null)
             {
@@ -220,14 +276,14 @@ public class PlayerAttack : MonoBehaviour
                     vfx.AddComponent<SpriteRenderer>().sortingOrder = 50;
                     vfx.AddComponent<VFXPlayer>().PlayAndDestroy(hitSprites, 0.05f);
                 }
-                AudioManager.PlaySFX(AudioManager.punchSFX);
+                if (AudioManager != null) AudioManager.PlaySFX(AudioManager.punchSFX);
             }
 
             JefeController jefe = collision.gameObject.GetComponent<JefeController>();
             if (jefe != null)
             {
                 jefe.RecibirDano(totalDamage);
-                AudioManager.PlaySFX(AudioManager.punchSFX);
+                if (AudioManager != null) AudioManager.PlaySFX(AudioManager.punchSFX);
             }
         }
     }
@@ -245,7 +301,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-
     private bool IsEnemyNearby()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, enemyDetectionRadius);
@@ -262,12 +317,8 @@ public class PlayerAttack : MonoBehaviour
 
             if (esObjetivoValido)
             {
-
                 Vector2 direccionAlEnemigo = (hit.transform.position - transform.position).normalized;
-
-
                 float anguloFrente = Vector2.Dot(lastDirection, direccionAlEnemigo);
-
 
                 if (anguloFrente > 0.25f)
                 {
@@ -329,7 +380,6 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-
 
     private void OnDrawGizmosSelected()
     {

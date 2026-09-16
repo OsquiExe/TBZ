@@ -5,14 +5,20 @@ using UnityEngine.UI;
 public class PlayerSpawner : MonoBehaviour
 {
     [Header("Catálogo de Personajes")]
-    [Tooltip("Arrastrá acá a Lumina, Ninja y todos los CharacterSO que existan")]
     public List<CharacterSO> characterCatalog = new List<CharacterSO>();
 
     [Header("Punto de Aparición")]
     public Transform spawnPoint;
 
-    [Header("Interfaz (UI) de la Escena")] 
+    [Header("Interfaz (UI) de la Escena")]
     public Image sceneHealthBar;
+    public Image sceneStaminaBar;
+
+    [Header("Habilidades Activas Asistentes")]
+    [Tooltip("Botón para el primer asistente")]
+    public AssistantSkillButton skillButtonUI_1; // Botón 1
+    [Tooltip("Botón para el segundo asistente")]
+    public AssistantSkillButton skillButtonUI_2; // Botón 2
 
     private void Awake()
     {
@@ -39,21 +45,43 @@ public class PlayerSpawner : MonoBehaviour
             PlayerController pc = playerInstance.GetComponent<PlayerController>();
             if (pc != null)
             {
-
                 pc.joystick = FindObjectOfType<VirtualJoystick>();
-
-
-                if (sceneHealthBar != null)
-                {
-                    pc.healthBarFill = sceneHealthBar;
-                }
+                if (sceneHealthBar != null) pc.healthBarFill = sceneHealthBar;
             }
 
-            Debug.Log($"[Spawner] Ha aparecido: {characterToSpawn.characterName}");
+            PlayerAttack pa = playerInstance.GetComponent<PlayerAttack>();
+            if (pa != null && sceneStaminaBar != null)
+            {
+                pa.staminaBarFill = sceneStaminaBar;
+            }
+
+            // --- CONFIGURAR LOS BOTONES DE ASISTENTES ---
+            SetupAssistantSkills(playerInstance.transform);
         }
-        else
+    }
+
+    private void SetupAssistantSkills(Transform playerTransform)
+    {
+        if (TechLabManager.equippedItems == null) return;
+
+        // Configuramos el Asistente 1 si está equipado
+        if (TechLabManager.equippedItems.ContainsKey(EquipmentType.Asistente))
         {
-            Debug.LogError("[Spawner] Faltan configurar los personajes en el catálogo.");
+            EquipmentItemSO asistente1 = TechLabManager.equippedItems[EquipmentType.Asistente];
+            if (asistente1 != null && skillButtonUI_1 != null)
+            {
+                skillButtonUI_1.Setup(asistente1, playerTransform);
+            }
+        }
+
+        // Configuramos el Asistente 2 si está equipado
+        if (TechLabManager.equippedItems.ContainsKey(EquipmentType.Asistente2))
+        {
+            EquipmentItemSO asistente2 = TechLabManager.equippedItems[EquipmentType.Asistente2];
+            if (asistente2 != null && skillButtonUI_2 != null)
+            {
+                skillButtonUI_2.Setup(asistente2, playerTransform);
+            }
         }
     }
 }

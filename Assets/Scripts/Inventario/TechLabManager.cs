@@ -17,21 +17,23 @@ public class TechLabManager : MonoBehaviour
     public TextMeshProUGUI speedText;
 
     [Header("Inventario y Equipamiento")]
-    public List<EquipmentItemSO> ownedItems = new List<EquipmentItemSO>(); 
-    private Dictionary<EquipmentType, EquipmentItemSO> equippedItems = new Dictionary<EquipmentType, EquipmentItemSO>();
+    public List<EquipmentItemSO> ownedItems = new List<EquipmentItemSO>();
+    public static Dictionary<EquipmentType, EquipmentItemSO> equippedItems = new Dictionary<EquipmentType, EquipmentItemSO>();
 
-    [Header("Referencias de los 6 Slots (UI)")]
+    [Header("Referencias de los 8 Slots (UI)")]
     public EquipmentSlotUI slotCasco;
     public EquipmentSlotUI slotArmadura;
     public EquipmentSlotUI slotBotas;
     public EquipmentSlotUI slotAlas;
     public EquipmentSlotUI slotProtesisCibernetica;
     public EquipmentSlotUI slotProtesisFisica;
+    public EquipmentSlotUI slotAsistente;
+    public EquipmentSlotUI slotAsistente2; // <--- SLOT PARA ASISTENTE 2
 
     [Header("Panel de Inventario (Pop-up)")]
     public GameObject inventoryPanel;
-    public Transform inventoryContent; 
-    public GameObject inventoryCardPrefab; 
+    public Transform inventoryContent;
+    public GameObject inventoryCardPrefab;
 
     private void Awake()
     {
@@ -44,12 +46,10 @@ public class TechLabManager : MonoBehaviour
         UpdateStatsUI();
     }
 
-
     public void OpenInventoryForSlot(EquipmentType type)
     {
         inventoryPanel.SetActive(true);
 
- 
         foreach (Transform child in inventoryContent)
         {
             Destroy(child.gameObject);
@@ -57,10 +57,9 @@ public class TechLabManager : MonoBehaviour
 
         bool foundAny = false;
 
-  
         foreach (var item in ownedItems)
         {
-            if (item.equipmentType == type) 
+            if (item.equipmentType == type)
             {
                 foundAny = true;
                 GameObject cardObj = Instantiate(inventoryCardPrefab, inventoryContent);
@@ -75,13 +74,10 @@ public class TechLabManager : MonoBehaviour
         }
     }
 
- 
     public void EquipItem(EquipmentItemSO item)
     {
-  
         equippedItems[item.equipmentType] = item;
 
-    
         switch (item.equipmentType)
         {
             case EquipmentType.Casco: slotCasco.EquipItem(item); break;
@@ -90,13 +86,14 @@ public class TechLabManager : MonoBehaviour
             case EquipmentType.Alas: slotAlas.EquipItem(item); break;
             case EquipmentType.ProtesisCibernetica: slotProtesisCibernetica.EquipItem(item); break;
             case EquipmentType.ProtesisFisica: slotProtesisFisica.EquipItem(item); break;
+            case EquipmentType.Asistente: slotAsistente.EquipItem(item); break;
+            case EquipmentType.Asistente2: slotAsistente2.EquipItem(item); break; // <--- LO EQUIPAMOS
         }
 
-        inventoryPanel.SetActive(false); 
+        inventoryPanel.SetActive(false);
         UpdateStatsUI();
     }
 
-  
     private void UpdateStatsUI()
     {
         float totalHealth = baseHealth;
@@ -110,12 +107,10 @@ public class TechLabManager : MonoBehaviour
             totalSpeed += item.speedBonus;
         }
 
-
         if (healthText != null) healthText.text = $"VIDA: {totalHealth}";
         if (damageText != null) damageText.text = $"DAÑO: {totalDamage}";
         if (speedText != null) speedText.text = $"VEL: {totalSpeed}";
     }
-
 
     public void CloseInventory()
     {

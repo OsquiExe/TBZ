@@ -55,6 +55,12 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
     bool isDeath = false;
 
+    // --- VARIABLES PARA ESTADÍSTICAS DEL EQUIPAMIENTO ---
+    public float bonusDamage = 0f;
+    public float bonusDefense = 0f;
+    public float bonusResistance = 0f;
+    public float bonusCDR = 0f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -62,16 +68,34 @@ public class PlayerController : MonoBehaviour
 
         GetPlayerTransform = OnGetPlayerTransform;
 
+        // Leer equipamiento ANTES de configurar la vida actual
+        ApplyEquipmentStats();
+
         currentHealth = maxHealth;
         UpdateHealthUI();
 
         VictoryAnim += OnVictory;
-        GameManager.Instance.onDefeat += OnDefeat;
+        if (GameManager.Instance != null) GameManager.Instance.onDefeat += OnDefeat;
+    }
+
+    private void ApplyEquipmentStats()
+    {
+        if (TechLabManager.equippedItems == null) return;
+
+        foreach (var item in TechLabManager.equippedItems.Values)
+        {
+            maxHealth += item.healthBonus;
+            moveSpeed += item.speedBonus;
+            bonusDamage += item.damageBonus;
+            bonusDefense += item.defenseBonus;
+            bonusResistance += item.resistanceBonus;
+            bonusCDR += item.cooldownReductionBonus;
+        }
     }
 
     private void Update()
     {
-        if(isDeath) return;
+        if (isDeath) return;
 
         GetInput();
         Animate();
@@ -110,7 +134,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isInvulnerable || currentHealth <= 0) return;
 
-        currentHealth -= damage;
+        // --- CÁLCULO DE DEFENSA Y RESISTENCIA ---
+        float finalDamage = damage - bonusDefense; // Reducción plana por defensa
+        if (finalDamage < 1f) finalDamage = 1f; // El daño mínimo siempre es 1
+
+        finalDamage -= (finalDamage * bonusResistance); // Reducción por porcentaje
+
+        currentHealth -= finalDamage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUI();
 
@@ -145,23 +175,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnVictory() {
+    void OnVictory()
+    {
         input = Vector2.zero;
-
-        playerAttack.enabled = false;
-
+        if (playerAttack != null) playerAttack.enabled = false;
         canMove = false;
-        anim.SetTrigger("onWin");
+        if (anim != null) anim.SetTrigger("onWin");
     }
 
-    void OnDefeat() {
+    void OnDefeat()
+    {
         input = Vector2.zero;
-
-        playerAttack.enabled = false;
-
+        if (playerAttack != null) playerAttack.enabled = false;
         isDeath = true;
         canMove = false;
-        anim.SetTrigger("onDefeat");
+        if (anim != null) anim.SetTrigger("onDefeat");
     }
 
     private void UpdateHealthUI()
@@ -210,11 +238,7 @@ public class PlayerController : MonoBehaviour
         bool dashingStatus = playerAttack != null && playerAttack.isDashing;
         bool attackingStatus = playerAttack != null && playerAttack.isAttacking;
 
-        if (dashingStatus || attackingStatus)
-        {
-        
-            return;
-        }
+        if (dashingStatus || attackingStatus) return;
 
         if (moving)
         {
