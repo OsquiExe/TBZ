@@ -7,12 +7,17 @@ using UnityEngine.UI;
 public class InventoryVisualizer : MonoBehaviour
 {
     [SerializeField] ItemsCollection inventory;
-    [SerializeField] GameObject prefab;
+
+    [Space(10)]
+    [SerializeField] int columns = 3;
+    [SerializeField] GameObject rowPrefab;
+    [SerializeField] GameObject SlotPrefab;
+    [SerializeField] ScrollRect scroll;
     [SerializeField] Transform content;
     public InventoryFilter filter = new();
 
     private void Awake() {
-
+        columns = Math.Clamp(columns, 0, columns + 1);
     }
 
     private void OnEnable() {
@@ -20,6 +25,8 @@ public class InventoryVisualizer : MonoBehaviour
     }
 
     void PopulateInventory() {
+        scroll.verticalNormalizedPosition = 1;
+
         if(content.childCount > 0) {
             Transform[] childs = content.GetComponentsInChildren<Transform>();
             for(int i = 0; i < childs.Length; i++) {
@@ -29,26 +36,51 @@ public class InventoryVisualizer : MonoBehaviour
             }
         }
 
+        //Columns
 
+        int rows = (inventory.collection.Length / columns) + 1;
         int startIndex = filter.NoneOption() ? -1 : 0;
 
-        for(int i = startIndex; i < inventory.collection.Length; i++) {
+        for (int r = 0; r < rows; r++)
+        {
+            GameObject row = Instantiate(rowPrefab, content);
 
-            if(i >= 0) {
-                bool filtersCheck = filter.HasFilters() && !filter.TierIsFiltered(inventory.collection[i].equipmentTier);
-                filtersCheck = filtersCheck || (filter.ExcludedItemsFilters() && filter.ItemIsFiltered(inventory.collection[i]));
+            for (int i = 0; i < columns; i++)
+            {
+                if (startIndex >= inventory.collection.Length)
+                {
+                    GameObject b = Instantiate(SlotPrefab, row.transform);
+                    b.GetComponent<InventoryCardUI>().SetupAsInvisible();
 
-                if(filtersCheck) continue;
+                    continue;
+                }
+
+                if (startIndex >= 0)
+                {
+                    bool filtersCheck = filter.HasFilters() && !filter.TierIsFiltered(inventory.collection[startIndex].equipmentTier);
+                    filtersCheck = filtersCheck || (filter.ExcludedItemsFilters() && filter.ItemIsFiltered(inventory.collection[startIndex]));
+
+                    Debug.Log($"{startIndex} - {inventory.collection[startIndex].name} - {filtersCheck}");
+
+                    if (filtersCheck)
+                    {
+                        startIndex++;
+                        i--;
+                        continue;
+                    }
+                }
+
+                GameObject a = Instantiate(SlotPrefab, row.transform);
+
+                var card = a.GetComponent<InventoryCardUI>();
+                card.Setup(startIndex >= 0 ? inventory.collection[startIndex] : null);
+
+                int index = startIndex; //Sin esto se pasa la referencia del int en lugar de su valor
+
+                a.GetComponent<Button>().onClick.AddListener(() => A(index));
+
+                startIndex++;
             }
-
-            GameObject a = Instantiate(prefab, content);
-
-            var card = a.GetComponent<InventoryCardUI>();
-            card.Setup(i >= 0 ? inventory.collection[i] : null);
-
-            int index = i;
-
-            a.GetComponent<Button>().onClick.AddListener(() => A(index));
         }
     }
 

@@ -1738,7 +1738,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: f4fac7b3e2b08494abd2dd49441bbed6, type: 2}
-  prefab: {fileID: 4428755680014721642, guid: 18ce39c42101fc14da736932fcea2e7a, type: 3}
+  columns: 3
+  rowPrefab: {fileID: 1409074845571411193, guid: 9ac9620d9ab12fb46b6d12a3d498bd28, type: 3}
+  SlotPrefab: {fileID: 4428755680014721642, guid: 18ce39c42101fc14da736932fcea2e7a, type: 3}
+  scroll: {fileID: 256160092}
   content: {fileID: 1493171244}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

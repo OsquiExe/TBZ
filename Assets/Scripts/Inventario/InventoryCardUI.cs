@@ -5,9 +5,11 @@ using TMPro;
 public class InventoryCardUI : MonoBehaviour
 {
     [Header("Referencias Visuales")]
+    [SerializeField] Image background;
     public TextMeshProUGUI nameText;
     public Image iconImage;
     public TextMeshProUGUI statsText;
+    [SerializeField] Button bttn;
 
     private EquipmentItemSO myItem;
 
@@ -36,6 +38,14 @@ public class InventoryCardUI : MonoBehaviour
         if (statsText != null) statsText.text = stats;
     }
 
+    public void SetupAsInvisible()
+    {
+        background.enabled = false;
+        iconImage.enabled = false;
+        nameText.enabled = false;
+        statsText.enabled = false;
+        bttn.enabled = false;
+    }
 
     public void OnEquipButtonClicked()
     {
